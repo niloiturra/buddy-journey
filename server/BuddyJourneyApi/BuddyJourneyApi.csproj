@@ -15,6 +15,45 @@
   <ItemGroup>
     <Compile Remove="WeatherForecast.cs" />
     <Compile Remove="Controllers\WeatherForecastController.cs" />
+    <Compile Remove="Store\**" />
+    <Compile Remove="Validators\**" />
+    <Compile Remove="Interfaces\**" />
+    <Compile Remove="Extensions\**" />
+    <Compile Remove="Repository\**" />
+    <Compile Remove="Models\BuddyJourneyDatabaseSettings.cs" />
+    <Compile Remove="Models\IBuddyJourneyDatabaseSettings.cs" />
+    <Compile Remove="Services\**" />
+    <Compile Remove="Controllers\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Store\**" />
+    <EmbeddedResource Remove="Validators\**" />
+    <EmbeddedResource Remove="Interfaces\**" />
+    <EmbeddedResource Remove="Extensions\**" />
+    <EmbeddedResource Remove="Repository\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <EmbeddedResource Remove="Controllers\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Store\**" />
+    <None Remove="Validators\**" />
+    <None Remove="Interfaces\**" />
+    <None Remove="Extensions\**" />
+    <None Remove="Repository\**" />
+    <None Remove="Services\**" />
+    <None Remove="Controllers\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Store\**" />
+    <Content Remove="Validators\**" />
+    <Content Remove="Interfaces\**" />
+    <Content Remove="Extensions\**" />
+    <Content Remove="Repository\**" />
+    <Content Remove="Services\**" />
+    <Content Remove="Controllers\**" />
   </ItemGroup>
 
 </Project>

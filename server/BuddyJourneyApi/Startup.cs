@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BuddyJourneyApi.Models;
-using BuddyJourneyApi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,17 +31,6 @@ namespace BuddyJourneyApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<BuddyJourneyDatabaseSettings>(
-                Configuration.GetSection(nameof(BuddyJourneyDatabaseSettings)));
-            
-            #region MongoDB Configure
-            
-            services.AddSingleton<IBuddyJourneyDatabaseSettings>(sp =>
-                sp.GetRequiredService<IOptions<BuddyJourneyDatabaseSettings>>().Value);
-
-            services.AddSingleton<UserService>();
-            #endregion 
-            
             services.AddControllers();
 
             #region JWT Authentication
