@@ -10,6 +10,7 @@ namespace BuddyJourneyIdentityApi.Interfaces
     public interface IAuthService
     {
         Task<IdentityResult> RegisterUser(MongoUser user, UserRegister userRegister);
+        Task<SignInResult> LoginUser(UserLogin userLogin);
         Task<UserLoginResponse> GenerateJwt(string email);
         Task<ClaimsIdentity> GetUserClaims(ICollection<Claim> claims, MongoUser user);
         string EncodeToken(ClaimsIdentity identityClaims);

@@ -45,5 +45,30 @@ namespace BuddyJourneyIdentityApi.Controllers
 
             return CustomResponse(result);
         }
+        
+        [HttpPost("login")]
+        public async Task<ActionResult> Login([FromBody] UserLogin userLogin)
+        {
+            if (!ModelState.IsValid)
+            {
+                return CustomResponse(ModelState);
+            }
+
+            var result = await _authService.LoginUser(userLogin);
+
+            if (result.Succeeded)
+            {
+                return CustomResponse(await _authService.GenerateJwt(userLogin.Email));
+            }
+
+            if (result.IsLockedOut)
+            {
+                AddProcessingError("Usuário Temporariamente bloqueado por tentativas inválidas");
+                return CustomResponse();
+            }
+
+            AddProcessingError("Usuário ou senha incorretos");
+            return CustomResponse();
+        }
     }
 }

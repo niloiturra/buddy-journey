@@ -28,10 +28,17 @@ namespace BuddyJourneyIdentityApi.Services
             _appSettings = appSettings.Value;
         }
 
-        public async Task<IdentityResult> RegisterUser(MongoUser user, UserRegister userRegister)
-        {
-            return await _userManager.CreateAsync(user, userRegister.Password);
-        }
+        public async Task<IdentityResult> RegisterUser(MongoUser user,
+            UserRegister userRegister) =>
+            await _userManager.CreateAsync(user,
+                userRegister.Password);
+        
+
+        public async Task<SignInResult> LoginUser(UserLogin userLogin) =>
+            await _signInManager.PasswordSignInAsync(userLogin.Email,
+                userLogin.Password,
+                false,
+                true);
 
         public async Task<UserLoginResponse> GenerateJwt(string email)
         {
