@@ -4,7 +4,7 @@ const getErrorMessages = (errors) => {
   if (errors) {
     for (const prop in errors) {
       errors[prop].forEach((error) => {
-        toastr.error(prop, error);
+        toastr.error('Opa!', error);
       });
     }
   }

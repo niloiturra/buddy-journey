@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
   Container,
   Row,
@@ -18,26 +18,20 @@ import { Link, withRouter, Redirect } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-import { useTranslation } from 'react-i18next';
-
-import { loginUser, apiError } from '../../redux/actions';
+import { loginUser } from '../../redux/actions';
 
 import logodark from '../../assets/images/logo-dark.png';
 import logolight from '../../assets/images/logo-light.png';
 
 const Login = (props) => {
-  const { t } = useTranslation();
-
-
-
   const formik = useFormik({
     initialValues: {
       email: '',
       password: '',
     },
     validationSchema: Yup.object({
-      email: Yup.string().required(t('Please Enter Your Username')),
-      password: Yup.string().required(t('Please Enter Your Password')),
+      email: Yup.string().required('Por favor, informe seu usuário'),
+      password: Yup.string().required('Por favor, informe sua senha'),
     }),
     onSubmit: (values) => {
       props.loginUser(values.email, values.password, props.history);
@@ -70,9 +64,9 @@ const Login = (props) => {
                   />
                 </Link>
 
-                <h4>{t('Sign in')}</h4>
+                <h4>Entrar</h4>
                 <p className="text-muted mb-4">
-                  {t('Sign in to continue to BuddyJourney')}.
+                  Faça login para continuar no BuddyJourney.
                 </p>
               </div>
 
@@ -81,7 +75,7 @@ const Login = (props) => {
                   <div className="p-3">
                     <Form onSubmit={formik.handleSubmit}>
                       <div className="mb-3">
-                        <Label className="form-label">{t('Username')}</Label>
+                        <Label className="form-label">Usuário</Label>
                         <InputGroup className="mb-3 bg-soft-light rounded-3">
                           <span
                             className="input-group-text text-muted"
@@ -94,7 +88,7 @@ const Login = (props) => {
                             id="email"
                             name="email"
                             className="form-control form-control-lg border-light bg-soft-light"
-                            placeholder={t('Enter Email')}
+                            placeholder="Informe seu email"
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             value={formik.values.email}
@@ -118,10 +112,10 @@ const Login = (props) => {
                             to="forget-password"
                             className="text-muted font-size-13"
                           >
-                            {t('Forgot your password')}?
+                            Esqueceu sua senha?
                           </Link>
                         </div>
-                        <Label className="form-label">{t('Password')}</Label>
+                        <Label className="form-label">Senha</Label>
                         <InputGroup className="mb-3 bg-soft-light rounded-3">
                           <span className="input-group-text text-muted">
                             <i className="ri-lock-2-line"></i>
@@ -131,7 +125,7 @@ const Login = (props) => {
                             id="password"
                             name="password"
                             className="form-control form-control-lg border-light bg-soft-light"
-                            placeholder={t('Enter Password')}
+                            placeholder="Informe sua senha"
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             value={formik.values.password}
@@ -156,7 +150,7 @@ const Login = (props) => {
                           className=" waves-effect waves-light"
                           type="submit"
                         >
-                          {t('Sign in')}
+                          Entrar
                         </Button>
                       </div>
                     </Form>
@@ -166,19 +160,18 @@ const Login = (props) => {
 
               <div className="mt-5 text-center">
                 <p>
-                  {t("Don't have an account")} ?
+                  Não tem uma conta ?
                   <Link
                     to="register"
                     className="font-weight-medium text-primary"
                   >
                     {' '}
-                    {t('Signup now')}
+                    Registre-se agora
                   </Link>{' '}
                 </p>
                 <p>
-                  © {t('2021 BuddyJourney')}. {t('Crafted with')}{' '}
-                  <i className="mdi mdi-heart text-danger"></i>{' '}
-                  {t('by Nilo Alan')}
+                  © 2021 BuddyJourney. Criado com
+                  <i className="mdi mdi-heart text-danger"></i> por Nilo Alan
                 </p>
               </div>
             </Col>
@@ -194,6 +187,4 @@ const mapStateToProps = (state) => {
   return { user, loading };
 };
 
-export default withRouter(
-  connect(mapStateToProps, { loginUser })(Login)
-);
+export default withRouter(connect(mapStateToProps, { loginUser })(Login));
