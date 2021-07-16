@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using AspNetCore.Identity.Mongo;
 using AspNetCore.Identity.Mongo.Model;
+using BuddyJourneyIdentityApi.Model;
 using BuddyJourneyWebApi.Model;
 
 namespace BuddyJourneyIdentityApi.Configuration
@@ -23,6 +24,7 @@ namespace BuddyJourneyIdentityApi.Configuration
                 mongo.ConnectionString = buddyJourneyDatabaseSettings.ConnectionStringWithDatabaseName();
             });
 
+            services.Configure<AuthMessageSenderOptions>(configuration);
             services.AddJwtConfiguration(configuration);
             return services;
         }

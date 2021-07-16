@@ -2,6 +2,7 @@
 using AspNetCore.Identity.Mongo.Model;
 using BuddyJourneyIdentityApi.Interfaces;
 using BuddyJourneyIdentityApi.Model;
+using BuddyJourneyIdentityApi.Model.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BuddyJourneyIdentityApi.Controllers
@@ -68,6 +69,25 @@ namespace BuddyJourneyIdentityApi.Controllers
             }
 
             AddProcessingError("Usuário ou senha incorretos");
+            return CustomResponse();
+        }
+        
+        [HttpPost("forgot-password")]
+        public async Task<ActionResult> ForgotPassword([FromBody] ForgotPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return CustomResponse(ModelState);
+            }
+
+            var result = await _authService.SendEmailForgotPassword(model.Email);
+
+            if (result)
+            {
+                return CustomResponse();
+            }
+            
+            AddProcessingError("Não foi encontrado um usuário com o email informado");
             return CustomResponse();
         }
     }

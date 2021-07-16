@@ -9,6 +9,8 @@ namespace BuddyJourneyIdentityApi.Configuration
         public static void RegisterServices(this IServiceCollection services)
         {
             services.AddScoped<IAuthService, AuthService>();
+            
+            services.AddTransient<IEmailSenderService, EmailSenderService>();
         }
     }
 }

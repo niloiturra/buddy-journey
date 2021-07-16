@@ -19,12 +19,14 @@ namespace BuddyJourneyIdentityApi.Services
     {
         private readonly SignInManager<MongoUser> _signInManager;
         private readonly UserManager<MongoUser> _userManager;
+        private readonly IEmailSenderService _emailSenderService;
         private readonly AppSettings _appSettings;
         
-        public AuthService(SignInManager<MongoUser> signInManager, UserManager<MongoUser> userManager, IOptions<AppSettings> appSettings)
+        public AuthService(SignInManager<MongoUser> signInManager, UserManager<MongoUser> userManager, IOptions<AppSettings> appSettings, IEmailSenderService messageServices, IEmailSenderService emailSenderService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _emailSenderService = emailSenderService;
             _appSettings = appSettings.Value;
         }
 
@@ -105,6 +107,20 @@ namespace BuddyJourneyIdentityApi.Services
             };
 
             return response;
+        }
+
+        public async Task<bool> SendEmailForgotPassword(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                return false;
+            }
+
+            var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+            await _emailSenderService.SendEmailAsync(email, "Buddy Journey", "Message example");
+            
+            return true;
         }
         
         private static long ToUnixEpochDate(DateTime date)
