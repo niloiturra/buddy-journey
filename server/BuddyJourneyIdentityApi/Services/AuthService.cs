@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -118,10 +119,22 @@ namespace BuddyJourneyIdentityApi.Services
             }
 
             var link = await _userManager.GeneratePasswordResetTokenAsync(user);
-            await _emailSenderService.SendEmailAsync(email, "Buddy Journey",
-                string.Concat(_appSettings.WebForgotPasswordRedirect, link));
+            var urlCode = WebUtility.UrlEncode(link);
+            var urlEmail = WebUtility.UrlEncode(user.Email);
+            var linkBuild = string.Concat(_appSettings.WebForgotPasswordRedirect, urlCode, "/", urlEmail);
+            await _emailSenderService.SendEmailAsync(email, "Buddy Journey", linkBuild);
             
             return true;
+        }
+
+        public async Task<bool> RecoverPassword(string emailEncoded, string newPassword, string codeEncoded)
+        {
+            var email = WebUtility.UrlDecode(emailEncoded);
+            var code = WebUtility.UrlDecode(codeEncoded);
+            var user = await _userManager.FindByEmailAsync(email);
+            var result = await _userManager.ResetPasswordAsync(user, code, newPassword);
+            
+            return result.Succeeded;
         }
         
         private static long ToUnixEpochDate(DateTime date)

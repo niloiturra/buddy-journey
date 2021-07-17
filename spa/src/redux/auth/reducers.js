@@ -6,7 +6,9 @@ import {
     REGISTER_USER_SUCCESS,
     FORGET_PASSWORD,
     FORGET_PASSWORD_SUCCESS,
-    API_FAILED
+    API_FAILED,
+    RECOVER_PASSWORD,
+    RECOVER_PASSWORD_SUCCESS
 } from './constants';
 
 import { getLoggedInUser } from '../../helpers/authUtils';
@@ -36,6 +38,12 @@ const Auth = (state = INIT_STATE, action) => {
             return { ...state, loading: true };
         case FORGET_PASSWORD_SUCCESS:
             return { ...state, passwordResetStatus: action.payload, loading: false, error: null };
+
+        case RECOVER_PASSWORD:
+            return { ...state, loading: true };
+
+        case RECOVER_PASSWORD_SUCCESS:
+            return { ...state, passwordRecoverStatus: action.payload, loading: false, error: null };
 
         case API_FAILED:
             return { ...state, loading: false, error: action.payload };

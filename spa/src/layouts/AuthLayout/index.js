@@ -1,41 +1,39 @@
 import React, { Component } from 'react';
-import { withRouter } from "react-router-dom";
+import { withRouter } from 'react-router-dom';
 
-//Import Components
-import LeftSidebarMenu from "./LeftSidebarMenu";
+import LeftSidebarMenu from './LeftSidebarMenu';
 
 class Index extends Component {
-    constructor(props) {
-        super(props);
-        this.state={};
-        this.capitalizeFirstLetter.bind(this);
-    }
-    
-    //function for capital first letter of current page pathname
-    capitalizeFirstLetter = string => {
-        return string.charAt(1).toUpperCase() + string.slice(2);
-    };
+  constructor(props) {
+    super(props);
+    this.state = {};
+    this.capitalizeFirstLetterAndNormalize.bind(this);
+  }
 
-    componentDidMount(){
-        let currentage = this.capitalizeFirstLetter(this.props.location.pathname);
+  capitalizeFirstLetterAndNormalize = (string) => {
+    const capitalized = string.charAt(1).toUpperCase() + string.slice(2);
+    const stringNormalized = capitalized.split('/')[0];
+    return stringNormalized.replace('-', ' ');
+  };
 
-        //set document title according to page path name
-        document.title = currentage + " | Chatvia - Responsive Bootstrap 5 Admin Dashboard";
-    }
-    
-    render() {
-        return (
-            <React.Fragment>
-                <div className="layout-wrapper d-lg-flex">
-                    {/* left sidebar menu */}
-                    <LeftSidebarMenu />
-                        {/* render page content */}
-                        {this.props.children}
-                </div>
-            </React.Fragment>
-        );
-    }
+  componentDidMount() {
+    let currentage = this.capitalizeFirstLetterAndNormalize(
+      this.props.location.pathname
+    );
+
+    document.title = currentage + ' | Buddy Journey';
+  }
+
+  render() {
+    return (
+      <>
+        <div className="layout-wrapper d-lg-flex">
+          <LeftSidebarMenu />
+          {this.props.children}
+        </div>
+      </>
+    );
+  }
 }
 
-
-export default (withRouter(Index));
+export default withRouter(Index);

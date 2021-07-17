@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 
@@ -20,7 +20,7 @@ import {
   InputGroup,
 } from 'reactstrap';
 
-import { registerUser, apiError } from '../../redux/actions';
+import { registerUser } from '../../redux/actions';
 
 import logodark from '../../assets/images/logo-dark.png';
 import logolight from '../../assets/images/logo-light.png';
@@ -59,7 +59,7 @@ const Register = (props) => {
   });
 
   return (
-    <React.Fragment>
+    <>
       <div className="account-pages my-5 pt-sm-5">
         <Container>
           <Row className="justify-content-center">
@@ -234,13 +234,13 @@ const Register = (props) => {
           </Row>
         </Container>
       </div>
-    </React.Fragment>
+    </>
   );
 };
 
 const mapStateToProps = (state) => {
-  const { user, loading, error } = state.Auth;
-  return { user, loading, error };
+  const { user, loading } = state.Auth;
+  return { user, loading };
 };
 
 export default withRouter(connect(mapStateToProps, { registerUser })(Register));

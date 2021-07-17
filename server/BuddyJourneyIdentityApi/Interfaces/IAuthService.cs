@@ -16,5 +16,6 @@ namespace BuddyJourneyIdentityApi.Interfaces
         string EncodeToken(ClaimsIdentity identityClaims);
         UserLoginResponse GetTokenResponse(string encodedToken, MongoUser user, IEnumerable<Claim> claims);
         Task<bool> SendEmailForgotPassword(string email);
+        Task<bool> RecoverPassword(string email, string newPassword, string code);
     }
 }

@@ -1,28 +1,29 @@
 import React, { Component } from 'react';
-import { withRouter } from "react-router-dom";
+import { withRouter } from 'react-router-dom';
 
 class NonAuth extends Component {
-    constructor(props) {
-        super(props);
-        this.state={};
-        this.capitalizeFirstLetter.bind(this);
-    }
-    
-    capitalizeFirstLetter = string => {
-        return string.charAt(1).toUpperCase() + string.slice(2);
-    };
+  constructor(props) {
+    super(props);
+    this.state = {};
+    this.capitalizeFirstLetterAndNormalize.bind(this);
+  }
 
-    componentDidMount(){
-        let currentage = this.capitalizeFirstLetter(this.props.location.pathname);
+  capitalizeFirstLetterAndNormalize = (string) => {
+    const capitalized = string.charAt(1).toUpperCase() + string.slice(2);
+    const stringNormalized = capitalized.split('/')[0];
+    return stringNormalized.replace('-', ' ');
+  };
 
-        document.title =
-          currentage + " | Chatvia - Responsive Bootstrap 5 Admin Dashboard";
-    }
-    render() {
-        return <React.Fragment>
-            {this.props.children}
-        </React.Fragment>;
-    }
+  componentDidMount() {
+    let currentage = this.capitalizeFirstLetterAndNormalize(
+      this.props.location.pathname
+    );
+
+    document.title = currentage + ' | Buddy Journey';
+  }
+  render() {
+    return <>{this.props.children}</>;
+  }
 }
 
-export default (withRouter(NonAuth));
+export default withRouter(NonAuth);

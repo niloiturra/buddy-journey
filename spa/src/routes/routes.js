@@ -8,7 +8,9 @@ const Login = React.lazy(() => import('../pages/Auth/Login'));
 const Logout = React.lazy(() => import('../pages/Auth/Logout'));
 const ForgotPassword = React.lazy(() => import('../pages/Auth/ForgotPassword'));
 const Register = React.lazy(() => import('../pages/Auth/Register'));
-const LockScreen = React.lazy(() => import('../pages/Auth/LockScreen'));
+const RecoverPassword = React.lazy(() =>
+  import('../pages/Auth/RecoverPassword')
+);
 
 const authProtectedRoutes = [
   { path: '/dashboard', component: Dashboard },
@@ -26,7 +28,7 @@ const publicRoutes = [
   { path: '/login', component: Login },
   { path: '/forgot-password', component: ForgotPassword },
   { path: '/register', component: Register },
-  { path: '/lock-screen', component: LockScreen },
+  { path: '/recover-password/:code/:email', component: RecoverPassword },
 ];
 
 const routes = [...authProtectedRoutes, ...publicRoutes];

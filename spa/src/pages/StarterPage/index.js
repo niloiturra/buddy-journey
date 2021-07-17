@@ -1,11 +1,7 @@
 import React from 'react';
 
 function Index(props) {
-    return (
-        <React.Fragment>
-            
-        </React.Fragment>
-    );
+  return <></>;
 }
 
 export default Index;

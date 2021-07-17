@@ -109,7 +109,7 @@ const Login = (props) => {
                       <FormGroup className="mb-4">
                         <div className="float-end">
                           <Link
-                            to="forget-password"
+                            to="forgot-password"
                             className="text-muted font-size-13"
                           >
                             Esqueceu sua senha?

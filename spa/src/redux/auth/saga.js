@@ -8,13 +8,14 @@ import {
   LOGOUT_USER,
   REGISTER_USER,
   FORGET_PASSWORD,
+  RECOVER_PASSWORD,
 } from './constants';
 
 import {
   loginUserSuccess,
   registerUserSuccess,
   forgotPasswordSuccess,
-  apiError,
+  recoverPasswordSuccess,
 } from './actions';
 
 const create = new APIClient().create;
@@ -74,6 +75,22 @@ function* forgotPassword({ payload: { email } }) {
   }
 }
 
+function* recoverPassword({ payload: { passwords } }) {
+  try {
+    const recoverBody = {
+      emailEncoded: passwords.email,
+      password: passwords.password,
+      confirmPassword: passwords.confirmPassword,
+      codeEncoded: passwords.code,
+    };
+
+    yield call(create, 'identity/recover-password', recoverBody);
+    yield put(recoverPasswordSuccess('Senha alterada com sucesso!'));
+  } catch (error) {
+    getErrorMessages(error);
+  }
+}
+
 export function* watchLoginUser() {
   yield takeEvery(LOGIN_USER, login);
 }
@@ -90,12 +107,17 @@ export function* watchForgotPassword() {
   yield takeEvery(FORGET_PASSWORD, forgotPassword);
 }
 
+export function* watchRecoverPassword() {
+  yield takeEvery(RECOVER_PASSWORD, recoverPassword);
+}
+
 function* authSaga() {
   yield all([
     fork(watchLoginUser),
     fork(watchLogoutUser),
     fork(watchRegisterUser),
     fork(watchForgotPassword),
+    fork(watchRecoverPassword),
   ]);
 }
 

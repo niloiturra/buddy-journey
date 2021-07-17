@@ -90,5 +90,25 @@ namespace BuddyJourneyIdentityApi.Controllers
             AddProcessingError("Não foi encontrado um usuário com o email informado");
             return CustomResponse();
         }
+
+        [HttpPost("recover-password")]
+        public async Task<ActionResult> RecoverPassword([FromBody] RecoverPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return CustomResponse(ModelState);
+            }
+
+            var result = await _authService.RecoverPassword(model.EmailEncoded, model.Password, model.CodeEncoded);
+
+            if (result)
+            {
+                return CustomResponse();
+            }
+
+            AddProcessingError(
+                "Não foi possível realizar a recuperação de senha para o seu usuário! Por favor, tente novamente");
+            return CustomResponse();
+        }
     }
 }
