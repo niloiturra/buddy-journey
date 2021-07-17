@@ -1,7 +1,6 @@
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
 
 import { APIClient } from '../../helpers/apiClient';
-import { getFirebaseBackend } from '../../helpers/firebase';
 import { getErrorMessages } from '../../helpers/errorsUtils';
 
 import {
@@ -14,24 +13,12 @@ import {
 import {
   loginUserSuccess,
   registerUserSuccess,
-  forgetPasswordSuccess,
+  forgotPasswordSuccess,
   apiError,
 } from './actions';
 
-//Initilize firebase
-const fireBaseBackend = getFirebaseBackend();
-
-/**
- * Sets the session
- * @param {*} user
- */
-
 const create = new APIClient().create;
 
-/**
- * Login the user
- * @param {*} payload - username and password
- */
 function* login({ payload: { username, password, history } }) {
   try {
     const response = yield call(create, '/identity/login', {
@@ -48,65 +35,42 @@ function* login({ payload: { username, password, history } }) {
   }
 }
 
-/**
- * Logout the user
- * @param {*} param0
- */
 function* logout({ payload: { history } }) {
   try {
     localStorage.removeItem('authUser');
-    if (process.env.REACT_APP_DEFAULTAUTH === 'firebase') {
-      yield call(fireBaseBackend.logout);
-    }
     yield call(() => {
       history.push('/login');
     });
   } catch (error) {}
 }
 
-/**
- * Register the user
- */
 function* register({ payload: { user } }) {
   try {
     const email = user.email;
     const password = user.password;
-    if (process.env.REACT_APP_DEFAULTAUTH === 'firebase') {
-      const response = yield call(
-        fireBaseBackend.registerUser,
-        email,
-        password
-      );
-      yield put(registerUserSuccess(response));
-    } else {
-      const response = yield call(create, '/register', user);
-      yield put(registerUserSuccess(response));
-    }
+    const confirmPassword = user.confirmPassword;
+
+    const userModel = {
+      email,
+      password,
+      confirmPassword,
+    };
+
+    const response = yield call(create, 'identity/register', userModel);
+
+    localStorage.setItem('authUser', JSON.stringify(response));
+    yield put(registerUserSuccess(response));
   } catch (error) {
-    yield put(apiError());
+    getErrorMessages(error);
   }
 }
 
-/**
- * forget password
- */
-function* forgetPassword({ payload: { email } }) {
+function* forgotPassword({ payload: { email } }) {
   try {
-    if (process.env.REACT_APP_DEFAULTAUTH === 'firebase') {
-      const response = yield call(fireBaseBackend.forgetPassword, email);
-      if (response) {
-        yield put(
-          forgetPasswordSuccess(
-            'Reset link are sended to your mailbox, check there first'
-          )
-        );
-      }
-    } else {
-      const response = yield call(create, '/forget-pwd', { email });
-      yield put(forgetPasswordSuccess(response));
-    }
+    yield call(create, '/identity/forgot-password', { email });
+    yield put(forgotPasswordSuccess('Email enviado com sucesso'));
   } catch (error) {
-    yield put(apiError(error));
+    getErrorMessages(error);
   }
 }
 
@@ -122,8 +86,8 @@ export function* watchRegisterUser() {
   yield takeEvery(REGISTER_USER, register);
 }
 
-export function* watchForgetPassword() {
-  yield takeEvery(FORGET_PASSWORD, forgetPassword);
+export function* watchForgotPassword() {
+  yield takeEvery(FORGET_PASSWORD, forgotPassword);
 }
 
 function* authSaga() {
@@ -131,7 +95,7 @@ function* authSaga() {
     fork(watchLoginUser),
     fork(watchLogoutUser),
     fork(watchRegisterUser),
-    fork(watchForgetPassword),
+    fork(watchForgotPassword),
   ]);
 }
 

@@ -117,8 +117,9 @@ namespace BuddyJourneyIdentityApi.Services
                 return false;
             }
 
-            var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-            await _emailSenderService.SendEmailAsync(email, "Buddy Journey", "Message example");
+            var link = await _userManager.GeneratePasswordResetTokenAsync(user);
+            await _emailSenderService.SendEmailAsync(email, "Buddy Journey",
+                string.Concat(_appSettings.WebForgotPasswordRedirect, link));
             
             return true;
         }

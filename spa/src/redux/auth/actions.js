@@ -35,12 +35,12 @@ export const logoutUser = (history) => ({
     payload: { history }
 });
 
-export const forgetPassword = (email) => ({
+export const forgotPassword = (email) => ({
     type: FORGET_PASSWORD,
     payload: { email }
 });
 
-export const forgetPasswordSuccess = (passwordResetStatus) => ({
+export const forgotPasswordSuccess = (passwordResetStatus) => ({
     type: FORGET_PASSWORD_SUCCESS,
     payload: passwordResetStatus
 });

@@ -22,20 +22,10 @@ import {
 
 import { registerUser, apiError } from '../../redux/actions';
 
-import { useTranslation } from 'react-i18next';
-
 import logodark from '../../assets/images/logo-dark.png';
 import logolight from '../../assets/images/logo-light.png';
 
 const Register = (props) => {
-  const clearError = () => {
-    props.apiError('');
-  };
-
-  const { t } = useTranslation();
-
-  useEffect(clearError);
-
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -47,12 +37,21 @@ const Register = (props) => {
         .email('Por favor, informe um email válido')
         .required('Por favor, informe um email'),
       password: Yup.string()
-        .min(6, 'A senha deve ter no mínimo 6 caracteres')
+        .min(8, 'A senha deve ter no mínimo 8 caracteres')
         .max(100, 'A senha deve ter no máximo 100 caracteres')
         .required('Por favor, informe uma senha'),
-      confirmPassword: Yup.string().required(
-        'Por favor, informa a confirmação da senha'
-      ),
+      confirmPassword: Yup.string()
+        .required('Por favor, informe a confirmação da senha')
+        .test('comparePasswords', function (value) {
+          const { path, createError } = this;
+          const { password } = formik.values;
+
+          if (password !== value) {
+            return createError({ path, message: 'Senhas não coincidem' });
+          }
+
+          return true;
+        }),
     }),
     onSubmit: (values) => {
       props.registerUser(values);
@@ -89,10 +88,15 @@ const Register = (props) => {
 
               <Card>
                 <CardBody className="p-4">
-                  {props.error && <Alert variant="danger">{props.error}</Alert>}
                   {props.user && (
                     <Alert variant="success">
-                      Thank You for registering with us!
+                      Obrigado por se registrar conosco! Clique aqui e{' '}
+                      <Link
+                        to="/login"
+                        className="font-weight-medium text-primary"
+                      >
+                        Acesse agora
+                      </Link>
                     </Alert>
                   )}
                   <div className="p-3">
@@ -222,7 +226,7 @@ const Register = (props) => {
                   </Link>{' '}
                 </p>
                 <p>
-                  © 2021 BuddyJourney. Criado com
+                  © 2021 BuddyJourney. Criado com{' '}
                   <i className="mdi mdi-heart text-danger"></i> por Nilo Alan
                 </p>
               </div>
@@ -239,6 +243,4 @@ const mapStateToProps = (state) => {
   return { user, loading, error };
 };
 
-export default withRouter(
-  connect(mapStateToProps, { registerUser, apiError })(Register)
-);
+export default withRouter(connect(mapStateToProps, { registerUser })(Register));

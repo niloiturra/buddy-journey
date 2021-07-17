@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.IO;
+using System.Text;
+using System.Threading.Tasks;
 using BuddyJourneyIdentityApi.Interfaces;
 using BuddyJourneyIdentityApi.Model;
 using Microsoft.Extensions.Options;
@@ -16,26 +18,40 @@ namespace BuddyJourneyIdentityApi.Services
             Options = optionsAccessor.Value;
         }
         
-        public Task SendEmailAsync(string email, string subject, string message)
+        public Task SendEmailAsync(string email, string subject, string link)
         {
-            return Execute(Options.SendGridKey, subject, message, email);
+            return Execute(Options.SendGridKey, subject, link, email);
         }
 
-        private Task Execute(string apiKey, string subject, string message, string email)
+        private Task Execute(string apiKey, string subject, string link, string email)
         {
             var client = new SendGridClient(apiKey);
-            var msg = new SendGridMessage()
+            var mail = new SendGridMessage()
             {
                 From = new EmailAddress("buddy_journey_@outlook.com", Options.SendGridUser),
                 Subject = subject,
-                PlainTextContent = message,
-                HtmlContent = message
+                HtmlContent = BuilderHtmlWithParameters(email, link)
             };
 
-            msg.AddTo(new EmailAddress(email));
-            msg.SetClickTracking(false, false);
+            mail.AddTo(new EmailAddress(email));
+            mail.SetClickTracking(false, false);
 
-            return client.SendEmailAsync(msg);
+            return client.SendEmailAsync(mail);
+        }
+
+        private string BuilderHtmlWithParameters(string email, string link)
+        {
+            var builder = new StringBuilder();
+
+            using (var reader = File.OpenText("Template/template-forgot-password.html"))
+            {
+                builder.Append(reader.ReadToEnd());
+            }
+
+            builder.Replace("{{nome.usuario}}", email);
+            builder.Replace("{{link}}", link);
+
+            return builder.ToString();
         }
     }
 }

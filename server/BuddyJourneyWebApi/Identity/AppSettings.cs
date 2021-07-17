@@ -6,5 +6,6 @@
         public int ExpirationHours { get; set; }
         public string Issuer { get; set; }
         public string ValidOn { get; set; }
+        public string WebForgotPasswordRedirect { get; set; }
     }
 }

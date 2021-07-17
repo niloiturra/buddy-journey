@@ -17,7 +17,11 @@ namespace BuddyJourneyIdentityApi.Configuration
             
             services.AddIdentityMongoDbProvider<MongoUser, MongoRole>(identity =>
             {
-                identity.Password.RequiredLength = 6;
+                identity.Password.RequiredLength = 8;
+                identity.Password.RequireDigit = false;
+                identity.Password.RequireLowercase = false;
+                identity.Password.RequireUppercase = false;
+                identity.Password.RequireNonAlphanumeric = false;
                 identity.User.RequireUniqueEmail = true;
             }, mongo =>
             {
