@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9177EC75-FD19-446C-A6FC-970653E15E82}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingBlocks", "{22677BF8-AB16-4CE4-9D67-68BFB2AB856C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{717C6E45-FA44-410E-87B0-CCB09E3FF14F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuddyJourney.WebApi.Core", "src\BuildingBlocks\Services\BuddyJourney.WebApi.Core\BuddyJourney.WebApi.Core.csproj", "{DA2822A2-F546-4A47-B335-5EB1978E4764}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{94A07F99-B550-4637-8978-FFD86BF458B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuddyJourney.Identity.Api", "src\Services\BuddyJourney.Identity.Api\BuddyJourney.Identity.Api.csproj", "{693B5DEB-E006-4C1E-BCB0-B4C5D0784A2A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DA2822A2-F546-4A47-B335-5EB1978E4764}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA2822A2-F546-4A47-B335-5EB1978E4764}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA2822A2-F546-4A47-B335-5EB1978E4764}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DA2822A2-F546-4A47-B335-5EB1978E4764}.Debug|x64.Build.0 = Debug|Any CPU
+		{DA2822A2-F546-4A47-B335-5EB1978E4764}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DA2822A2-F546-4A47-B335-5EB1978E4764}.Debug|x86.Build.0 = Debug|Any CPU
+		{DA2822A2-F546-4A47-B335-5EB1978E4764}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA2822A2-F546-4A47-B335-5EB1978E4764}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA2822A2-F546-4A47-B335-5EB1978E4764}.Release|x64.ActiveCfg = Release|Any CPU
+		{DA2822A2-F546-4A47-B335-5EB1978E4764}.Release|x64.Build.0 = Release|Any CPU
+		{DA2822A2-F546-4A47-B335-5EB1978E4764}.Release|x86.ActiveCfg = Release|Any CPU
+		{DA2822A2-F546-4A47-B335-5EB1978E4764}.Release|x86.Build.0 = Release|Any CPU
+		{693B5DEB-E006-4C1E-BCB0-B4C5D0784A2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{693B5DEB-E006-4C1E-BCB0-B4C5D0784A2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{693B5DEB-E006-4C1E-BCB0-B4C5D0784A2A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{693B5DEB-E006-4C1E-BCB0-B4C5D0784A2A}.Debug|x64.Build.0 = Debug|Any CPU
+		{693B5DEB-E006-4C1E-BCB0-B4C5D0784A2A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{693B5DEB-E006-4C1E-BCB0-B4C5D0784A2A}.Debug|x86.Build.0 = Debug|Any CPU
+		{693B5DEB-E006-4C1E-BCB0-B4C5D0784A2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{693B5DEB-E006-4C1E-BCB0-B4C5D0784A2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{693B5DEB-E006-4C1E-BCB0-B4C5D0784A2A}.Release|x64.ActiveCfg = Release|Any CPU
+		{693B5DEB-E006-4C1E-BCB0-B4C5D0784A2A}.Release|x64.Build.0 = Release|Any CPU
+		{693B5DEB-E006-4C1E-BCB0-B4C5D0784A2A}.Release|x86.ActiveCfg = Release|Any CPU
+		{693B5DEB-E006-4C1E-BCB0-B4C5D0784A2A}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{22677BF8-AB16-4CE4-9D67-68BFB2AB856C} = {9177EC75-FD19-446C-A6FC-970653E15E82}
+		{717C6E45-FA44-410E-87B0-CCB09E3FF14F} = {22677BF8-AB16-4CE4-9D67-68BFB2AB856C}
+		{DA2822A2-F546-4A47-B335-5EB1978E4764} = {717C6E45-FA44-410E-87B0-CCB09E3FF14F}
+		{94A07F99-B550-4637-8978-FFD86BF458B9} = {9177EC75-FD19-446C-A6FC-970653E15E82}
+		{693B5DEB-E006-4C1E-BCB0-B4C5D0784A2A} = {94A07F99-B550-4637-8978-FFD86BF458B9}
+	EndGlobalSection
+EndGlobal
