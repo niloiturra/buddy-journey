@@ -1,9 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using AspNetCore.Identity.Mongo.Model;
 using BuddyJourney.Identity.Api.Interfaces;
 using BuddyJourney.Identity.Api.Model;
 using BuddyJourney.Identity.Api.Model.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver.Core.WireProtocol.Messages;
 
 namespace BuddyJourney.Identity.Api.Controllers
 {
@@ -36,7 +38,9 @@ namespace BuddyJourney.Identity.Api.Controllers
 
             if (result.Succeeded)
             {
-                return CustomResponse(await _authService.GenerateJwt(userRegister.Email));
+                var profileResult = await _authService.RegisterProfile(userRegister);
+                
+                return profileResult != null ? CustomResponse(profileResult) : CustomResponse(await _authService.GenerateJwt(userRegister.Email));
             }
 
             foreach (var error in result.Errors)

@@ -7,27 +7,35 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AspNetCore.Identity.Mongo.Model;
+using BuddyJourney.Core.Messages.Integration;
 using BuddyJourney.Identity.Api.Interfaces;
 using BuddyJourney.Identity.Api.Model;
+using BuddyJourney.MessageBus;
 using BuddyJourney.WebApi.Core.Identity;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace BuddyJourney.Identity.Api.Services
 {
-    public class AuthService: IAuthService
+    public class AuthService : IAuthService
     {
         private readonly SignInManager<MongoUser> _signInManager;
         private readonly UserManager<MongoUser> _userManager;
         private readonly IEmailSenderService _emailSenderService;
         private readonly AppSettings _appSettings;
         
-        public AuthService(SignInManager<MongoUser> signInManager, UserManager<MongoUser> userManager, IOptions<AppSettings> appSettings, IEmailSenderService messageServices, IEmailSenderService emailSenderService)
+        private readonly IMessageBus _bus;
+
+        public AuthService(SignInManager<MongoUser> signInManager, UserManager<MongoUser> userManager,
+            IOptions<AppSettings> appSettings, IEmailSenderService messageServices,
+            IEmailSenderService emailSenderService, IMessageBus bus)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _emailSenderService = emailSenderService;
+            _bus = bus;
             _appSettings = appSettings.Value;
         }
 
@@ -35,7 +43,7 @@ namespace BuddyJourney.Identity.Api.Services
             UserRegister userRegister) =>
             await _userManager.CreateAsync(user,
                 userRegister.Password);
-        
+
 
         public async Task<SignInResult> LoginUser(UserLogin userLogin) =>
             await _signInManager.PasswordSignInAsync(userLogin.Email,
@@ -123,7 +131,7 @@ namespace BuddyJourney.Identity.Api.Services
             var urlEmail = WebUtility.UrlEncode(user.Email);
             var linkBuild = string.Concat(_appSettings.WebForgotPasswordRedirect, urlCode, "/", urlEmail);
             await _emailSenderService.SendEmailAsync(email, "Buddy Journey", linkBuild);
-            
+
             return true;
         }
 
@@ -133,11 +141,36 @@ namespace BuddyJourney.Identity.Api.Services
             var code = WebUtility.UrlDecode(codeEncoded);
             var user = await _userManager.FindByEmailAsync(email);
             var result = await _userManager.ResetPasswordAsync(user, code, newPassword);
-            
+
             return result.Succeeded;
         }
         
+        public async Task<ValidationResult> RegisterProfile(UserRegister userRegister)
+        {
+            var user = await _userManager.FindByEmailAsync(userRegister.Email);
+
+            var userRegistered = new UserRegisterIntegrationEvent(Guid.NewGuid(), user.Email, user.Email);
+
+            try
+            {
+                var result = await _bus.RequestAsync<UserRegisterIntegrationEvent, ResponseMessage>(userRegistered);
+
+                if (result.ValidationResult.IsValid)
+                {
+                    return null;
+                }
+
+                return result.ValidationResult;
+            }
+            catch(Exception error)
+            {
+                await _userManager.DeleteAsync(user);
+                throw;
+            }
+        }
+
         private static long ToUnixEpochDate(DateTime date)
-            => (long)Math.Round((date.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero)).TotalSeconds);
+            => (long) Math.Round((date.ToUniversalTime() - new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero))
+                .TotalSeconds);
     }
 }

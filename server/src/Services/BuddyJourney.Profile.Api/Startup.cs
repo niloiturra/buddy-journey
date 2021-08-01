@@ -1,11 +1,16 @@
-using BuddyJourney.Identity.Api.Configuration;
+using BuddyJourney.Core.Data;
+using BuddyJourney.Profile.Api.Configuration;
+using BuddyJourney.WebApi.Core.Identity;
+using BuddyJourney.WebApi.Core.Model;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 
-namespace BuddyJourney.Identity.Api
+namespace BuddyJourney.Profile.Api
 {
     public class Startup
     {
@@ -26,19 +31,31 @@ namespace BuddyJourney.Identity.Api
 
             Configuration = builder.Build();
         }
-        
+
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddIdentityConfiguration(Configuration);
-            services.AddApiConfiguration();
+            services.AddSingleton<IBuddyJourneyDatabaseSettings>(serviceProvider =>
+                serviceProvider.GetRequiredService<IOptions<BuddyJourneyDatabaseSettings>>().Value);
+
+            services.AddScoped(typeof(IMongoRepository<>), typeof(MongoRepository<>));
+
+            services.AddApiConfiguration(Configuration);
+
+            services.AddJwtConfiguration(Configuration);
+
             services.AddSwaggerConfiguration();
-            services.AddMessageBusConfiguration(Configuration);
+            
+            services.AddMediatR(typeof(Startup));
+            
             services.RegisterServices();
+
+            services.AddMessageBusConfiguration(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseSwaggerConfiguration();
+
             app.UseApiConfiguration(env);
         }
     }
