@@ -48,11 +48,13 @@ function* logout({ payload: { history } }) {
 function* register({ payload: { user } }) {
   try {
     const email = user.email;
+    const name = user.name;
     const password = user.password;
     const confirmPassword = user.confirmPassword;
 
     const userModel = {
       email,
+      name,
       password,
       confirmPassword,
     };

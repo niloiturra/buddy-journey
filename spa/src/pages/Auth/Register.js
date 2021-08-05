@@ -29,13 +29,18 @@ const Register = (props) => {
   const formik = useFormik({
     initialValues: {
       email: '',
+      name: '',
       password: '',
       confirmPassword: '',
     },
     validationSchema: Yup.object({
       email: Yup.string()
+        .max(200, 'O e-mail deve ter no máximo 200 caracteres')
         .email('Por favor, informe um email válido')
         .required('Por favor, informe um email'),
+      name: Yup.string()
+        .max(200, 'O nome deve ter no máximo 200 caracteres')
+        .required('Por favor, informe seu nome'),
       password: Yup.string()
         .min(8, 'A senha deve ter no mínimo 8 caracteres')
         .max(100, 'A senha deve ter no máximo 100 caracteres')
@@ -101,6 +106,35 @@ const Register = (props) => {
                   )}
                   <div className="p-3">
                     <Form onSubmit={formik.handleSubmit}>
+                      <div className="mb-3">
+                        <Label className="form-label">Nome Completo</Label>
+                        <InputGroup className="input-group bg-soft-light rounded-3 mb-3">
+                          <span className="input-group-text text-muted">
+                            <i className="ri-mail-line"></i>
+                          </span>
+                          <Input
+                            type="text"
+                            id="name"
+                            name="name"
+                            className="form-control form-control-lg bg-soft-light border-light"
+                            placeholder="Informe seu nome completo"
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.name}
+                            invalid={
+                              formik.touched.name && formik.errors.name
+                                ? true
+                                : false
+                            }
+                          />
+                          {formik.touched.name && formik.errors.name ? (
+                            <FormFeedback type="invalid">
+                              {formik.errors.name}
+                            </FormFeedback>
+                          ) : null}
+                        </InputGroup>
+                      </div>
+
                       <div className="mb-3">
                         <Label className="form-label">Email</Label>
                         <InputGroup className="input-group bg-soft-light rounded-3 mb-3">
