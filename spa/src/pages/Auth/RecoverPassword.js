@@ -205,7 +205,9 @@ const mapStateToProps = (state) => {
   return { passwordRecoverStatus, errors };
 };
 
-const mapDispatchToProps = (dispatch) => bindActionCreators(Creators, dispatch);
+const { recoverPassword } = Creators;
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ recoverPassword }, dispatch);
 
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(RecoverPassword)

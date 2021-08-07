@@ -13,6 +13,8 @@ const Logout = (props) => {
   return <React.Fragment></React.Fragment>;
 };
 
-const mapDispatchToProps = (dispatch) => bindActionCreators(Creators, dispatch);
+const { logout } = Creators;
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ logout }, dispatch);
 
 export default withRouter(connect(null, mapDispatchToProps)(Logout));

@@ -283,7 +283,9 @@ const mapStateToProps = (state) => {
   return { user, loading, errors };
 };
 
-const mapDispatchToProps = (dispatch) => bindActionCreators(Creators, dispatch);
+const { register } = Creators;
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ register }, dispatch);
 
 export default withRouter(
   connect(mapStateToProps, mapDispatchToProps)(Register)

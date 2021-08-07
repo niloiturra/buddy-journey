@@ -7,7 +7,7 @@ import {
 } from "./constants";
 
 const INIT_STATE = {
-	activeTab : "chat",
+	activeTab : "home",
 	userSidebar : false,
 	conversationName : "Doris Brown"
 };

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Nav, NavItem, NavLink, UncontrolledTooltip } from 'reactstrap';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
@@ -18,26 +17,32 @@ function LeftSidebarMenu(props) {
   return (
     <>
       <div className="side-menu flex-lg-column me-lg-1">
-        <div className="navbar-brand-box">
-          <Link to="/" className="logo logo-dark">
-            <span className="logo-sm">
-              <img src={logo} alt="logo" height="30" />
-            </span>
-          </Link>
-
-          <Link to="/" className="logo logo-light">
-            <span className="logo-sm">
-              <img src={logo} alt="logo" height="30" />
-            </span>
-          </Link>
-        </div>
-
         <div className="flex-lg-column my-auto">
           <Nav
             pills
             className="side-menu-nav justify-content-center"
             role="tablist"
           >
+            <NavItem id="home">
+              <NavLink
+                id="pills-home-tab"
+                className={classnames({ active: activeTab === 'home' })}
+                onClick={() => {
+                  toggleTab('home');
+                }}
+              >
+                <img
+                  data-tut="profile"
+                  src={logo}
+                  alt=""
+                  className="profile-user rounded-circle"
+                />
+              </NavLink>
+            </NavItem>
+            <UncontrolledTooltip target="profile" placement="top">
+              Perfil
+            </UncontrolledTooltip>
+
             <NavItem id="profile">
               <NavLink
                 id="pills-user-tab"
@@ -47,6 +52,7 @@ function LeftSidebarMenu(props) {
                 }}
               >
                 <img
+                  data-tut="profile"
                   src={avatar1}
                   alt=""
                   className="profile-user rounded-circle"
