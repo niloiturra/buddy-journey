@@ -36,9 +36,7 @@ namespace BuddyJourney.Profile.Api
         {
             services.AddSingleton<IBuddyJourneyDatabaseSettings>(serviceProvider =>
                 serviceProvider.GetRequiredService<IOptions<BuddyJourneyDatabaseSettings>>().Value);
-
-            services.AddScoped(typeof(IMongoRepository<>), typeof(MongoRepository<>));
-
+            
             services.AddApiConfiguration(Configuration);
 
             services.AddJwtConfiguration(Configuration);

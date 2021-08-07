@@ -149,7 +149,7 @@ namespace BuddyJourney.Identity.Api.Services
         {
             var user = await _userManager.FindByEmailAsync(userRegister.Email);
 
-            var userRegistered = new UserRegisterIntegrationEvent(Guid.NewGuid(), userRegister.Name, user.Email);
+            var userRegistered = new UserRegisterIntegrationEvent(user.Id.ToString(), userRegister.Name, user.Email);
 
             try
             {

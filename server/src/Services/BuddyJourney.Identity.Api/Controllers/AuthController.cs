@@ -1,11 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AspNetCore.Identity.Mongo.Model;
 using BuddyJourney.Identity.Api.Interfaces;
 using BuddyJourney.Identity.Api.Model;
 using BuddyJourney.Identity.Api.Model.ViewModel;
+using BuddyJourney.WebApi.Core.Controller;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Driver.Core.WireProtocol.Messages;
 
 namespace BuddyJourney.Identity.Api.Controllers
 {

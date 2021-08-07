@@ -1,18 +1,17 @@
-﻿using System;
-using BuddyJourney.Core.Messages;
+﻿using BuddyJourney.Core.Messages;
 using FluentValidation;
+using MongoDB.Bson;
 
 namespace BuddyJourney.Profile.Api.Application.Commands
 {
     public class RegisterProfileCommand: Command
     {
-        public Guid Id { get; private set; }
+        public ObjectId Id { get; private set; }
         public string Name { get; private set; }
         public string Email { get; private set; }
 
-        public RegisterProfileCommand(Guid id, string name, string email)
+        public RegisterProfileCommand(ObjectId id, string name, string email)
         {
-            AggregateId = id;
             Id = id;
             Name = name;
             Email = email;
@@ -29,12 +28,12 @@ namespace BuddyJourney.Profile.Api.Application.Commands
             public RegisterProfileValidation()
             {
                 RuleFor(c => c.Id)
-                    .NotEqual(Guid.Empty)
-                    .WithMessage("Id do cliente inválido");
+                    .NotEqual(ObjectId.Empty)
+                    .WithMessage("Id do usuário inválido");
 
                 RuleFor(c => c.Name)
                     .NotEmpty()
-                    .WithMessage("O nome do cliente não foi informado");
+                    .WithMessage("O nome do usuário não foi informado");
 
                 RuleFor(c => c.Email)
                     .Must(TerEmailValido)

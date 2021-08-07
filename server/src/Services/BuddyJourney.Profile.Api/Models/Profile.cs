@@ -1,11 +1,11 @@
 ﻿using System;
 using BuddyJourney.Core.Data;
-using BuddyJourney.Core.DomainObjects;
 using BuddyJourney.Core.Utils;
+using MongoDB.Bson;
 
 namespace BuddyJourney.Profile.Api.Models
 {
-    [BsonCollection("profile")]
+    [BsonCollection("Profile")]
     public class Profile: Document
     {
         public UserEmbed User { get; set; }
@@ -19,9 +19,14 @@ namespace BuddyJourney.Profile.Api.Models
         
         protected Profile() { }
 
-        public Profile(string name)
+        public Profile(ObjectId userId, string name, string email)
         {
             Name = name;
+            User = new UserEmbed()
+            {
+                Email = email,
+                Id = userId
+            };
         }
     }
 }

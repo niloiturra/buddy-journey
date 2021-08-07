@@ -12,7 +12,6 @@ namespace BuddyJourney.Profile.Api.Configuration
         public static void AddApiConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddControllers();
-
             services.AddCors(options =>
             {
                 options.AddPolicy("Total",
@@ -32,13 +31,9 @@ namespace BuddyJourney.Profile.Api.Configuration
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseCors("Total");
-
             app.UseAuthConfiguration();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

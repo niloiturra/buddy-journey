@@ -3,10 +3,10 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace BuddyJourney.Identity.Api.Controllers
+namespace BuddyJourney.WebApi.Core.Controller
 {
     [ApiController]
-    public abstract class BaseController: Controller
+    public abstract class BaseController: Microsoft.AspNetCore.Mvc.Controller
     {
         private readonly ICollection<string> _errors = new List<string>();
         protected ActionResult CustomResponse(object result = null)

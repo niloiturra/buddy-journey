@@ -22,7 +22,7 @@ namespace BuddyJourney.Profile.Api.Application.Commands
         {
             if (!message.IsValid()) return message.ValidationResult;
 
-            var profile = new Models.Profile(message.Name);
+            var profile = new Models.Profile(message.Id, message.Name, message.Email);
 
             await _profileRepository.InsertOneAsync(profile);
             profile.AddEvent(new ProfileRegisterEvent(message.Name));
