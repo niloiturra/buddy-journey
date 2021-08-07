@@ -78,34 +78,12 @@ function* recoverPassword({ passwords }) {
   }
 }
 
-export function* watchLogin() {
-  yield takeEvery(Types.LOGIN, login);
-}
-
-export function* watchLogout() {
-  yield takeEvery(Types.LOGOUT, logout);
-}
-
-export function* watchRegister() {
-  yield takeEvery(Types.REGISTER, register);
-}
-
-export function* watchForgotPassword() {
-  yield takeEvery(Types.FORGOT_PASSWORD, forgotPassword);
-}
-
-export function* watchRecoverPassword() {
-  yield takeEvery(Types.RECOVER_PASSWORD, recoverPassword);
-}
-
 function* authSaga() {
-  yield all([
-    fork(watchLogin),
-    fork(watchLogout),
-    fork(watchRegister),
-    fork(watchForgotPassword),
-    fork(watchRecoverPassword),
-  ]);
+  yield takeEvery(Types.LOGIN, login);
+  yield takeEvery(Types.LOGOUT, logout);
+  yield takeEvery(Types.REGISTER, register);
+  yield takeEvery(Types.FORGOT_PASSWORD, forgotPassword);
+  yield takeEvery(Types.RECOVER_PASSWORD, recoverPassword);
 }
 
 export default authSaga;
