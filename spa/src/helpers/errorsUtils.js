@@ -1,13 +1,13 @@
-import { toastr } from 'react-redux-toastr';
+export const getErrorMessagesArray = (errors) => {
+  const errorMessages = [];
 
-const getErrorMessages = (errors) => {
   if (errors) {
     for (const prop in errors) {
       errors[prop].forEach((error) => {
-        toastr.error('Opa!', error);
+        errorMessages.push(error);
       });
     }
   }
-};
 
-export { getErrorMessages };
+  return errorMessages;
+};

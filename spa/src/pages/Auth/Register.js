@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
-
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import {
@@ -19,11 +18,11 @@ import {
   Label,
   InputGroup,
 } from 'reactstrap';
-
 import logodark from '../../assets/images/logo-dark.png';
 import logolight from '../../assets/images/logo-light.png';
 import { bindActionCreators } from 'redux';
 import { Creators } from '../../redux/auth/duck';
+import AlertMultipleErrors from '../../components/AlertMultipleErrors';
 
 const Register = (props) => {
   const formik = useFormik({
@@ -226,6 +225,13 @@ const Register = (props) => {
                         </InputGroup>
                       </FormGroup>
 
+                      {props.errors && props.errors.register && (
+                        <AlertMultipleErrors
+                          color="danger"
+                          errors={props.errors.register}
+                        />
+                      )}
+
                       <div className="d-grid">
                         <Button
                           color="primary"
@@ -273,8 +279,8 @@ const Register = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  const { user, loading } = state.Auth;
-  return { user, loading };
+  const { user, loading, errors } = state.Auth;
+  return { user, loading, errors };
 };
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(Creators, dispatch);

@@ -1,6 +1,6 @@
-import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
+import { call, put, takeEvery } from 'redux-saga/effects';
 import { APIClient } from '../../helpers/apiClient';
-import { getErrorMessages } from '../../helpers/errorsUtils';
+import { getErrorMessagesArray } from '../../helpers/errorsUtils';
 import { Creators, Types } from './duck';
 
 const create = new APIClient().create;
@@ -17,7 +17,7 @@ function* login({ email, password, history }) {
 
     history.push('/dashboard');
   } catch (error) {
-    getErrorMessages(error);
+    yield put(Creators.onFailure({ login: getErrorMessagesArray(error) }));
   }
 }
 
@@ -49,7 +49,7 @@ function* register({ user }) {
     localStorage.setItem('authUser', JSON.stringify(response));
     yield put(Creators.registerSuccess(response));
   } catch (error) {
-    getErrorMessages(error);
+    yield put(Creators.onFailure({ register: getErrorMessagesArray(error) }));
   }
 }
 
@@ -58,7 +58,9 @@ function* forgotPassword({ email }) {
     yield call(create, '/identity/forgot-password', { email });
     yield put(Creators.forgotPasswordSuccess('Email enviado com sucesso'));
   } catch (error) {
-    getErrorMessages(error);
+    yield put(
+      Creators.onFailure({ forgotPassword: getErrorMessagesArray(error) })
+    );
   }
 }
 
@@ -74,7 +76,9 @@ function* recoverPassword({ passwords }) {
     yield call(create, 'identity/recover-password', recoverBody);
     yield put(Creators.recoverPasswordSuccess('Senha alterada com sucesso!'));
   } catch (error) {
-    getErrorMessages(error);
+    yield put(
+      Creators.onFailure({ recoverPassword: getErrorMessagesArray(error) })
+    );
   }
 }
 

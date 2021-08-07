@@ -17,12 +17,11 @@ import { connect } from 'react-redux';
 import { Link, withRouter, Redirect } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-
 import logodark from '../../assets/images/logo-dark.png';
 import logolight from '../../assets/images/logo-light.png';
-
 import { bindActionCreators } from 'redux';
 import { Creators } from '../../redux/auth/duck';
+import AlertMultipleErrors from '../../components/AlertMultipleErrors';
 
 const Login = (props) => {
   const formik = useFormik({
@@ -44,7 +43,7 @@ const Login = (props) => {
   }
 
   return (
-    <React.Fragment>
+    <>
       <div className="account-pages my-5 pt-sm-5">
         <Container>
           <Row className="justify-content-center">
@@ -144,6 +143,13 @@ const Login = (props) => {
                         </InputGroup>
                       </FormGroup>
 
+                      {props.errors && props.errors.login && (
+                        <AlertMultipleErrors
+                          color="danger"
+                          errors={props.errors.login}
+                        />
+                      )}
+
                       <div className="d-grid">
                         <Button
                           color="primary"
@@ -171,7 +177,7 @@ const Login = (props) => {
                   </Link>{' '}
                 </p>
                 <p>
-                  © 2021 BuddyJourney. Criado com
+                  © 2021 BuddyJourney. Criado com{' '}
                   <i className="mdi mdi-heart text-danger"></i> por Nilo Alan
                 </p>
               </div>
@@ -179,13 +185,13 @@ const Login = (props) => {
           </Row>
         </Container>
       </div>
-    </React.Fragment>
+    </>
   );
 };
 
 const mapStateToProps = (state) => {
-  const { user, loading } = state.Auth;
-  return { user, loading };
+  const { user, loading, errors } = state.Auth;
+  return { user, loading, errors };
 };
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(Creators, dispatch);

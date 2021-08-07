@@ -5,7 +5,7 @@ import {
 } from 'reduxsauce';
 import { INITIAL_STATE } from './model';
 
-const defaultHandler = () => ({ INITIAL_STATE });
+const defaultHandler = () => ({ ...INITIAL_STATE });
 
 const login = (state) => ({ ...state, loading: true });
 
@@ -13,7 +13,7 @@ const loginSuccess = (state, { user }) => ({
   ...state,
   user,
   loading: false,
-  error: null,
+  errors: null,
 });
 
 const register = (state) => ({ ...state, loading: true });
@@ -22,15 +22,16 @@ const registerSuccess = (state, { user }) => ({
   ...state,
   user,
   loading: false,
+  errors: null,
 });
 
-const forgetPassword = (state) => ({ ...state, loading: true });
+const forgotPassword = (state) => ({ ...state, loading: true });
 
-const forgetPasswordSuccess = (state, { passwordResetStatus }) => ({
+const forgotPasswordSuccess = (state, { passwordResetStatus }) => ({
   ...state,
   passwordResetStatus,
   loading: false,
-  error: null,
+  errors: null,
 });
 
 const recoverPassword = (state) => ({ ...state, loading: true });
@@ -39,13 +40,16 @@ const recoverPasswordSuccess = (state, { passwordRecoverStatus }) => ({
   ...state,
   passwordRecoverStatus,
   loading: false,
-  error: null,
+  errors: null,
 });
 
-const onFailure = (state, { error }) => ({
+const onFailure = (state, { errors }) => ({
   ...state,
   loading: false,
-  error,
+  errors: {
+    ...state.errors,
+    ...errors,
+  },
 });
 
 const logout = (state) => ({ ...state, user: null });
@@ -59,7 +63,7 @@ export const { Types, Creators } = createActions({
   forgotPasswordSuccess: ['passwordResetStatus'],
   recoverPassword: [],
   recoverPasswordSuccess: ['passwordRecoverStatus'],
-  onFailure: ['error'],
+  onFailure: ['errors'],
   logout: ['history'],
 });
 
@@ -68,8 +72,8 @@ export const HANDLERS = {
   [Types.LOGIN_SUCCESS]: loginSuccess,
   [Types.REGISTER]: register,
   [Types.REGISTER_SUCCESS]: registerSuccess,
-  [Types.FORGOT_PASSWORD]: forgetPassword,
-  [Types.FORGOT_PASSWORD_SUCCESS]: forgetPasswordSuccess,
+  [Types.FORGOT_PASSWORD]: forgotPassword,
+  [Types.FORGOT_PASSWORD_SUCCESS]: forgotPasswordSuccess,
   [Types.RECOVER_PASSWORD]: recoverPassword,
   [Types.RECOVER_PASSWORD_SUCCESS]: recoverPasswordSuccess,
   [Types.LOGOUT]: logout,

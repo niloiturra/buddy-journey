@@ -17,12 +17,12 @@ import {
 import { Link, withRouter } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-
 import logodark from '../../assets/images/logo-dark.png';
 import logolight from '../../assets/images/logo-light.png';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Creators } from '../../redux/auth/duck';
+import AlertMultipleErrors from '../../components/AlertMultipleErrors';
 
 function RecoverPassword(props) {
   const formik = useFormik({
@@ -158,6 +158,13 @@ function RecoverPassword(props) {
                         </div>
                       </FormGroup>
 
+                      {props.errors && props.errors.recoverPassword && (
+                        <AlertMultipleErrors
+                          color="danger"
+                          errors={props.errors.recoverPassword}
+                        />
+                      )}
+
                       <div className="d-grid">
                         <Button
                           color="primary"
@@ -194,8 +201,8 @@ function RecoverPassword(props) {
 }
 
 const mapStateToProps = (state) => {
-  const { passwordRecoverStatus } = state.Auth;
-  return { passwordRecoverStatus };
+  const { passwordRecoverStatus, errors } = state.Auth;
+  return { passwordRecoverStatus, errors };
 };
 
 const mapDispatchToProps = (dispatch) => bindActionCreators(Creators, dispatch);
