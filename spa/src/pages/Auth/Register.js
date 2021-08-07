@@ -20,10 +20,10 @@ import {
   InputGroup,
 } from 'reactstrap';
 
-import { registerUser } from '../../redux/actions';
-
 import logodark from '../../assets/images/logo-dark.png';
 import logolight from '../../assets/images/logo-light.png';
+import { bindActionCreators } from 'redux';
+import { Creators } from '../../redux/auth/duck';
 
 const Register = (props) => {
   const formik = useFormik({
@@ -59,7 +59,7 @@ const Register = (props) => {
         }),
     }),
     onSubmit: (values) => {
-      props.registerUser(values);
+      props.register(values);
     },
   });
 
@@ -277,4 +277,8 @@ const mapStateToProps = (state) => {
   return { user, loading };
 };
 
-export default withRouter(connect(mapStateToProps, { registerUser })(Register));
+const mapDispatchToProps = (dispatch) => bindActionCreators(Creators, dispatch);
+
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(Register)
+);

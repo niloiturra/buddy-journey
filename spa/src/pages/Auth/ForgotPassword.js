@@ -20,10 +20,10 @@ import {
   InputGroup,
 } from 'reactstrap';
 
-import { forgotPassword } from '../../redux/actions';
-
 import logodark from '../../assets/images/logo-dark.png';
 import logolight from '../../assets/images/logo-light.png';
+import { bindActionCreators } from 'redux';
+import { Creators } from '../../redux/auth/duck';
 
 const ForgotPassword = (props) => {
   const formik = useFormik({
@@ -154,4 +154,6 @@ const mapStateToProps = (state) => {
   return { user, loading, passwordResetStatus };
 };
 
-export default connect(mapStateToProps, { forgotPassword })(ForgotPassword);
+const mapDispatchToProps = (dispatch) => bindActionCreators(Creators, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(ForgotPassword);

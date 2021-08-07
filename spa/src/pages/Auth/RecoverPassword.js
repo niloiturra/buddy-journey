@@ -21,8 +21,8 @@ import * as Yup from 'yup';
 import logodark from '../../assets/images/logo-dark.png';
 import logolight from '../../assets/images/logo-light.png';
 import { connect } from 'react-redux';
-
-import { recoverPassword } from '../../redux/actions';
+import { bindActionCreators } from 'redux';
+import { Creators } from '../../redux/auth/duck';
 
 function RecoverPassword(props) {
   const formik = useFormik({
@@ -198,6 +198,8 @@ const mapStateToProps = (state) => {
   return { passwordRecoverStatus };
 };
 
+const mapDispatchToProps = (dispatch) => bindActionCreators(Creators, dispatch);
+
 export default withRouter(
-  connect(mapStateToProps, { recoverPassword })(RecoverPassword)
+  connect(mapStateToProps, mapDispatchToProps)(RecoverPassword)
 );

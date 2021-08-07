@@ -1,34 +1,19 @@
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
-
 import { APIClient } from '../../helpers/apiClient';
 import { getErrorMessages } from '../../helpers/errorsUtils';
-
-import {
-  LOGIN_USER,
-  LOGOUT_USER,
-  REGISTER_USER,
-  FORGET_PASSWORD,
-  RECOVER_PASSWORD,
-} from './constants';
-
-import {
-  loginUserSuccess,
-  registerUserSuccess,
-  forgotPasswordSuccess,
-  recoverPasswordSuccess,
-} from './actions';
+import { Creators, Types } from './duck';
 
 const create = new APIClient().create;
 
-function* login({ payload: { username, password, history } }) {
+function* login({ email, password, history }) {
   try {
     const response = yield call(create, '/identity/login', {
-      email: username,
+      email,
       password,
     });
 
     localStorage.setItem('authUser', JSON.stringify(response));
-    yield put(loginUserSuccess(response));
+    yield put(Creators.loginSuccess(response));
 
     history.push('/dashboard');
   } catch (error) {
@@ -36,7 +21,7 @@ function* login({ payload: { username, password, history } }) {
   }
 }
 
-function* logout({ payload: { history } }) {
+function* logout({ history }) {
   try {
     localStorage.removeItem('authUser');
     yield call(() => {
@@ -45,7 +30,7 @@ function* logout({ payload: { history } }) {
   } catch (error) {}
 }
 
-function* register({ payload: { user } }) {
+function* register({ user }) {
   try {
     const email = user.email;
     const name = user.name;
@@ -62,22 +47,22 @@ function* register({ payload: { user } }) {
     const response = yield call(create, 'identity/register', userModel);
 
     localStorage.setItem('authUser', JSON.stringify(response));
-    yield put(registerUserSuccess(response));
+    yield put(Creators.registerSuccess(response));
   } catch (error) {
     getErrorMessages(error);
   }
 }
 
-function* forgotPassword({ payload: { email } }) {
+function* forgotPassword({ email }) {
   try {
     yield call(create, '/identity/forgot-password', { email });
-    yield put(forgotPasswordSuccess('Email enviado com sucesso'));
+    yield put(Creators.forgotPasswordSuccess('Email enviado com sucesso'));
   } catch (error) {
     getErrorMessages(error);
   }
 }
 
-function* recoverPassword({ payload: { passwords } }) {
+function* recoverPassword({ passwords }) {
   try {
     const recoverBody = {
       emailEncoded: passwords.email,
@@ -87,37 +72,37 @@ function* recoverPassword({ payload: { passwords } }) {
     };
 
     yield call(create, 'identity/recover-password', recoverBody);
-    yield put(recoverPasswordSuccess('Senha alterada com sucesso!'));
+    yield put(Creators.recoverPasswordSuccess('Senha alterada com sucesso!'));
   } catch (error) {
     getErrorMessages(error);
   }
 }
 
-export function* watchLoginUser() {
-  yield takeEvery(LOGIN_USER, login);
+export function* watchLogin() {
+  yield takeEvery(Types.LOGIN, login);
 }
 
-export function* watchLogoutUser() {
-  yield takeEvery(LOGOUT_USER, logout);
+export function* watchLogout() {
+  yield takeEvery(Types.LOGOUT, logout);
 }
 
-export function* watchRegisterUser() {
-  yield takeEvery(REGISTER_USER, register);
+export function* watchRegister() {
+  yield takeEvery(Types.REGISTER, register);
 }
 
 export function* watchForgotPassword() {
-  yield takeEvery(FORGET_PASSWORD, forgotPassword);
+  yield takeEvery(Types.FORGOT_PASSWORD, forgotPassword);
 }
 
 export function* watchRecoverPassword() {
-  yield takeEvery(RECOVER_PASSWORD, recoverPassword);
+  yield takeEvery(Types.RECOVER_PASSWORD, recoverPassword);
 }
 
 function* authSaga() {
   yield all([
-    fork(watchLoginUser),
-    fork(watchLogoutUser),
-    fork(watchRegisterUser),
+    fork(watchLogin),
+    fork(watchLogout),
+    fork(watchRegister),
     fork(watchForgotPassword),
     fork(watchRecoverPassword),
   ]);

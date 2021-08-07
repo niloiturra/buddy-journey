@@ -18,10 +18,11 @@ import { Link, withRouter, Redirect } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-import { loginUser } from '../../redux/actions';
-
 import logodark from '../../assets/images/logo-dark.png';
 import logolight from '../../assets/images/logo-light.png';
+
+import { bindActionCreators } from 'redux';
+import { Creators } from '../../redux/auth/duck';
 
 const Login = (props) => {
   const formik = useFormik({
@@ -34,7 +35,7 @@ const Login = (props) => {
       password: Yup.string().required('Por favor, informe sua senha'),
     }),
     onSubmit: (values) => {
-      props.loginUser(values.email, values.password, props.history);
+      props.login(values.email, values.password, props.history);
     },
   });
 
@@ -187,4 +188,6 @@ const mapStateToProps = (state) => {
   return { user, loading };
 };
 
-export default withRouter(connect(mapStateToProps, { loginUser })(Login));
+const mapDispatchToProps = (dispatch) => bindActionCreators(Creators, dispatch);
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login));
