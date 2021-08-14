@@ -2,12 +2,13 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import { APIClient } from '../../helpers/apiClient';
 import { getErrorMessagesArray } from '../../helpers/errorsUtils';
 import { Creators, Types } from './duck';
+import { authApi } from './api';
 
 const create = new APIClient().create;
 
 function* login({ email, password, history }) {
   try {
-    const response = yield call(create, '/identity/login', {
+    const response = yield call(create, authApi.login, {
       email,
       password,
     });
@@ -44,7 +45,7 @@ function* register({ user }) {
       confirmPassword,
     };
 
-    const response = yield call(create, 'identity/register', userModel);
+    const response = yield call(create, authApi.register, userModel);
 
     localStorage.setItem('authUser', JSON.stringify(response));
     yield put(Creators.registerSuccess(response));
@@ -55,7 +56,7 @@ function* register({ user }) {
 
 function* forgotPassword({ email }) {
   try {
-    yield call(create, '/identity/forgot-password', { email });
+    yield call(create, authApi.forgotPassword, { email });
     yield put(Creators.forgotPasswordSuccess('Email enviado com sucesso'));
   } catch (error) {
     yield put(
@@ -73,7 +74,7 @@ function* recoverPassword({ passwords }) {
       codeEncoded: passwords.code,
     };
 
-    yield call(create, 'identity/recover-password', recoverBody);
+    yield call(create, authApi.recoverPassword, recoverBody);
     yield put(Creators.recoverPasswordSuccess('Senha alterada com sucesso!'));
   } catch (error) {
     yield put(

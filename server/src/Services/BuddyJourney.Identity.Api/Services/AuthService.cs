@@ -11,7 +11,7 @@ using BuddyJourney.Core.Messages.Integration;
 using BuddyJourney.Identity.Api.Interfaces;
 using BuddyJourney.Identity.Api.Model;
 using BuddyJourney.MessageBus;
-using BuddyJourney.WebApi.Core.Identity;
+using BuddyJourney.WebApi.Core.Model;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
@@ -24,12 +24,12 @@ namespace BuddyJourney.Identity.Api.Services
         private readonly SignInManager<MongoUser> _signInManager;
         private readonly UserManager<MongoUser> _userManager;
         private readonly IEmailSenderService _emailSenderService;
-        private readonly AppSettings _appSettings;
-        
+        private readonly JwtSettings _appSettings;
+
         private readonly IMessageBus _bus;
 
         public AuthService(SignInManager<MongoUser> signInManager, UserManager<MongoUser> userManager,
-            IOptions<AppSettings> appSettings, IEmailSenderService messageServices,
+            IOptions<JwtSettings> appSettings,
             IEmailSenderService emailSenderService, IMessageBus bus)
         {
             _signInManager = signInManager;
@@ -144,7 +144,7 @@ namespace BuddyJourney.Identity.Api.Services
 
             return result.Succeeded;
         }
-        
+
         public async Task<ValidationResult> RegisterProfile(UserRegister userRegister)
         {
             var user = await _userManager.FindByEmailAsync(userRegister.Email);
@@ -162,7 +162,7 @@ namespace BuddyJourney.Identity.Api.Services
 
                 return result.ValidationResult;
             }
-            catch(Exception error)
+            catch (Exception error)
             {
                 await _userManager.DeleteAsync(user);
                 throw;

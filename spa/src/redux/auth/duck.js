@@ -59,7 +59,7 @@ export const { Types, Creators } = createActions({
   loginSuccess: ['user'],
   register: ['user'],
   registerSuccess: ['user'],
-  forgotPassword: [],
+  forgotPassword: ['email'],
   forgotPasswordSuccess: ['passwordResetStatus'],
   recoverPassword: [],
   recoverPasswordSuccess: ['passwordRecoverStatus'],

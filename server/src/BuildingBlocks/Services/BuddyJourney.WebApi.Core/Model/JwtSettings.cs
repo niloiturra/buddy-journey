@@ -1,6 +1,6 @@
-﻿namespace BuddyJourney.WebApi.Core.Identity
+﻿namespace BuddyJourney.WebApi.Core.Model
 {
-    public class AppSettings
+    public class JwtSettings
     {
         public string Secret { get; set; }
         public int ExpirationHours { get; set; }

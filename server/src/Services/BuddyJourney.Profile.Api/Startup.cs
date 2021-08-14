@@ -1,6 +1,6 @@
 using BuddyJourney.Core.Data;
 using BuddyJourney.Profile.Api.Configuration;
-using BuddyJourney.WebApi.Core.Identity;
+using BuddyJourney.WebApi.Core.Configuration.Auth;
 using BuddyJourney.WebApi.Core.Model;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -36,15 +36,18 @@ namespace BuddyJourney.Profile.Api
         {
             services.AddSingleton<IBuddyJourneyDatabaseSettings>(serviceProvider =>
                 serviceProvider.GetRequiredService<IOptions<BuddyJourneyDatabaseSettings>>().Value);
-            
+
+            services.AddOptions();
+            services.Configure<AzureBlobStorageSettings>(Configuration.GetSection("AzureBlobStorageSettings"));
+
             services.AddApiConfiguration(Configuration);
 
             services.AddJwtConfiguration(Configuration);
 
             services.AddSwaggerConfiguration();
-            
+
             services.AddMediatR(typeof(Startup));
-            
+
             services.RegisterServices();
 
             services.AddMessageBusConfiguration(Configuration);

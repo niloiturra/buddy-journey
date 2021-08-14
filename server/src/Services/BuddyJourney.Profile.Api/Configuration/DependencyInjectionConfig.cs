@@ -4,6 +4,7 @@ using BuddyJourney.Profile.Api.Application.Commands;
 using BuddyJourney.Profile.Api.Application.Events;
 using BuddyJourney.Profile.Api.Interfaces;
 using BuddyJourney.Profile.Api.Services;
+using BuddyJourney.WebApi.Core.Interfaces;
 using FluentValidation.Results;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,6 +20,7 @@ namespace BuddyJourney.Profile.Api.Configuration
             services.AddScoped<INotificationHandler<ProfileRegisterEvent>, ProfileEventHandler>();
             services.AddScoped(typeof(IMongoRepository<>), typeof(MongoRepository<>));
             services.AddScoped<IProfileService, ProfileService>();
+            services.AddTransient<IBlobStorageService, BlobStorageService>();
         }
     }
 }

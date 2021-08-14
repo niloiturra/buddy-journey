@@ -4,7 +4,7 @@ using AspNetCore.Identity.Mongo;
 using AspNetCore.Identity.Mongo.Model;
 using BuddyJourney.Identity.Api.Extensions;
 using BuddyJourney.Identity.Api.Model;
-using BuddyJourney.WebApi.Core.Identity;
+using BuddyJourney.WebApi.Core.Configuration.Auth;
 using BuddyJourney.WebApi.Core.Model;
 
 namespace BuddyJourney.Identity.Api.Configuration
