@@ -1,6 +1,7 @@
-﻿using System.Reflection.Metadata.Ecma335;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using BuddyJourney.Profile.Api.Interfaces;
+using BuddyJourney.Profile.Api.Models.ViewModel;
 using BuddyJourney.WebApi.Core.Controller;
 using BuddyJourney.WebApi.Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -36,10 +37,20 @@ namespace BuddyJourney.Profile.Api.Controller
             return CustomResponse();
         }
 
-        [HttpPost]
-        public async Task<ActionResult> PostImage([FromBody] ImageExample image)
+        [HttpPut]
+        public async Task<ActionResult> UpdateProfile([FromQuery] string userId, [FromBody] ProfileViewModel profileViewModel)
         {
-            return Ok(await _blobStorageService.UploadBase64Image(image.ImageName, image.ImageBase64));
+            if (!ModelState.IsValid)
+            {
+                return CustomResponse(ModelState);
+            }
+
+            var updatedProfile = await _profileService.UpdateProfile(profileViewModel, ObjectId.Parse(userId));
+
+            if (updatedProfile == null) return NoContent();
+            
+            updatedProfile.ValidationResult.Errors.ToList().ForEach(e => AddProcessingError(e.ErrorMessage));
+            return CustomResponse();
         }
     }
 
