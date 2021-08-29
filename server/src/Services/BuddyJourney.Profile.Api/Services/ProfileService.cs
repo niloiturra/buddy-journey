@@ -26,7 +26,6 @@ namespace BuddyJourney.Profile.Api.Services
             var profile = await _profileRepository.FindOneAsync(x => x.User.Id == userId);
             
             profile.SetName(profileViewModel.Name);
-            profile.SetPicture(profileViewModel.Picture);
             profile.SetBiography(profileViewModel.Biography);
             profile.SetLocation(profileViewModel.Location);
             profile.SetBestTrip(profileViewModel.BestTrip);
@@ -36,6 +35,18 @@ namespace BuddyJourney.Profile.Api.Services
             
             await _profileRepository.ReplaceOneAsync(profile);
             return null;
+        }
+
+        public async Task<Models.Profile> UpdateProfileImage(string uriImage, ObjectId userId)
+        {
+            var profile = await _profileRepository.FindOneAsync(x => x.User.Id == userId);
+            
+            profile.SetPicture(uriImage);
+            
+            if (!profile.IsValid()) return profile;
+            
+            await _profileRepository.ReplaceOneAsync(profile);
+            return profile;
         }
     }
 }

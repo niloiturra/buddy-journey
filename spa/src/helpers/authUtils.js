@@ -21,15 +21,23 @@ const isUserAuthenticated = () => {
   }
 };
 
-
 const setLoggedInUser = (user) => {
   localStorage.setItem('authUser', JSON.stringify(user));
 };
 
+const getUserAccessToken = () => {
+  const user = JSON.parse(localStorage.getItem('authUser'));
+  return user.accessToken ?? null;
+};
 
 const getLoggedInUser = () => {
   const user = localStorage.getItem('authUser');
   return user ? (typeof user == 'object' ? user : JSON.parse(user)) : null;
 };
 
-export { isUserAuthenticated, setLoggedInUser, getLoggedInUser };
+export {
+  isUserAuthenticated,
+  setLoggedInUser,
+  getLoggedInUser,
+  getUserAccessToken,
+};

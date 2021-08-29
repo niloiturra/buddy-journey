@@ -34,8 +34,8 @@ namespace BuddyJourney.WebApi.Core.Configuration.Auth
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
                     ValidAudience = appSettings.ValidOn,
                     ValidIssuer = appSettings.Issuer
                 };

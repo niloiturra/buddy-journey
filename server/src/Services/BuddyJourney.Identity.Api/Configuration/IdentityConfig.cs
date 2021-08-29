@@ -6,6 +6,7 @@ using BuddyJourney.Identity.Api.Extensions;
 using BuddyJourney.Identity.Api.Model;
 using BuddyJourney.WebApi.Core.Configuration.Auth;
 using BuddyJourney.WebApi.Core.Model;
+using Microsoft.AspNetCore.Identity;
 
 namespace BuddyJourney.Identity.Api.Configuration
 {
@@ -29,6 +30,8 @@ namespace BuddyJourney.Identity.Api.Configuration
                     {
                         mongo.ConnectionString = buddyJourneyDatabaseSettings.ConnectionStringWithDatabaseName();
                     })
+                .AddRoles<MongoRole>()
+                .AddDefaultTokenProviders()
                 .AddErrorDescriber<IdentityTranslateMessages>();
 
             services.Configure<AuthMessageSenderOptions>(configuration);

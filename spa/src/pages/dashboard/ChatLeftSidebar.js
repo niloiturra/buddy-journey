@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 
 import { TabContent, TabPane } from 'reactstrap';
 
-import Profile from './Tabs/Profile';
+import Profile from './Tabs/Profile/index.js';
 import Chats from './Tabs/Chats';
 import Groups from './Tabs/Groups';
 import Contacts from './Tabs/Contacts';
 import Settings from './Tabs/Settings';
-import Initial from './Tabs/Initial/Initial';
+import Initial from './Tabs/Initial/index.js';
 
 function ChatLeftSidebar(props) {
   const activeTab = props.activeTab;

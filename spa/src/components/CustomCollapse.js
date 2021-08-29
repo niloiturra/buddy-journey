@@ -30,6 +30,7 @@ function CustomCollapse(props) {
                 }
               ></i>
             )}
+            {props.customIconToggle}
           </h5>
         </CardHeader>
       </Link>

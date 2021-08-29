@@ -1,40 +1,46 @@
 import axios from 'axios';
+import { getUserAccessToken } from '../helpers/authUtils';
 
-axios.defaults.headers.post['Content-Type'] = 'application/json';
+const configureClient = () => {
+  axios.defaults.headers.common = {
+    Authorization: 'Bearer ' + getUserAccessToken(),
+  };
 
-axios.interceptors.response.use(
-  (res) => {
-    return res.data ? res.data : res;
-  },
-  (err) => {
-    const { response } = err;
+  axios.defaults.headers.post['Content-Type'] = 'application/json';
 
-    let message;
-    switch (response.status) {
-      case 500:
-        message = 'Internal Server Error';
-        break;
-      case 400:
-        message = response.data.errors ? response.data.errors : 'Error';
-        break;
-      case 401:
-        message = 'Invalid credentials';
-        break;
-      case 404:
-        message = 'Sorry! the data you are looking for could not be found';
-        break;
-      default:
-        message = err.message || err;
+  axios.interceptors.response.use(
+    (res) => {
+      return res.data ? res.data : res;
+    },
+    (err) => {
+      const { response } = err;
+
+      let message;
+      switch (response.status) {
+        case 500:
+          message = 'Internal Server Error';
+          break;
+        case 400:
+          message = response.data.errors ? response.data.errors : 'Error';
+          break;
+        case 401:
+          message = 'Invalid credentials';
+          break;
+        case 404:
+          message = 'Sorry! the data you are looking for could not be found';
+          break;
+        default:
+          message = err.message || err;
+      }
+      return Promise.reject(message);
     }
-    return Promise.reject(message);
-  }
-);
-
-const setAuthorization = (token) => {
-  axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+  );
 };
-
 class APIClient {
+  constructor() {
+    configureClient();
+  }
+
   get = (url, params) => {
     return axios.get(url, params);
   };
@@ -43,13 +49,13 @@ class APIClient {
     return axios.post(url, data);
   };
 
-  update = (url, data) => {
-    return axios.patch(url, data);
+  put = (url, data) => {
+    return axios.put(url, data);
   };
 
   delete = (url) => {
-    return axios.put(url);
+    return axios.delete(url);
   };
 }
 
-export { APIClient, setAuthorization };
+export { APIClient };

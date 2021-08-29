@@ -8,5 +8,6 @@ namespace BuddyJourney.Profile.Api.Interfaces
     {
         Task<Models.Profile> GetByUserId(ObjectId userId);
         Task<Models.Profile> UpdateProfile(ProfileViewModel profileView, ObjectId userId);
+        Task<Models.Profile> UpdateProfileImage(string image, ObjectId userId);
     }
 }

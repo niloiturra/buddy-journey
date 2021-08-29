@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Azure.Storage.Blobs;
@@ -29,8 +30,21 @@ namespace BuddyJourney.Profile.Api.Services
 
             await using var stream = new MemoryStream(imageBytes);
             await blobClient.UploadAsync(stream);
-
+            
             return blobClient.Uri.AbsoluteUri;
+        }
+
+        public async Task DeleteImage(string uriFile)
+        {
+            var imageName = uriFile.Split('/').LastOrDefault();
+
+            if (string.IsNullOrEmpty(imageName))
+            {
+                return;
+            }
+
+            var blobClient = new BlobClient(_azureBlobStorageSettings.AccessKey, _azureBlobStorageSettings.ContainerName, imageName);
+            await blobClient.DeleteAsync();
         }
 
         private string GenerateFileName(string fileNameWithExtension)

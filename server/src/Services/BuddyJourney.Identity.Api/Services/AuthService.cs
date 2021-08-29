@@ -78,7 +78,7 @@ namespace BuddyJourney.Identity.Api.Services
                 claims.Add(new Claim("role", userRole));
             }
 
-            var identityClaims = new ClaimsIdentity();
+            var identityClaims = new ClaimsIdentity(claims, "Custom");
             identityClaims.AddClaims(claims);
 
             return identityClaims;
