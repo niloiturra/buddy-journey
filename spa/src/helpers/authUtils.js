@@ -27,7 +27,7 @@ const setLoggedInUser = (user) => {
 
 const getUserAccessToken = () => {
   const user = JSON.parse(localStorage.getItem('authUser'));
-  return user.accessToken ?? null;
+  return user ? user.accessToken : '';
 };
 
 const getLoggedInUser = () => {

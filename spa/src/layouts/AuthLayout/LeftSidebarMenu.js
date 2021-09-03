@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 
 import { setActiveTab } from '../../redux/actions';
 import logo from '../../assets/images/logo.svg';
-import avatar1 from '../../assets/images/users/avatar-1.jpg';
 
 function LeftSidebarMenu(props) {
   const toggleTab = (tab) => {
@@ -51,12 +50,7 @@ function LeftSidebarMenu(props) {
                   toggleTab('profile');
                 }}
               >
-                <img
-                  data-tut="profile"
-                  src={avatar1}
-                  alt=""
-                  className="profile-user rounded-circle"
-                />
+                <i className="ri-account-circle-line"></i>
               </NavLink>
             </NavItem>
             <UncontrolledTooltip target="profile" placement="top">
