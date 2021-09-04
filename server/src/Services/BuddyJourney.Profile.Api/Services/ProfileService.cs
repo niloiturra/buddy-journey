@@ -1,8 +1,7 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using BuddyJourney.Core.Data;
 using BuddyJourney.Profile.Api.Interfaces;
-using BuddyJourney.Profile.Api.Models.ViewModel;
+using BuddyJourney.Profile.Api.Models.Dto;
 using MongoDB.Bson;
 
 namespace BuddyJourney.Profile.Api.Services
@@ -21,7 +20,7 @@ namespace BuddyJourney.Profile.Api.Services
             return await _profileRepository.FindOneAsync(x => x.User.Id == userId);
         }
 
-        public async Task<Models.Profile> UpdateProfile(ProfileViewModel profileViewModel, ObjectId userId)
+        public async Task<Models.Profile> UpdateProfile(ProfileDto profileViewModel, ObjectId userId)
         {
             var profile = await _profileRepository.FindOneAsync(x => x.User.Id == userId);
             

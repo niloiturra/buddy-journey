@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using BuddyJourney.Profile.Api.Interfaces;
-using BuddyJourney.Profile.Api.Models.ViewModel;
+using BuddyJourney.Profile.Api.Models.Dto;
 using BuddyJourney.WebApi.Core.Controller;
 using BuddyJourney.WebApi.Core.Interfaces;
 using BuddyJourney.WebApi.Core.User;
@@ -43,14 +43,14 @@ namespace BuddyJourney.Profile.Api.Controller
         }
 
         [HttpPut]
-        public async Task<ActionResult> UpdateProfile([FromBody] ProfileViewModel profileViewModel)
+        public async Task<ActionResult> UpdateProfile([FromBody] ProfileDto profileDto)
         {
             if (!ModelState.IsValid)
             {
                 return CustomResponse(ModelState);
             }
 
-            var updatedProfile = await _profileService.UpdateProfile(profileViewModel, ObjectId.Parse(_user.GetUserId()));
+            var updatedProfile = await _profileService.UpdateProfile(profileDto, ObjectId.Parse(_user.GetUserId()));
 
             if (updatedProfile == null) return NoContent();
             
@@ -59,7 +59,7 @@ namespace BuddyJourney.Profile.Api.Controller
         }
 
         [HttpPut("image")]
-        public async Task<IActionResult> UpdateProfileImage([FromBody] UploadImageViewModel imageToUpload)
+        public async Task<IActionResult> UpdateProfileImage([FromBody] UploadImageDto imageToUpload)
         {
             if (!ModelState.IsValid)
             {

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BuddyJourney.Identity.Api.Model.ViewModel
+namespace BuddyJourney.Identity.Api.Model.Dto
 {
-    public class RecoverPasswordViewModel
+    public class RecoverPasswordDto
     {
         [Required(ErrorMessage = "O email é obrigatório")]
         public string EmailEncoded { get; set; }

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BuddyJourney.Profile.Api.Models.ViewModel
+namespace BuddyJourney.Profile.Api.Models.Dto
 {
-    public class UploadImageViewModel
+    public class UploadImageDto
     {
         [Required]
         public string ImageName { get; set; }

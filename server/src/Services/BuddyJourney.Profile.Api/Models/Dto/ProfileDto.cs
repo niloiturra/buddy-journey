@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace BuddyJourney.Profile.Api.Models.ViewModel
+namespace BuddyJourney.Profile.Api.Models.Dto
 {
-    public class ProfileViewModel
+    public class ProfileDto
     {
         [Required(ErrorMessage = "O campo nome é obrigatório")]
         [StringLength(200, ErrorMessage = "O campo senha precisa ter no máximo {1} caracteres")]

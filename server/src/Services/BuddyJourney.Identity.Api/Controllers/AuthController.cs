@@ -2,7 +2,7 @@
 using AspNetCore.Identity.Mongo.Model;
 using BuddyJourney.Identity.Api.Interfaces;
 using BuddyJourney.Identity.Api.Model;
-using BuddyJourney.Identity.Api.Model.ViewModel;
+using BuddyJourney.Identity.Api.Model.Dto;
 using BuddyJourney.WebApi.Core.Controller;
 using Microsoft.AspNetCore.Mvc;
 
@@ -76,7 +76,7 @@ namespace BuddyJourney.Identity.Api.Controllers
         }
         
         [HttpPost("forgot-password")]
-        public async Task<ActionResult> ForgotPassword([FromBody] ForgotPasswordViewModel model)
+        public async Task<ActionResult> ForgotPassword([FromBody] ForgotPasswordDto model)
         {
             if (!ModelState.IsValid)
             {
@@ -95,7 +95,7 @@ namespace BuddyJourney.Identity.Api.Controllers
         }
 
         [HttpPost("recover-password")]
-        public async Task<ActionResult> RecoverPassword([FromBody] RecoverPasswordViewModel model)
+        public async Task<ActionResult> RecoverPassword([FromBody] RecoverPasswordDto model)
         {
             if (!ModelState.IsValid)
             {

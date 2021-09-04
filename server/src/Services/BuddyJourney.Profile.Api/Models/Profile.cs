@@ -1,6 +1,5 @@
 ﻿using System;
 using BuddyJourney.Core.Data;
-using BuddyJourney.Core.DomainObjects;
 using BuddyJourney.Core.Utils;
 using FluentValidation;
 using FluentValidation.Results;

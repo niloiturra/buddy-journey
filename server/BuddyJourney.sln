@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuddyJourney.Core", "src\Bu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuddyJourney.MessageBus", "src\BuildingBlocks\Services\BuddyJourney.MessageBus\BuddyJourney.MessageBus.csproj", "{8961C6BE-9D5B-44F5-BAE6-D8C143D03F0E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuddyJourney.Groups.Api", "src\Services\BuddyJourney.Groups.Api\BuddyJourney.Groups.Api.csproj", "{4BDC2A6C-EBED-4783-B998-82D1A6102ADE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +93,18 @@ Global
 		{8961C6BE-9D5B-44F5-BAE6-D8C143D03F0E}.Release|x64.Build.0 = Release|Any CPU
 		{8961C6BE-9D5B-44F5-BAE6-D8C143D03F0E}.Release|x86.ActiveCfg = Release|Any CPU
 		{8961C6BE-9D5B-44F5-BAE6-D8C143D03F0E}.Release|x86.Build.0 = Release|Any CPU
+		{4BDC2A6C-EBED-4783-B998-82D1A6102ADE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BDC2A6C-EBED-4783-B998-82D1A6102ADE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BDC2A6C-EBED-4783-B998-82D1A6102ADE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4BDC2A6C-EBED-4783-B998-82D1A6102ADE}.Debug|x64.Build.0 = Debug|Any CPU
+		{4BDC2A6C-EBED-4783-B998-82D1A6102ADE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4BDC2A6C-EBED-4783-B998-82D1A6102ADE}.Debug|x86.Build.0 = Debug|Any CPU
+		{4BDC2A6C-EBED-4783-B998-82D1A6102ADE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BDC2A6C-EBED-4783-B998-82D1A6102ADE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BDC2A6C-EBED-4783-B998-82D1A6102ADE}.Release|x64.ActiveCfg = Release|Any CPU
+		{4BDC2A6C-EBED-4783-B998-82D1A6102ADE}.Release|x64.Build.0 = Release|Any CPU
+		{4BDC2A6C-EBED-4783-B998-82D1A6102ADE}.Release|x86.ActiveCfg = Release|Any CPU
+		{4BDC2A6C-EBED-4783-B998-82D1A6102ADE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -104,6 +118,7 @@ Global
 		{B97E7151-41B3-41E5-AB80-206D2A0B3105} = {94A07F99-B550-4637-8978-FFD86BF458B9}
 		{A498CFAA-19C7-4F9B-8A5D-B2DF0B554DD0} = {717C6E45-FA44-410E-87B0-CCB09E3FF14F}
 		{8961C6BE-9D5B-44F5-BAE6-D8C143D03F0E} = {717C6E45-FA44-410E-87B0-CCB09E3FF14F}
+		{4BDC2A6C-EBED-4783-B998-82D1A6102ADE} = {94A07F99-B550-4637-8978-FFD86BF458B9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C8E01F7C-408E-48C9-8FCF-9BB62DB1708D}
