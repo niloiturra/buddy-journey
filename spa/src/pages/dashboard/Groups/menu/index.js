@@ -18,7 +18,7 @@ import imageTourism from '../../../../assets/images/tourism/machu_picchu_tourism
 import imageSearch from '../../../../assets/images/tourism/search.jpg';
 import '../style.css';
 
-function GroupsMenu({ setSearchMode }) {
+function GroupsMenu({ setSearchMode, setCreateMode }) {
   return (
     <>
       <div className="div-container">
@@ -69,7 +69,7 @@ function GroupsMenu({ setSearchMode }) {
                       um novo grupo de turismo para um local definido. Comece a
                       organizar sua viagem com novas pessoas!
                     </CardText>
-                    <Button>Começar</Button>
+                    <Button onClick={setCreateMode}>Começar</Button>
                   </CardBody>
                 </Card>
               </Fade>
@@ -81,8 +81,8 @@ function GroupsMenu({ setSearchMode }) {
   );
 }
 
-const { setSearchMode } = Creators;
+const { setSearchMode, setCreateMode } = Creators;
 const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({ setSearchMode }, dispatch);
+  bindActionCreators({ setSearchMode, setCreateMode }, dispatch);
 
 export default connect(null, mapDispatchToProps)(GroupsMenu);
