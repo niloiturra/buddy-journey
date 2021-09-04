@@ -1,0 +1,22 @@
+.div-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.card-shadow {
+  box-shadow: 10px 12px 4px 0px rgb(0 0 0 / 35%);
+}
+
+.rowCustom {
+  justify-content: center;
+}
+
+.container-list {
+  height: 100vh;
+  overflow-y: scroll;
+}
+
+.p-8 {
+  padding: 3rem;
+}

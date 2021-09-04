@@ -5,6 +5,7 @@ import Profile from './profile/duck';
 import Chat from './chat/reducers';
 import Layout from './layout/reducer';
 import Tour from './tour/duck';
+import Groups from './groups/duck';
 import { reducer as ToastrReducer } from 'react-redux-toastr';
 
 export default combineReducers({
@@ -14,4 +15,5 @@ export default combineReducers({
   Layout,
   toastr: ToastrReducer,
   Tour,
+  Groups,
 });

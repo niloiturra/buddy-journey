@@ -5,7 +5,6 @@ import { TabContent, TabPane } from 'reactstrap';
 
 import Profile from './Tabs/Profile/index.js';
 import Chats from './Tabs/Chats';
-import Groups from './Tabs/Groups';
 import Contacts from './Tabs/Contacts';
 import Settings from './Tabs/Settings';
 import Initial from './Tabs/Initial/index.js';
@@ -27,10 +26,6 @@ function ChatLeftSidebar(props) {
 
           <TabPane tabId="chat" id="pills-chat">
             <Chats recentChatList={props.recentChatList} />
-          </TabPane>
-
-          <TabPane tabId="group" id="pills-groups">
-            <Groups />
           </TabPane>
 
           <TabPane tabId="contacts" id="pills-contacts">

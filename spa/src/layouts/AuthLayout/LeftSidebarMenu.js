@@ -2,7 +2,7 @@ import React from 'react';
 import { Nav, NavItem, NavLink, UncontrolledTooltip } from 'reactstrap';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
-
+import sideBarMenus from '../AuthLayout/sideBarMenus';
 import { setActiveTab } from '../../redux/actions';
 import logo from '../../assets/images/logo.svg';
 
@@ -25,9 +25,11 @@ function LeftSidebarMenu(props) {
             <NavItem id="home">
               <NavLink
                 id="pills-home-tab"
-                className={classnames({ active: activeTab === 'home' })}
+                className={classnames({
+                  active: activeTab === sideBarMenus.HOME,
+                })}
                 onClick={() => {
-                  toggleTab('home');
+                  toggleTab(sideBarMenus.HOME);
                 }}
               >
                 <img
@@ -38,16 +40,15 @@ function LeftSidebarMenu(props) {
                 />
               </NavLink>
             </NavItem>
-            <UncontrolledTooltip target="profile" placement="top">
-              Perfil
-            </UncontrolledTooltip>
 
             <NavItem id="profile">
               <NavLink
                 id="pills-user-tab"
-                className={classnames({ active: activeTab === 'profile' })}
+                className={classnames({
+                  active: activeTab === sideBarMenus.PROFILE,
+                })}
                 onClick={() => {
-                  toggleTab('profile');
+                  toggleTab(sideBarMenus.PROFILE);
                 }}
               >
                 <i className="ri-account-circle-line"></i>
@@ -57,12 +58,31 @@ function LeftSidebarMenu(props) {
               Perfil
             </UncontrolledTooltip>
 
+            <NavItem id="Groups">
+              <NavLink
+                id="pills-groups-tab"
+                className={classnames({
+                  active: activeTab === sideBarMenus.GROUP,
+                })}
+                onClick={() => {
+                  toggleTab(sideBarMenus.GROUP);
+                }}
+              >
+                <i className="ri-map-2-fill"></i>
+              </NavLink>
+            </NavItem>
+            <UncontrolledTooltip target="Groups" placement="top">
+              Groups
+            </UncontrolledTooltip>
+
             <NavItem id="Chats">
               <NavLink
                 id="pills-chat-tab"
-                className={classnames({ active: activeTab === 'chat' })}
+                className={classnames({
+                  active: activeTab === sideBarMenus.CHAT,
+                })}
                 onClick={() => {
-                  toggleTab('chat');
+                  toggleTab(sideBarMenus.CHAT);
                 }}
               >
                 <i className="ri-message-3-line"></i>
@@ -72,27 +92,14 @@ function LeftSidebarMenu(props) {
               Chats
             </UncontrolledTooltip>
 
-            <NavItem id="Groups">
-              <NavLink
-                id="pills-groups-tab"
-                className={classnames({ active: activeTab === 'group' })}
-                onClick={() => {
-                  toggleTab('group');
-                }}
-              >
-                <i className="ri-group-line"></i>
-              </NavLink>
-            </NavItem>
-            <UncontrolledTooltip target="Groups" placement="top">
-              Groups
-            </UncontrolledTooltip>
-
             <NavItem id="Contacts">
               <NavLink
                 id="pills-contacts-tab"
-                className={classnames({ active: activeTab === 'contacts' })}
+                className={classnames({
+                  active: activeTab === sideBarMenus.CONTACTS,
+                })}
                 onClick={() => {
-                  toggleTab('contacts');
+                  toggleTab(sideBarMenus.CONTACTS);
                 }}
               >
                 <i className="ri-contacts-line"></i>
@@ -122,9 +129,11 @@ function LeftSidebarMenu(props) {
             <NavItem id="logout">
               <NavLink
                 id="pills-contacts-tab"
-                className={classnames({ active: activeTab === 'logout' })}
+                className={classnames({
+                  active: activeTab === sideBarMenus.LOGOUT,
+                })}
                 onClick={() => {
-                  toggleTab('logout');
+                  toggleTab(sideBarMenus.LOGOUT);
                 }}
               >
                 <i className="ri-logout-circle-r-line"></i>
