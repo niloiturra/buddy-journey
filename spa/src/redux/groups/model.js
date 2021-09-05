@@ -7,5 +7,6 @@ export const INITIAL_STATE = {
     destination: '',
     travelDate: new Date(),
     numberMaxOfMembers: 10,
+    picture: '',
   },
 };

@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using BuddyJourney.Groups.Api.Interfaces;
 using BuddyJourney.Groups.Api.Models.Dto;
 using BuddyJourney.WebApi.Core.Controller;
+using BuddyJourney.WebApi.Core.Interfaces;
 using BuddyJourney.WebApi.Core.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,11 +17,13 @@ namespace BuddyJourney.Groups.Api.Controllers
     {
         private readonly IAspNetUser _user;
         private readonly IGroupsService _groupsService;
+        private readonly IBlobStorageService _blobStorageService;
 
-        public GroupsController(IAspNetUser user, IGroupsService groupsService)
+        public GroupsController(IGroupsService groupsService, IBlobStorageService blobStorageService, IAspNetUser user)
         {
-            _user = user;
             _groupsService = groupsService;
+            _blobStorageService = blobStorageService;
+            _user = user;
         }
         
         [HttpGet]
@@ -46,10 +50,16 @@ namespace BuddyJourney.Groups.Api.Controllers
                 return CustomResponse(ModelState);
             }
 
-            var result = await _groupsService.RegisterGroup(groupDto);
+            groupDto.Administrator.UserId = ObjectId.Parse(_user.GetUserId());
+            
+            var uriImage =
+                await _blobStorageService.UploadBase64Image(groupDto.Picture.ImageName, groupDto.Picture.ImageBase64);
+
+            var result = await _groupsService.RegisterGroup(groupDto, uriImage);
 
             if (result == null) return Ok();
             
+            result.ValidationResult.Errors.ToList().ForEach(e => AddProcessingError(e.ErrorMessage));
             AddProcessingError("Não foi possível criar um grupo");
             return CustomResponse();
         }

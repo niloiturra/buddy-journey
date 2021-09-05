@@ -4,6 +4,7 @@ using BuddyJourney.Profile.Api.Interfaces;
 using BuddyJourney.Profile.Api.Models.Dto;
 using BuddyJourney.WebApi.Core.Controller;
 using BuddyJourney.WebApi.Core.Interfaces;
+using BuddyJourney.WebApi.Core.Model.Dto;
 using BuddyJourney.WebApi.Core.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

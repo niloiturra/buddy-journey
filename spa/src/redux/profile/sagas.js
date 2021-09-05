@@ -57,10 +57,10 @@ export function* updateProfileImage({ name, base64, uriImage }) {
   }
 }
 
-function* authSaga() {
+function* profileSaga() {
   yield takeEvery(Types.FETCH_PROFILE, fetchProfile);
   yield takeEvery(Types.UPDATE_PROFILE, updateProfile);
   yield takeEvery(Types.UPDATE_PROFILE_IMAGE, updateProfileImage);
 }
 
-export default authSaga;
+export default profileSaga;

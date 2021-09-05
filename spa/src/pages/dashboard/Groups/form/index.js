@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Creators } from '../../../../redux/groups/duck';
 import * as Yup from 'yup';
 import {
   Container,
@@ -15,9 +18,51 @@ import {
   InputGroup,
   Fade,
 } from 'reactstrap';
+import { toBase64 } from '../../../../helpers/utils';
+import {
+  isExtensionValid,
+  isSizeValid,
+} from '../../../../helpers/imageValidators';
+import airplane_tourism from '../../../../assets/images/users/airplane_tourism.svg';
 import '../style.css';
 
-function GroupsForm({ props }) {
+function GroupsForm({ createGroup }) {
+  const [pictureName, setPictureName] = useState(null);
+  const [pictureBase64, setPictureBase64] = useState(null);
+  const [picture, setPicture] = useState(null);
+
+  const clickInputImageFile = () => {
+    document.getElementById('upload-file').click();
+  };
+
+  const handleImageInput = async (event) => {
+    const image = event.target.files[0];
+
+    if (!image) {
+      return;
+    }
+
+    if (!isExtensionValid(image)) {
+      alert(
+        'Por favor, insira uma extensão de arquivo válida! Arquivos suportados: jpeg, jpg e png'
+      );
+
+      return;
+    }
+
+    if (!isSizeValid(image)) {
+      alert('Por favor, insira um arquivo menor que 10mb');
+      return;
+    }
+
+    const name = image.name;
+    const base64 = await toBase64(image);
+
+    setPictureName(name);
+    setPictureBase64(base64);
+    setPicture(base64);
+  };
+
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -43,7 +88,10 @@ function GroupsForm({ props }) {
       ),
     }),
     onSubmit: (values) => {
-      console.log(values);
+      values.imageBase64 = pictureBase64;
+      values.imageName = pictureName;
+
+      createGroup(values);
     },
   });
 
@@ -106,6 +154,7 @@ function GroupsForm({ props }) {
                               <i className="ri-file-list-line"></i>
                             </span>
                             <Input
+                              autoComplete="off"
                               type="textarea"
                               id="description"
                               name="description"
@@ -140,6 +189,7 @@ function GroupsForm({ props }) {
                               <i className="ri-flight-takeoff-line"></i>
                             </span>
                             <Input
+                              autoComplete="off"
                               type="text"
                               id="destination"
                               name="destination"
@@ -237,6 +287,33 @@ function GroupsForm({ props }) {
                           />
                         )} */}
 
+                        <div className="text-center border-bottom p-4">
+                          <div
+                            className="mb-4 rectangle--portrait"
+                            style={{
+                              backgroundImage: `url("${
+                                picture || airplane_tourism
+                              }")`,
+                            }}
+                          >
+                            <Button
+                              type="button"
+                              color="light"
+                              className="avatar-xs p-0 rounded-circle icon-portrait"
+                              onClick={clickInputImageFile}
+                            >
+                              <i className="ri-camera-2-fill"></i>
+                            </Button>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              id="upload-file"
+                              onChange={handleImageInput}
+                              hidden
+                            />
+                          </div>
+                        </div>
+
                         <div className="d-grid">
                           <Button
                             color="primary"
@@ -260,4 +337,8 @@ function GroupsForm({ props }) {
   );
 }
 
-export default GroupsForm;
+const { createGroup } = Creators;
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ createGroup }, dispatch);
+
+export default connect(null, mapDispatchToProps)(GroupsForm);

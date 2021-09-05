@@ -21,6 +21,10 @@ import {
   parseToLocaleDateString,
   toBase64,
 } from '../../../../helpers/utils';
+import {
+  isExtensionValid,
+  isSizeValid,
+} from '../../../../helpers/imageValidators';
 
 function Profile({
   fetchProfile,
@@ -43,23 +47,6 @@ function Profile({
 
   const clickInputImageFile = () => {
     document.getElementById('upload-file').click();
-  };
-
-  const isExtensionValid = (file) => {
-    if (/\.(jpe?g|png|jpg)$/i.test(file.name) === false) {
-      return false;
-    }
-
-    return true;
-  };
-
-  const isSizeValid = (file) => {
-    const size = Math.round(file.size / 1024);
-    if (size >= 10240) {
-      return false;
-    }
-
-    return true;
   };
 
   const handleImageInput = async (event) => {

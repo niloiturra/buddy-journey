@@ -1,4 +1,4 @@
-const baseUrl = 'https://localhost:5001/api';
+const baseUrl = 'http://localhost:44357/api';
 
 export const authApi = {
   login: `${baseUrl}/identity/login`,

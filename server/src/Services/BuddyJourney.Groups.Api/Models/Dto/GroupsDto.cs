@@ -1,5 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using BuddyJourney.Core.Data.Dto;
+using BuddyJourney.WebApi.Core.Model.Dto;
 
 namespace BuddyJourney.Groups.Api.Models.Dto
 {
@@ -10,7 +12,8 @@ namespace BuddyJourney.Groups.Api.Models.Dto
         public string Name { get; set; }
 
         [Required(ErrorMessage = "O campo nome é obrigatório")]
-        [StringLength(500, ErrorMessage = "O campo descrição precisa ter entre {2} e {1} caracteres", MinimumLength = 10)]
+        [StringLength(500, ErrorMessage = "O campo descrição precisa ter entre {2} e {1} caracteres",
+            MinimumLength = 10)]
         public string Description { get; set; }
 
         [Required(ErrorMessage = "O campo nome é obrigatório")]
@@ -22,5 +25,13 @@ namespace BuddyJourney.Groups.Api.Models.Dto
 
         [Required(ErrorMessage = "O campo nome é obrigatório")]
         public int NumberMaxOfMembers { get; set; }
+        
+        [Required(ErrorMessage = "O perfil do usuário administrador é obrigatório")]
+        public UserProfileEmbedDto Administrator { get; set; }
+
+        [Required(ErrorMessage = "A imagem para o grupo é obrigatório")]
+        public UploadImageDto Picture { get; set; }
+
+        public string UriImage { get; set; }
     }
 }

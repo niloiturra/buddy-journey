@@ -20,11 +20,17 @@ namespace BuddyJourney.Groups.Api.Services
             return await _groupsRepository.FindOneAsync(x => x.Id == groupId);
         }
 
-        public async Task<Models.Groups> RegisterGroup(GroupsDto groupDto)
+        public async Task<Models.Groups> RegisterGroup(GroupsDto groupDto, string uriImage)
         {
+            groupDto.UriImage = uriImage;
             var group = new Models.Groups(groupDto);
-            await _groupsRepository.InsertOneAsync(group);
 
+            if (!group.IsValid())
+            {
+                return group;
+            }
+            
+            await _groupsRepository.InsertOneAsync(group);
             return null;
         }
     }

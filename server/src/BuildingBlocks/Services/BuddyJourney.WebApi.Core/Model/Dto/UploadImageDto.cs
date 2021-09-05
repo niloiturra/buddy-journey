@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BuddyJourney.Profile.Api.Models.Dto
+namespace BuddyJourney.WebApi.Core.Model.Dto
 {
     public class UploadImageDto
     {

@@ -5,6 +5,7 @@ using BuddyJourney.Profile.Api.Application.Events;
 using BuddyJourney.Profile.Api.Interfaces;
 using BuddyJourney.Profile.Api.Services;
 using BuddyJourney.WebApi.Core.Interfaces;
+using BuddyJourney.WebApi.Core.Services;
 using BuddyJourney.WebApi.Core.User;
 using FluentValidation.Results;
 using MediatR;

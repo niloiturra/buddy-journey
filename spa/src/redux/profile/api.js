@@ -1,4 +1,4 @@
-const baseUrl = 'https://localhost:5002/api';
+const baseUrl = 'http://localhost:44325/api';
 
 export const profileApi = {
   fetchProfile: () => `${baseUrl}/profile`,

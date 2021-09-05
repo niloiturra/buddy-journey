@@ -36,6 +36,7 @@ namespace BuddyJourney.Groups.Api
                 serviceProvider.GetRequiredService<IOptions<BuddyJourneyDatabaseSettings>>().Value);
 
             services.AddOptions();
+            services.Configure<AzureBlobStorageSettings>(Configuration.GetSection("AzureBlobStorageSettings"));
             
             services.AddApiConfiguration(Configuration);
 

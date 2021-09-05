@@ -8,7 +8,7 @@ using BuddyJourney.WebApi.Core.Interfaces;
 using BuddyJourney.WebApi.Core.Model;
 using Microsoft.Extensions.Options;
 
-namespace BuddyJourney.Profile.Api.Services
+namespace BuddyJourney.WebApi.Core.Services
 {
     public class BlobStorageService : IBlobStorageService
     {
