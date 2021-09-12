@@ -9,4 +9,5 @@ export const INITIAL_STATE = {
     numberMaxOfMembers: 10,
     picture: '',
   },
+  searchedGroups: [],
 };

@@ -29,7 +29,6 @@ namespace BuddyJourney.Groups.Api.Models.Dto
         [Required(ErrorMessage = "O perfil do usuário administrador é obrigatório")]
         public UserProfileEmbedDto Administrator { get; set; }
 
-        [Required(ErrorMessage = "A imagem para o grupo é obrigatório")]
         public UploadImageDto Picture { get; set; }
 
         public string UriImage { get; set; }

@@ -15,6 +15,14 @@ const createGroup = (state) => ({ ...state, loading: true });
 
 const createGroupSuccess = (state) => ({ ...state, loading: false });
 
+const searchGroup = (state) => ({ ...state, loading: true });
+
+const searchGroupSuccess = (state, { searchedGroups }) => ({
+  ...state,
+  loading: false,
+  searchedGroups,
+});
+
 const onFailure = (state, { errors }) => ({
   ...state,
   loading: false,
@@ -29,6 +37,8 @@ export const { Types, Creators } = createActions({
   setCreateMode: [],
   createGroup: ['group'],
   createGroupSuccess: ['group'],
+  searchGroup: ['term'],
+  searchGroupSuccess: ['searchedGroups'],
   onFailure: ['errors'],
 });
 
@@ -37,6 +47,8 @@ export const HANDLERS = {
   [Types.SET_CREATE_MODE]: setCreateMode,
   [Types.CREATE_GROUP]: createGroup,
   [Types.CREATE_GROUP_SUCCESS]: createGroupSuccess,
+  [Types.SEARCH_GROUP]: searchGroup,
+  [Types.SEARCH_GROUP_SUCCESS]: searchGroupSuccess,
   [Types.ON_FAILURE]: onFailure,
   [ReduxSauceTypes.DEFAULT]: defaultHandler,
 };

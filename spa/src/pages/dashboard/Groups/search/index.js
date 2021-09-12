@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Creators } from '../../../../redux/groups/duck';
 import {
   Button,
   Container,
@@ -12,7 +15,9 @@ import {
 import ListGroups from './list-groups';
 import '../style.css';
 
-function GroupsSearch() {
+function GroupsSearch({ searchedGroups, searchGroup }) {
+  const [searchTerm, setSearchTerm] = useState('');
+
   return (
     <>
       <Container className="container-list">
@@ -25,9 +30,16 @@ function GroupsSearch() {
           <Row className="mt-4">
             <Col xs={{ size: 8, offset: 2 }}>
               <InputGroup>
-                <Input placeholder="Informe um destino para a busca..." />
+                <Input
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  placeholder="Informe um destino para a busca..."
+                />
                 <InputGroupAddon addonType="append">
-                  <Button color="primary" className=" waves-effect waves-light">
+                  <Button
+                    color="primary"
+                    className=" waves-effect waves-light"
+                    onClick={() => searchGroup(searchTerm)}
+                  >
                     <i className="ri-search-2-line"></i>
                   </Button>
                 </InputGroupAddon>
@@ -43,4 +55,8 @@ function GroupsSearch() {
   );
 }
 
-export default GroupsSearch;
+const { searchGroup } = Creators;
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ searchGroup }, dispatch);
+
+export default connect(null, mapDispatchToProps)(GroupsSearch);

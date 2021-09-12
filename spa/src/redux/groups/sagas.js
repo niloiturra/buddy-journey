@@ -4,6 +4,7 @@ import { getErrorMessagesArray } from '../../helpers/errorsUtils';
 import { Creators, Types } from './duck';
 import { groupsApi } from './api';
 import { profileApi } from '../profile/api';
+import { toastr } from 'react-redux-toastr';
 
 export const getGroupsState = (state) => state.Groups;
 
@@ -16,7 +17,7 @@ export function* createGroup({ group }) {
 
     const createGroupModel = {
       name: group.name,
-      description: group.destination,
+      description: group.description,
       destination: group.destination,
       travelDate: group.travelDate,
       numberMaxOfMembers: group.numberMaxOfMembers,
@@ -39,15 +40,28 @@ export function* createGroup({ group }) {
 
     if (response) {
       yield put(Creators.createGroupSuccess());
+      toastr.success('Grupos', 'O Grupo foi criado com sucesso!');
     }
   } catch (error) {
-    console.error(error);
+    yield put(Creators.onFailure({ groups: getErrorMessagesArray(error) }));
+  }
+}
+
+export function* searchGroup({ term }) {
+  try {
+    const response = yield call(getRequest, groupsApi.search(term));
+
+    if (response) {
+      yield put(Creators.searchGroupSuccess(response));
+    }
+  } catch (error) {
     yield put(Creators.onFailure({ groups: getErrorMessagesArray(error) }));
   }
 }
 
 function* groupsSaga() {
   yield takeEvery(Types.CREATE_GROUP, createGroup);
+  yield takeEvery(Types.SEARCH_GROUP, searchGroup);
 }
 
 export default groupsSaga;

@@ -70,10 +70,6 @@ namespace BuddyJourney.Groups.Api.Models
                     .NotEmpty()
                     .WithMessage("Número máximo de membros é obrigatório");
 
-                RuleFor(c => c.Picture)
-                    .NotEmpty()
-                    .WithMessage("A imagem para o grupo é obrigatória");
-
                 RuleFor(c => c.Administrator)
                     .NotEmpty()
                     .WithMessage("O Administrador é obrigatório");
