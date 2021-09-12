@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using BuddyJourney.Core.Data;
+using BuddyJourney.Core.Data.Dto;
 using BuddyJourney.Groups.Api.Interfaces;
 using BuddyJourney.Groups.Api.Models.Dto;
 using MongoDB.Bson;
@@ -58,6 +59,21 @@ namespace BuddyJourney.Groups.Api.Services
             
             await _groupsRepository.InsertOneAsync(group);
             return null;
+        }
+
+        public async Task<Models.Groups> AssociateUser(string groupId, UserProfileEmbed user)
+        {
+            var group = await _groupsRepository.FindByIdAsync(groupId);
+
+            if (group.Members != null && group.Members.Any(x => x.UserId == user.UserId) || group.Administrator.UserId == user.UserId)
+            {
+                return null;
+            }
+            
+            group.AddMember(user);
+
+            await _groupsRepository.ReplaceOneAsync(group);
+            return group;
         }
     }
 }

@@ -5,7 +5,6 @@ using BuddyJourney.Core.Utils;
 using BuddyJourney.Groups.Api.Models.Dto;
 using FluentValidation;
 using FluentValidation.Results;
-using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace BuddyJourney.Groups.Api.Models
@@ -39,6 +38,16 @@ namespace BuddyJourney.Groups.Api.Models
                 UserId = groupsDto.Administrator.UserId
             };
             Picture = groupsDto.UriImage;
+            _members = new List<UserProfileEmbed>();
+        }
+
+        public void AddMember(UserProfileEmbed user)
+        {
+            if (user == null)
+            {
+                return;
+            }
+            _members.Add(user); 
         }
 
         public bool IsValid()
