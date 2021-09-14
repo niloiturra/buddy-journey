@@ -11,6 +11,7 @@ namespace BuddyJourney.Groups.Api.Interfaces
     {
         IEnumerable<GroupsInfoDto> GetBySearch(string searchTerm);
         Task<Models.Groups> GetById(ObjectId groupId);
+        IEnumerable<Api.Models.Groups> GetByUser(ObjectId userId);
         Task<Models.Groups> RegisterGroup(GroupsDto groupDto, string uriImage);
         Task<Models.Groups> AssociateUser(string groupId, UserProfileEmbed user);
     }

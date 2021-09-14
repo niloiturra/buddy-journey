@@ -31,11 +31,6 @@ namespace BuddyJourney.Groups.Api.Controllers
         [HttpGet("search")]
         public ActionResult GetBySearch([FromQuery] string term)
         {
-            if (string.IsNullOrWhiteSpace(term))
-            {
-                return BadRequest();
-            }
-
             var groups = _groupsService.GetBySearch(term);
 
             if (groups == null) return NoContent();
@@ -56,6 +51,17 @@ namespace BuddyJourney.Groups.Api.Controllers
             if (group != null) return Ok(group);
 
             AddProcessingError("Não foi possível encontrar um grupo com esse Id");
+            return CustomResponse();
+        }
+        
+        [HttpGet("user")]
+        public ActionResult GetByUser()
+        {
+            var groups = _groupsService.GetByUser(ObjectId.Parse(_user.GetUserId()));
+
+            if (groups != null) return Ok(groups);
+
+            AddProcessingError("Não foi possível encontrar nenhum grupo com esse usuário");
             return CustomResponse();
         }
 
