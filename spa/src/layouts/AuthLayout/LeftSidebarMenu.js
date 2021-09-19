@@ -79,10 +79,10 @@ function LeftSidebarMenu(props) {
               <NavLink
                 id="pills-chat-tab"
                 className={classnames({
-                  active: activeTab === sideBarMenus.CHAT,
+                  active: activeTab === sideBarMenus.CHATS,
                 })}
                 onClick={() => {
-                  toggleTab(sideBarMenus.CHAT);
+                  toggleTab(sideBarMenus.CHATS);
                 }}
               >
                 <i className="ri-message-3-line"></i>
@@ -90,23 +90,6 @@ function LeftSidebarMenu(props) {
             </NavItem>
             <UncontrolledTooltip target="Chats" placement="top">
               Chats
-            </UncontrolledTooltip>
-
-            <NavItem id="Contacts">
-              <NavLink
-                id="pills-contacts-tab"
-                className={classnames({
-                  active: activeTab === sideBarMenus.CONTACTS,
-                })}
-                onClick={() => {
-                  toggleTab(sideBarMenus.CONTACTS);
-                }}
-              >
-                <i className="ri-contacts-line"></i>
-              </NavLink>
-            </NavItem>
-            <UncontrolledTooltip target="Contacts" placement="top">
-              Contacts
             </UncontrolledTooltip>
           </Nav>
         </div>

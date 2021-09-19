@@ -18,6 +18,7 @@ namespace BuddyJourney.Core.Data
             Expression<Func<TDocument, TProjected>> projectionExpression);
 
         TDocument FindOne(Expression<Func<TDocument, bool>> filterExpression);
+        IEnumerable<TDocument> FindAll();
 
         Task<TDocument> FindOneAsync(Expression<Func<TDocument, bool>> filterExpression);
 

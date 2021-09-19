@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Creators } from '../../../../redux/groups/duck';
 import {
   Card,
   CardImg,
@@ -15,7 +17,7 @@ import {
 import imageTourism from '../../../../assets/images/tourism/machu_picchu_tourism.jpg';
 import '../style.css';
 
-function ListGroups({ searchedGroups }) {
+function ListGroups({ searchedGroups, associateUser }) {
   return (
     <Container>
       <Fade>
@@ -35,7 +37,18 @@ function ListGroups({ searchedGroups }) {
                     <CardBody>
                       <CardTitle tag="h5">{group.name}</CardTitle>
                       <CardText>{group.description}</CardText>
-                      <Button className="mt-4">Ingressar</Button>
+                      {!group.userIncluded ? (
+                        <Button
+                          className="mt-4"
+                          onClick={associateUser(group.id)}
+                        >
+                          Ingressar
+                        </Button>
+                      ) : (
+                        <Button className="mt-4" disabled>
+                          Já ingressou
+                        </Button>
+                      )}
                     </CardBody>
                   </Card>
                 </Col>
@@ -70,8 +83,8 @@ const mapStateToProps = (state) => {
   return { searchedGroups };
 };
 
-// const { forgotPassword } = Creators;
-// const mapDispatchToProps = (dispatch) =>
-//   bindActionCreators({ forgotPassword }, dispatch);
+const { associateUser } = Creators;
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ associateUser }, dispatch);
 
-export default connect(mapStateToProps, null)(ListGroups);
+export default connect(mapStateToProps, mapDispatchToProps)(ListGroups);

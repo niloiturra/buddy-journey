@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+      <UserSecretsId>81afcf04-9421-4d8a-aeee-96d71e85bedd</UserSecretsId>
+  </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\BuildingBlocks\Services\BuddyJourney.Core\BuddyJourney.Core.csproj" />
+      <ProjectReference Include="..\..\BuildingBlocks\Services\BuddyJourney.WebApi.Core\BuddyJourney.WebApi.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    </ItemGroup>
+
+</Project>

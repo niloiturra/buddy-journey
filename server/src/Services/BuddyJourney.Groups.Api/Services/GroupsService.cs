@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using BuddyJourney.Core.Data;
+using BuddyJourney.Core.Data.Dto;
 using BuddyJourney.Groups.Api.Interfaces;
 using BuddyJourney.Groups.Api.Models.Dto;
 using MongoDB.Bson;
@@ -17,12 +18,12 @@ namespace BuddyJourney.Groups.Api.Services
             _groupsRepository = groupsRepository;
         }
 
-        public IEnumerable<GroupsInfoDto> GetBySearch(string searchTerm)
+        public IEnumerable<GroupsInfoDto> GetBySearch(string searchTerm, ObjectId userId)
         {
             IEnumerable<Models.Groups> groups;
             if (string.IsNullOrWhiteSpace(searchTerm))
             {
-                groups = _groupsRepository.AsQueryable();
+                groups = _groupsRepository.FindAll();
             }
             else
             {
@@ -30,10 +31,10 @@ namespace BuddyJourney.Groups.Api.Services
                 groups = _groupsRepository.FilterBy(x =>
                     x.Description.ToLower().Contains(searchTermLower) ||
                     x.Destination.ToLower().Contains(searchTermLower) ||
-                    x.Name.ToLower().Contains(searchTermLower));
+                    x.Name.ToLower().Contains(searchTermLower)).ToList();
             }
 
-            if (groups == null || !groups.Any())
+            if (!groups.Any())
             {
                 return null;
             }
@@ -46,7 +47,8 @@ namespace BuddyJourney.Groups.Api.Services
                 Picture = g.Picture,
                 Name = g.Name,
                 CreatedBy = g.Administrator.Name,
-                TravelDate = g.TravelDate
+                TravelDate = g.TravelDate,
+                UserIncluded = IsUserAlreadyIncluded(g, userId)
             });
         }
 
@@ -55,11 +57,45 @@ namespace BuddyJourney.Groups.Api.Services
             return await _groupsRepository.FindOneAsync(x => x.Id == groupId);
         }
 
-        public IEnumerable<Models.Groups> GetByUser(ObjectId userId)
+        public IEnumerable<string> GetNamesByUserForConnection(ObjectId userId)
         {
-            return _groupsRepository.FilterBy(x =>
+            var groups = _groupsRepository.FilterBy(x =>
                 x.Administrator.UserId == userId ||
                 x.Members.Any(y => y.UserId == userId));
+            
+            return groups.Select(g => g.Id.ToString());
+        }
+
+        public IEnumerable<GroupsInfoDto> GetByUser(ObjectId userId)
+        {
+            var groups = _groupsRepository.FilterBy(x =>
+                x.Administrator.UserId == userId ||
+                x.Members.Any(y => y.UserId == userId));
+            
+            return groups.Select(g => new GroupsInfoDto
+            {
+                Id = g.Id.ToString(),
+                Description = g.Description,
+                Destination = g.Destination,
+                Picture = g.Picture,
+                Name = g.Name,
+                CreatedBy = g.Administrator.Name,
+                TravelDate = g.TravelDate,
+                Administrator = new UserProfileEmbedDto
+                {
+                    Email = g.Administrator.Email,
+                    Name = g.Administrator.Name,
+                    Picture = g.Administrator.Picture,
+                    UserId = g.Administrator.UserId
+                },
+                Members = g.Members.Select(x => new UserProfileEmbedDto
+                {
+                    Email = x.Email,
+                    Name = x.Name,
+                    Picture = x.Picture,
+                    UserId = x.UserId
+                }).ToList()
+            });
         }
 
         public async Task<Models.Groups> RegisterGroup(GroupsDto groupDto, string uriImage)
@@ -90,6 +126,11 @@ namespace BuddyJourney.Groups.Api.Services
 
             await _groupsRepository.ReplaceOneAsync(group);
             return group;
+        }
+
+        private static bool IsUserAlreadyIncluded(Models.Groups group, ObjectId userId)
+        {
+            return group.Administrator.UserId == userId || group.Members != null && group.Members.Any(m => m.UserId == userId);
         }
     }
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ChatLeftSidebar from './ChatLeftSidebar';
-import UserChat from './UserChat/';
+import ChatGroup from './ChatGroup';
 import Groups from './Groups/';
 import sideBarMenus from '../../layouts/AuthLayout/sideBarMenus';
 import { connect } from 'react-redux';
@@ -11,8 +11,8 @@ function Index({ users, activeTab }) {
     <>
       {activeTab !== sideBarMenus.GROUP && (
         <>
-          <ChatLeftSidebar recentChatList={users} />
-          <UserChat recentChatList={users} />
+          <ChatLeftSidebar />
+          <ChatGroup />
         </>
       )}
 
@@ -22,7 +22,7 @@ function Index({ users, activeTab }) {
 }
 
 const mapStateToProps = (state) => {
-  const { users } = state.Chat;
+  const users = [];
   const { activeTab } = state.Layout;
   return { users, activeTab };
 };

@@ -25,6 +25,7 @@ import {
   isExtensionValid,
   isSizeValid,
 } from '../../../../helpers/imageValidators';
+import sideBarMenus from '../../../../layouts/AuthLayout/sideBarMenus';
 
 function Profile({
   fetchProfile,
@@ -40,7 +41,7 @@ function Profile({
   touched,
 }) {
   useEffect(() => {
-    if (activeTab === 'profile') {
+    if (activeTab === sideBarMenus.PROFILE) {
       fetchProfile();
     }
   }, [fetchProfile, activeTab]);

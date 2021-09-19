@@ -9,7 +9,6 @@ import {
 const INIT_STATE = {
 	activeTab : "home",
 	userSidebar : false,
-	conversationName : "Doris Brown"
 };
 
 const Layout = (state = INIT_STATE, action) => {

@@ -33,7 +33,7 @@ namespace BuddyJourney.Core.Data
     {
         return _collection.AsQueryable();
     }
-
+    
     public virtual IEnumerable<TDocument> FilterBy(
         Expression<Func<TDocument, bool>> filterExpression)
     {
@@ -46,7 +46,12 @@ namespace BuddyJourney.Core.Data
     {
         return _collection.Find(filterExpression).Project(projectionExpression).ToEnumerable();
     }
-
+    
+    public virtual IEnumerable<TDocument> FindAll()
+    {
+        return _collection.Find(x => true).ToList();
+    }
+    
     public virtual TDocument FindOne(Expression<Func<TDocument, bool>> filterExpression)
     {
         return _collection.Find(filterExpression).FirstOrDefault();
@@ -73,7 +78,6 @@ namespace BuddyJourney.Core.Data
             return _collection.Find(filter).SingleOrDefaultAsync();
         });
     }
-
 
     public virtual void InsertOne(TDocument document)
     {

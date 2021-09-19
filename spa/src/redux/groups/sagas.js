@@ -40,7 +40,6 @@ export function* createGroup({ group }) {
 
     if (response) {
       yield put(Creators.createGroupSuccess());
-      toastr.success('Grupos', 'O Grupo foi criado com sucesso!');
     }
   } catch (error) {
     yield put(Creators.onFailure({ groups: getErrorMessagesArray(error) }));
@@ -59,9 +58,35 @@ export function* searchGroup({ term }) {
   }
 }
 
+export function* associateUser({ groupId }) {
+  try {
+    const profile = yield call(getRequest, profileApi.fetchProfile());
+
+    const associateUserModel = {
+      name: profile.name,
+      email: profile.user.email,
+      picture: profile.picture,
+    };
+
+    const response = yield call(
+      postRequest,
+      groupsApi.associateUser(groupId),
+      associateUserModel
+    );
+
+    if (response) {
+      yield put(Creators.associateUserSuccess());
+      yield searchGroup('');
+    }
+  } catch (error) {
+    yield put(Creators.onFailure({ groups: getErrorMessagesArray(error) }));
+  }
+}
+
 function* groupsSaga() {
   yield takeEvery(Types.CREATE_GROUP, createGroup);
   yield takeEvery(Types.SEARCH_GROUP, searchGroup);
+  yield takeEvery(Types.ASSOCIATE_USER, associateUser);
 }
 
 export default groupsSaga;

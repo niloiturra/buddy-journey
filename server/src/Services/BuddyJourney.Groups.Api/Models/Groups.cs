@@ -19,8 +19,7 @@ namespace BuddyJourney.Groups.Api.Models
         public int NumberMaxOfMembers { get; private set; }
         public string Picture { get; private set; }
         public UserProfileEmbed Administrator { get; private set; }
-        private List<UserProfileEmbed> _members;
-        public IReadOnlyCollection<UserProfileEmbed> Members => _members.AsReadOnly();
+        public List<UserProfileEmbed> Members { get; private set; }
         [BsonIgnore] public ValidationResult ValidationResult { get; set; }
 
         public Groups(GroupsDto groupsDto)
@@ -38,7 +37,7 @@ namespace BuddyJourney.Groups.Api.Models
                 UserId = groupsDto.Administrator.UserId
             };
             Picture = groupsDto.UriImage;
-            _members = new List<UserProfileEmbed>();
+            Members = new List<UserProfileEmbed>();
         }
 
         public void AddMember(UserProfileEmbed user)
@@ -47,7 +46,9 @@ namespace BuddyJourney.Groups.Api.Models
             {
                 return;
             }
-            _members.Add(user); 
+
+            Members ??= new List<UserProfileEmbed>();
+            Members.Add(user);
         }
 
         public bool IsValid()

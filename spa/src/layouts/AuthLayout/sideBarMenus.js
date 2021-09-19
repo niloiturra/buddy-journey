@@ -2,7 +2,7 @@ const sideBarMenus = {
   HOME: 'home',
   PROFILE: 'profile',
   GROUP: 'group',
-  CHAT: 'chat',
+  CHATS: 'chats',
   CONTACTS: 'contacts',
   LOGOUT: 'logout',
 };
