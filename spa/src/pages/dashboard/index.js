@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import ChatLeftSidebar from './ChatLeftSidebar';
 import ChatGroup from './ChatGroup';
@@ -6,13 +6,15 @@ import Groups from './Groups/';
 import sideBarMenus from '../../layouts/AuthLayout/sideBarMenus';
 import { connect } from 'react-redux';
 
-function Index({ users, activeTab }) {
+function Index({ activeTab }) {
+  const [group, setGroup] = useState(null);
+
   return (
     <>
       {activeTab !== sideBarMenus.GROUP && (
         <>
-          <ChatLeftSidebar />
-          <ChatGroup />
+          <ChatLeftSidebar handleClick={(value) => setGroup(value)} />
+          <ChatGroup group={group} />
         </>
       )}
 
@@ -22,9 +24,8 @@ function Index({ users, activeTab }) {
 }
 
 const mapStateToProps = (state) => {
-  const users = [];
   const { activeTab } = state.Layout;
-  return { users, activeTab };
+  return { activeTab };
 };
 
-export default connect(mapStateToProps, {})(Index);
+export default connect(mapStateToProps, null)(Index);

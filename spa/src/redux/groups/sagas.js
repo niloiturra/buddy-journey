@@ -1,4 +1,4 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { APIClient } from '../../helpers/apiClient';
 import { getErrorMessagesArray } from '../../helpers/errorsUtils';
 import { Creators, Types } from './duck';
@@ -84,9 +84,9 @@ export function* associateUser({ groupId }) {
 }
 
 function* groupsSaga() {
-  yield takeEvery(Types.CREATE_GROUP, createGroup);
-  yield takeEvery(Types.SEARCH_GROUP, searchGroup);
-  yield takeEvery(Types.ASSOCIATE_USER, associateUser);
+  yield takeLatest(Types.CREATE_GROUP, createGroup);
+  yield takeLatest(Types.SEARCH_GROUP, searchGroup);
+  yield takeLatest(Types.ASSOCIATE_USER, associateUser);
 }
 
 export default groupsSaga;

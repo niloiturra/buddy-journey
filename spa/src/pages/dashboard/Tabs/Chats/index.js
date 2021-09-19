@@ -7,12 +7,12 @@ import sideBarMenus from '../../../../layouts/AuthLayout/sideBarMenus';
 import { Link } from 'react-router-dom';
 import airplane_tourism from '../../../../assets/images/users/airplane_tourism.svg';
 
-function Chats({ groups, activeTab, getGroupsByUser }) {
+function Chats({ groups, activeTab, getGroupsByUser, handleClick }) {
   useEffect(() => {
     if (activeTab === sideBarMenus.CHATS) {
       getGroupsByUser();
     }
-  }, [getGroupsByUser, activeTab]);
+  }, [activeTab, getGroupsByUser]);
 
   return (
     <>
@@ -33,7 +33,7 @@ function Chats({ groups, activeTab, getGroupsByUser }) {
             >
               {groups.map((chatGroup, key) => (
                 <li key={key} id={'conversation-group' + key}>
-                  <Link to="#" onClick={(e) => {}}>
+                  <Link to="#" onClick={() => handleClick(chatGroup)}>
                     <div className="d-flex">
                       <div
                         className={'chat-user-img align-self-center me-3 ms-0'}

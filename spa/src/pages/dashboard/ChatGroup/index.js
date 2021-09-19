@@ -19,7 +19,7 @@ import { withRouter } from 'react-router-dom';
 //Import Components
 import UserProfileSidebar from '../../../components/UserProfileSidebar';
 import SelectContact from '../../../components/SelectContact';
-import UserHead from './UserHead';
+import GroupHeader from './GroupHeader';
 import ImageList from './ImageList';
 import ChatInput from './ChatInput';
 import FileList from './FileList';
@@ -27,73 +27,57 @@ import FileList from './FileList';
 //Import Images
 import avatar4 from '../../../assets/images/users/avatar-4.jpg';
 import avatar1 from '../../../assets/images/users/avatar-1.jpg';
+import { groupsApi } from '../../../redux/chats/api';
 
-function ChatGroup({ onConnect }) {
-  const [connection, setConnection] = useState(null);
-  const [chat, setChat] = useState([]);
-  const latestChat = useRef(null);
-
+function ChatGroup({
+  onConnect,
+  connection,
+  receiveMessage,
+  messagesFromGroup,
+  group,
+  userSidebar,
+  groupMessages,
+}) {
   useEffect(() => {
     onConnect();
   }, [onConnect]);
 
   useEffect(() => {
-    if (connection) {
-      connection
-        .start()
-        .then((result) => {
-          console.log('Connected!');
-
-          connection.on('ReceiveMessage', (message) => {
-            console.log('Recebendo mensagens');
-            const updatedChat = [...latestChat.current];
-            updatedChat.push(message);
-
-            setChat(updatedChat);
-          });
-        })
-        .catch((e) => console.log('Connection failed: ', e));
-    }
-  }, [connection]);
-
-  const sendMessage = async (user, message) => {
-    const chatMessage = {
-      user: user,
-      message: message,
-    };
-
-    try {
-      await fetch('https://localhost:5001/chat/messages', {
-        method: 'POST',
-        body: JSON.stringify(chatMessage),
-        headers: {
-          'Content-Type': 'application/json',
-        },
+    if (connection.on) {
+      connection.on('ReceiveMessage', (message) => {
+        receiveMessage(message);
       });
-    } catch (e) {
-      console.log('Sending message failed.', e);
     }
-  };
+  }, [connection, receiveMessage]);
+
+  useEffect(() => {
+    if (group) {
+      messagesFromGroup(group);
+    }
+  }, [group]);
+
+  // const sendMessage = async (user, message) => {
+  //   const chatMessage = {
+  //     user: user,
+  //     message: message,
+  //   };
+
+  //   try {
+  //     await fetch('https://localhost:5001/chat/messages', {
+  //       method: 'POST',
+  //       body: JSON.stringify(chatMessage),
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //     });
+  //   } catch (e) {
+  //     console.log('Sending message failed.', e);
+  //   }
+  // };
 
   const ref = useRef();
 
   const [modal, setModal] = useState(false);
-
-  //demo conversation messages
-  //userType must be required
-  //   const [allUsers] = useState(props.recentChatList);
-  //   const [chatMessages, setchatMessages] = useState(
-  //     props.recentChatList[props.active_user].messages
-  //   );
-
-  //   useEffect(() => {
-  //     setchatMessages(props.recentChatList[props.active_user].messages);
-  //     ref.current.recalculate();
-  //     if (ref.current.el) {
-  //       ref.current.getScrollElement().scrollTop =
-  //         ref.current.getScrollElement().scrollHeight;
-  //     }
-  //   }, [props.active_user, props.recentChatList]);
 
   const toggle = () => setModal(!modal);
 
@@ -177,20 +161,75 @@ function ChatGroup({ onConnect }) {
     // setchatMessages(filtered);
   };
 
+  const getTimeForChat = (date) => {
+    const dateTime = new Date(date);
+    return `${dateTime.getHours()}:${dateTime.getMinutes()}`;
+  };
+
   return (
     <React.Fragment>
-      <div>OI</div>
+      <div className="user-chat w-100">
+        <div className="d-lg-flex">
+          <div className={userSidebar ? 'w-70' : 'w-100'}>
+            <GroupHeader />
+
+            <SimpleBar
+              style={{ maxHeight: '100%' }}
+              ref={ref}
+              className="chat-conversation p-3 p-lg-4"
+              id="messages"
+            >
+              <ul className="list-unstyled mb-0">
+                {groupMessages.map((chat, key) => (
+                  <li key={key} className={chat.isMine ? 'right' : ''}>
+                    <div className="conversation-list">
+                      <div className="chat-avatar">
+                        <img src={chat.user.picture} alt="chatvia" />
+                      </div>
+
+                      <div className="user-chat-content">
+                        <div className="ctext-wrap">
+                          <div className="ctext-wrap-content">
+                            {chat.message && (
+                              <p className="mb-0">{chat.message}</p>
+                            )}
+                            <p className="chat-time mb-0">
+                              <i className="ri-time-line align-middle"></i>{' '}
+                              <span className="align-middle">
+                                {getTimeForChat(chat.createdAt)}
+                              </span>
+                            </p>
+                          </div>
+                        </div>
+                        <div className="conversation-name">
+                          {chat.user.name}
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </SimpleBar>
+
+            <ChatInput onaddMessage={addMessage} />
+          </div>
+        </div>
+      </div>
     </React.Fragment>
   );
 }
 
 const mapStateToProps = (state) => {
   const { userSidebar } = state.Layout;
-  return { userSidebar };
+  const { connection, groupMessages } = state.ChatGroups;
+  return { userSidebar, connection, groupMessages };
 };
 
-const { onConnect } = Creators;
+const { onConnect, receiveMessage, messagesFromGroup } = Creators;
 const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({ onConnect }, dispatch);
+  bindActionCreators(
+    { onConnect, receiveMessage, messagesFromGroup },
+    dispatch
+  );
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChatGroup);

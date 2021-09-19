@@ -3,7 +3,7 @@ import authSagas from './auth/sagas';
 import profileSagas from './profile/sagas';
 import groupsSaga from './groups/sagas';
 import chatsSaga from './chats/sagas';
-import chatGroups from './chatGroups/sagas';
+import chatGroupsSagas from './chatGroups/sagas';
 
 export default function* rootSaga(getState) {
   yield all([
@@ -11,6 +11,6 @@ export default function* rootSaga(getState) {
     profileSagas(),
     groupsSaga(),
     chatsSaga(),
-    chatGroups(),
+    chatGroupsSagas(),
   ]);
 }

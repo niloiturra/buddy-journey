@@ -6,5 +6,6 @@ namespace BuddyJourney.ChatGroup.API.Hubs.Clients
     public interface IChatClient
     {
         Task ReceiveMessage(ChatMessage message);
+        Task NewMemberArrives(ChatMessage message);
     }
 }

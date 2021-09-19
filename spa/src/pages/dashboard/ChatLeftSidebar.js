@@ -1,16 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
 import { TabContent, TabPane } from 'reactstrap';
-
 import Profile from './Tabs/Profile/index.js';
 import Chats from './Tabs/Chats/index.js';
-import Settings from './Tabs/Settings';
 import Initial from './Tabs/Initial/index.js';
 
-function ChatLeftSidebar(props) {
-  const activeTab = props.activeTab;
-
+function ChatLeftSidebar({ activeTab, handleClick }) {
   return (
     <>
       <div className="chat-leftsidebar me-lg-1">
@@ -24,11 +19,7 @@ function ChatLeftSidebar(props) {
           </TabPane>
 
           <TabPane tabId="chats" id="pills-chat">
-            <Chats recentChatList={props.recentChatList} />
-          </TabPane>
-
-          <TabPane tabId="settings" id="pills-setting">
-            <Settings />
+            <Chats handleClick={handleClick} />
           </TabPane>
         </TabContent>
       </div>
@@ -36,10 +27,9 @@ function ChatLeftSidebar(props) {
   );
 }
 
-const mapStatetoProps = (state) => {
-  return {
-    ...state.Layout,
-  };
+const mapStateToProps = (state) => {
+  const { activeTab } = state.Layout;
+  return { activeTab };
 };
 
-export default connect(mapStatetoProps, null)(ChatLeftSidebar);
+export default connect(mapStateToProps, null)(ChatLeftSidebar);

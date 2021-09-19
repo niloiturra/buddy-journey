@@ -1,4 +1,4 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { APIClient } from '../../helpers/apiClient';
 import { getErrorMessagesArray } from '../../helpers/errorsUtils';
 import { Creators, Types } from './duck';
@@ -20,7 +20,6 @@ export function* onConnect() {
 
     yield connection.start();
     yield put(Creators.onConnectSuccess(connection));
-    yield handleConnection(connection);
     yield connectToAllGroups(connection);
   } catch (error) {
     yield put(Creators.onFailure({ chatGroups: getErrorMessagesArray(error) }));
@@ -54,14 +53,24 @@ export function* joinToGroup(groupName, connection) {
   }
 }
 
-function handleConnection(connection) {
-  connection.on('ReceiveMessage', (message) => {
-    console.log('Recebido: ', message);
-  });
+export function* messagesFromGroup({ group }) {
+  try {
+    const response = yield call(
+      getRequest,
+      chatGroupsApi.messagesFromGroup(group.id)
+    );
+
+    if (response) {
+      yield put(Creators.messagesFromGroupSuccess(response, group));
+    }
+  } catch (error) {
+    yield put(Creators.onFailure({ chatGroups: getErrorMessagesArray(error) }));
+  }
 }
 
 function* chatGroupsSagas() {
-  yield takeEvery(Types.ON_CONNECT, onConnect);
+  yield takeLatest(Types.ON_CONNECT, onConnect);
+  yield takeLatest(Types.MESSAGES_FROM_GROUP, messagesFromGroup);
 }
 
 export default chatGroupsSagas;

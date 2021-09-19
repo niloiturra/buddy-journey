@@ -44,7 +44,7 @@ function Profile({
     if (activeTab === sideBarMenus.PROFILE) {
       fetchProfile();
     }
-  }, [fetchProfile, activeTab]);
+  }, [fetchProfile]);
 
   const clickInputImageFile = () => {
     document.getElementById('upload-file').click();

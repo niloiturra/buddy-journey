@@ -1,11 +1,9 @@
 import {
   createActions,
   createReducer,
-  Types as ReduxSauceTypes,
 } from 'reduxsauce';
 import { INITIAL_STATE } from './model';
 
-const defaultHandler = () => ({ ...INITIAL_STATE });
 
 const login = (state) => ({ ...state, loading: true });
 
@@ -78,7 +76,6 @@ export const HANDLERS = {
   [Types.RECOVER_PASSWORD_SUCCESS]: recoverPasswordSuccess,
   [Types.LOGOUT]: logout,
   [Types.ON_FAILURE]: onFailure,
-  [ReduxSauceTypes.DEFAULT]: defaultHandler,
 };
 
 export default createReducer(INITIAL_STATE, HANDLERS);

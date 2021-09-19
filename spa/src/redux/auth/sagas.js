@@ -1,4 +1,4 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { APIClient } from '../../helpers/apiClient';
 import { getErrorMessagesArray } from '../../helpers/errorsUtils';
 import { Creators, Types } from './duck';
@@ -84,11 +84,11 @@ function* recoverPassword({ passwords }) {
 }
 
 function* authSaga() {
-  yield takeEvery(Types.LOGIN, login);
-  yield takeEvery(Types.LOGOUT, logout);
-  yield takeEvery(Types.REGISTER, register);
-  yield takeEvery(Types.FORGOT_PASSWORD, forgotPassword);
-  yield takeEvery(Types.RECOVER_PASSWORD, recoverPassword);
+  yield takeLatest(Types.LOGIN, login);
+  yield takeLatest(Types.LOGOUT, logout);
+  yield takeLatest(Types.REGISTER, register);
+  yield takeLatest(Types.FORGOT_PASSWORD, forgotPassword);
+  yield takeLatest(Types.RECOVER_PASSWORD, recoverPassword);
 }
 
 export default authSaga;

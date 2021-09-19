@@ -1,13 +1,8 @@
 import {
   createActions,
   createReducer,
-  Types as ReduxSauceTypes,
 } from 'reduxsauce';
 import { INITIAL_STATE } from './model';
-
-const defaultHandler = () => ({ ...INITIAL_STATE });
-
-const getGroupsByUser = (state) => ({ ...state, loading: true });
 
 const getGroupsByUserSuccess = (state, { groups }) => ({
   ...state,
@@ -31,10 +26,8 @@ export const { Types, Creators } = createActions({
 });
 
 export const HANDLERS = {
-  [Types.GET_GROUPS_BY_USER]: getGroupsByUser,
   [Types.GET_GROUPS_BY_USER_SUCCESS]: getGroupsByUserSuccess,
   [Types.ON_FAILURE]: onFailure,
-  [ReduxSauceTypes.DEFAULT]: defaultHandler,
 };
 
 export default createReducer(INITIAL_STATE, HANDLERS);

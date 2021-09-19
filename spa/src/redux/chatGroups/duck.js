@@ -1,13 +1,24 @@
-import {
-  createActions,
-  createReducer,
-  Types as ReduxSauceTypes,
-} from 'reduxsauce';
+import { createActions, createReducer } from 'reduxsauce';
 import { INITIAL_STATE } from './model';
 
-const defaultHandler = () => ({ ...INITIAL_STATE });
+const onConnectSuccess = (state, { connection }) => {
+  return { ...state, connection };
+};
 
-const onConnectSuccess = (state, { connection }) => ({ ...state, connection });
+const receiveMessage = (state, { message }) => {
+  return {
+    ...state,
+    messages: [...state.messages, message],
+  };
+};
+
+const messagesFromGroupSuccess = (state, { groupMessages, group }) => {
+  return {
+    ...state,
+    groupSelected: group,
+    groupMessages,
+  };
+};
 
 const onFailure = (state, { errors }) => ({
   ...state,
@@ -20,14 +31,18 @@ const onFailure = (state, { errors }) => ({
 
 export const { Types, Creators } = createActions({
   onConnect: [],
+  receiveMessage: ['message'],
+  messagesFromGroup: ['group'],
+  messagesFromGroupSuccess: ['groupMessages', 'group'],
   onConnectSuccess: ['connection'],
   onFailure: ['errors'],
 });
 
 export const HANDLERS = {
   [Types.ON_CONNECT_SUCCESS]: onConnectSuccess,
+  [Types.RECEIVE_MESSAGE]: receiveMessage,
+  [Types.MESSAGES_FROM_GROUP_SUCCESS]: messagesFromGroupSuccess,
   [Types.ON_FAILURE]: onFailure,
-  [ReduxSauceTypes.DEFAULT]: defaultHandler,
 };
 
 export default createReducer(INITIAL_STATE, HANDLERS);

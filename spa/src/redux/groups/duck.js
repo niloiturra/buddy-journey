@@ -1,11 +1,8 @@
 import {
   createActions,
   createReducer,
-  Types as ReduxSauceTypes,
 } from 'reduxsauce';
 import { INITIAL_STATE } from './model';
-
-const defaultHandler = () => ({ ...INITIAL_STATE });
 
 const setSearchMode = (state) => ({ ...state, searchMode: true });
 
@@ -58,7 +55,6 @@ export const HANDLERS = {
   [Types.ASSOCIATE_USER]: associateUser,
   [Types.ASSOCIATE_USER_SUCCESS]: associateUserSuccess,
   [Types.ON_FAILURE]: onFailure,
-  [ReduxSauceTypes.DEFAULT]: defaultHandler,
 };
 
 export default createReducer(INITIAL_STATE, HANDLERS);

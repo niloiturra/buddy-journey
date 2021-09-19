@@ -1,4 +1,4 @@
-import { call, put, takeEvery } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 import { APIClient } from '../../helpers/apiClient';
 import { getErrorMessagesArray } from '../../helpers/errorsUtils';
 import { Creators, Types } from './duck';
@@ -58,9 +58,9 @@ export function* updateProfileImage({ name, base64, uriImage }) {
 }
 
 function* profileSaga() {
-  yield takeEvery(Types.FETCH_PROFILE, fetchProfile);
-  yield takeEvery(Types.UPDATE_PROFILE, updateProfile);
-  yield takeEvery(Types.UPDATE_PROFILE_IMAGE, updateProfileImage);
+  yield takeLatest(Types.FETCH_PROFILE, fetchProfile);
+  yield takeLatest(Types.UPDATE_PROFILE, updateProfile);
+  yield takeLatest(Types.UPDATE_PROFILE_IMAGE, updateProfileImage);
 }
 
 export default profileSaga;
