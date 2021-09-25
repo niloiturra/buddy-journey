@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Creators } from '../../redux/layout/duck';
 import sideBarMenus from '../AuthLayout/sideBarMenus';
-import logo from '../../assets/images/logo.svg';
+import logo from '../../assets/images/tourism/backpack.svg';
 
 function LeftSidebarMenu({ setActiveTab, activeTab }) {
   return (
@@ -28,7 +28,7 @@ function LeftSidebarMenu({ setActiveTab, activeTab }) {
                 }}
               >
                 <img
-                  data-tut="profile"
+                  data-tut="home"
                   src={logo}
                   alt=""
                   className="profile-user rounded-circle"
@@ -46,7 +46,7 @@ function LeftSidebarMenu({ setActiveTab, activeTab }) {
                   setActiveTab(sideBarMenus.PROFILE);
                 }}
               >
-                <i className="ri-account-circle-line"></i>
+                <i data-tut="perfil" className="ri-account-circle-line"></i>
               </NavLink>
             </NavItem>
             <UncontrolledTooltip target="profile" placement="top">
@@ -63,7 +63,7 @@ function LeftSidebarMenu({ setActiveTab, activeTab }) {
                   setActiveTab(sideBarMenus.GROUP);
                 }}
               >
-                <i className="ri-map-2-fill"></i>
+                <i data-tut="grupos" className="ri-map-2-fill"></i>
               </NavLink>
             </NavItem>
             <UncontrolledTooltip target="Groups" placement="top">
@@ -80,7 +80,7 @@ function LeftSidebarMenu({ setActiveTab, activeTab }) {
                   setActiveTab(sideBarMenus.CHATS);
                 }}
               >
-                <i className="ri-message-3-line"></i>
+                <i data-tut="chats" className="ri-message-3-line"></i>
               </NavLink>
             </NavItem>
             <UncontrolledTooltip target="Chats" placement="top">

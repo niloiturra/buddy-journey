@@ -44,7 +44,7 @@ function Profile({
     if (activeTab === sideBarMenus.PROFILE) {
       fetchProfile();
     }
-  }, [fetchProfile]);
+  }, [activeTab]);
 
   const clickInputImageFile = () => {
     document.getElementById('upload-file').click();
@@ -79,7 +79,7 @@ function Profile({
 
   return (
     <>
-      <div>
+      <div className="pb-4">
         <div className="px-4 pt-4">
           <h4 className="mb-0">Meu perfil</h4>
         </div>

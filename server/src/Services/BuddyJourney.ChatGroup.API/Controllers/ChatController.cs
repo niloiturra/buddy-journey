@@ -43,10 +43,11 @@ namespace BuddyJourney.ChatGroup.API.Controllers
                 return;
             }
 
-            await _chatHub.Clients.Group(message.GroupName).ReceiveMessage(message);
-
             var userId = _user.GetUserId();
+
+            message.CreatedAt = DateTime.Now;
             message.UserId = userId;
+            await _chatHub.Clients.Group(message.GroupName).ReceiveMessage(message);
             
             _chatService.Save(message);
         }

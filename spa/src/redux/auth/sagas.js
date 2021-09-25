@@ -28,7 +28,9 @@ function* logout({ history }) {
     yield call(() => {
       history.push('/login');
     });
-  } catch (error) {}
+  } catch (error) {
+    localStorage.removeItem('authUser');
+  }
 }
 
 function* register({ user }) {

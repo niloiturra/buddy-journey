@@ -26,7 +26,7 @@ import {
 import airplane_tourism from '../../../../assets/images/users/airplane_tourism.svg';
 import '../style.css';
 
-function GroupsForm({ createGroup }) {
+function GroupsForm({ createGroup, menuGroup }) {
   const [pictureName, setPictureName] = useState(null);
   const [pictureBase64, setPictureBase64] = useState(null);
   const [picture, setPicture] = useState(null);
@@ -104,6 +104,10 @@ function GroupsForm({ createGroup }) {
               <div className="mb-4 mt-4">
                 <Col xs="12">
                   <h3 className="text-center">Criar um grupo</h3>
+                  <i
+                    class="ri-arrow-go-back-fill arrow-back"
+                    onClick={() => menuGroup()}
+                  ></i>
                 </Col>
               </div>
               <Col md={8} lg={6} xl={6}>
@@ -279,14 +283,6 @@ function GroupsForm({ createGroup }) {
                             ) : null}
                           </InputGroup>
                         </div>
-                        {/*
-                        {props.errors && props.errors.login && (
-                          <AlertMultipleErrors
-                            color="danger"
-                            errors={props.errors.login}
-                          />
-                        )} */}
-
                         <div className="text-center border-bottom p-4">
                           <div
                             className="mb-4 rectangle--portrait"
@@ -320,6 +316,7 @@ function GroupsForm({ createGroup }) {
                             block
                             className=" waves-effect waves-light"
                             type="submit"
+                            disabled={!formik.isValid || !picture}
                           >
                             Finalizar
                           </Button>
@@ -337,8 +334,8 @@ function GroupsForm({ createGroup }) {
   );
 }
 
-const { createGroup } = Creators;
+const { createGroup, menuGroup } = Creators;
 const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({ createGroup }, dispatch);
+  bindActionCreators({ createGroup, menuGroup }, dispatch);
 
 export default connect(null, mapDispatchToProps)(GroupsForm);

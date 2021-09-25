@@ -24,8 +24,7 @@ const configureClient = () => {
           message = response.data.errors ? response.data.errors : 'Error';
           break;
         case 401:
-          message = 'Invalid credentials';
-          break;
+          return (window.location.href = '/logout');
         case 404:
           message = 'Sorry! the data you are looking for could not be found';
           break;

@@ -10,14 +10,17 @@ import { connect } from 'react-redux';
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css';
 import './assets/scss/themes.scss';
 
-const App = (props) => {
+const App = ({
+  isOpen,
+  closeTour,
+}) => {
   return (
     <>
       <Routes />
       <Tour
         steps={tourConfig}
-        isOpen={props.isOpen}
-        onRequestClose={() => props.closeTour()}
+        isOpen={isOpen}
+        onRequestClose={() => closeTour()}
       />
       <ReduxToastr
         newestOnTop={false}
@@ -36,6 +39,9 @@ const mapStateToProps = (state) => {
 
 const { closeTour } = Creators;
 const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({ closeTour }, dispatch);
+  bindActionCreators(
+    { closeTour },
+    dispatch
+  );
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

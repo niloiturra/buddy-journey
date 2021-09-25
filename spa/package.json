@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@dhaiwat10/react-link-preview": "^1.9.0",
     "@microsoft/signalr": "^5.0.10",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",

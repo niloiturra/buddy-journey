@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Button,
   Input,
@@ -8,78 +8,71 @@ import {
   ButtonDropdown,
   DropdownToggle,
   DropdownMenu,
-  Label,
   Form,
 } from 'reactstrap';
 import { Picker } from 'emoji-mart';
+import { Creators } from '../../../redux/chatGroups/duck';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import 'emoji-mart/css/emoji-mart.css';
 
-function ChatInput(props) {
-  const [textMessage, settextMessage] = useState('');
+function ChatInput({ user, groupSelected, dispatchMessage, scrolltoBottom }) {
+  const [textMessage, setTextMessage] = useState('');
   const [isOpen, setisOpen] = useState(false);
-  const [file, setfile] = useState({
-    name: '',
-    size: '',
-  });
-  const [fileImage, setfileImage] = useState('');
+
+  useEffect(() => {
+    scrolltoBottom();
+  }, [scrolltoBottom]);
 
   const toggle = () => setisOpen(!isOpen);
 
-  //function for text input value change
   const handleChange = (e) => {
-    settextMessage(e.target.value);
+    setTextMessage(e.target.value);
   };
 
-  //function for add emojis
   const addEmoji = (e) => {
     let emoji = e.native;
-    settextMessage(textMessage + emoji);
+    setTextMessage(textMessage + emoji);
   };
 
-  //function for file input change
-  const handleFileChange = (e) => {
-    if (e.target.files.length !== 0)
-      setfile({
-        name: e.target.files[0].name,
-        size: e.target.files[0].size,
-      });
+  const handleKeyDownForm = (e) => {
+    if (e.key === 'Enter') {
+      onSubmitForm(e);
+    }
   };
 
-  //function for image input change
-  const handleImageChange = (e) => {
-    if (e.target.files.length !== 0)
-      setfileImage(URL.createObjectURL(e.target.files[0]));
-  };
-
-  //function for send data to onaddMessage function(in userChat/index.js component)
-  const onaddMessage = (e, textMessage) => {
+  const onSubmitForm = (e) => {
     e.preventDefault();
-    //if text value is not emptry then call onaddMessage function
-    if (textMessage !== '') {
-      props.onaddMessage(textMessage, 'textMessage');
-      settextMessage('');
+    e.stopPropagation();
+
+    if (!groupSelected) {
+      return;
     }
 
-    //if file input value is not empty then call onaddMessage function
-    if (file.name !== '') {
-      props.onaddMessage(file, 'fileMessage');
-      setfile({
-        name: '',
-        size: '',
-      });
-    }
+    const userNameMember = groupSelected.members.find(
+      (x) => x.email === user.userToken.email
+    );
+    const userNameAdmin =
+      groupSelected.administrator.email === user.userToken.email
+        ? groupSelected.administrator
+        : null;
 
-    //if image input value is not empty then call onaddMessage function
-    if (fileImage !== '') {
-      props.onaddMessage(fileImage, 'imageMessage');
-      setfileImage('');
-    }
+    const messagesValue = {
+      groupName: groupSelected.id,
+      message: textMessage,
+      name: userNameAdmin ? userNameAdmin.name : userNameMember.name,
+      picture: userNameAdmin ? userNameAdmin.picture : userNameMember.picture,
+    };
+
+    dispatchMessage(messagesValue);
+    scrolltoBottom();
+    setTextMessage('');
   };
 
   return (
-    <React.Fragment>
+    <>
       <div className="p-2 p-lg-4 border-top mb-0">
-        <Form onSubmit={(e) => onaddMessage(e, textMessage)}>
+        <Form onSubmit={(e) => onSubmitForm(e)}>
           <Row noGutters>
             <Col>
               <div>
@@ -89,6 +82,7 @@ function ChatInput(props) {
                   onChange={handleChange}
                   className="form-control form-control-lg bg-light border-light"
                   placeholder="Digite aqui..."
+                  onKeyDown={(e) => handleKeyDownForm(e)}
                 />
               </div>
             </Col>
@@ -122,6 +116,7 @@ function ChatInput(props) {
                     <Button
                       type="submit"
                       color="primary"
+                      disabled={!textMessage}
                       className="font-size-16 btn-lg chat-send waves-effect waves-light"
                     >
                       <i className="ri-send-plane-2-fill"></i>
@@ -133,8 +128,19 @@ function ChatInput(props) {
           </Row>
         </Form>
       </div>
-    </React.Fragment>
+    </>
   );
 }
 
-export default ChatInput;
+const { dispatchMessage } = Creators;
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ dispatchMessage }, dispatch);
+
+const mapStateToProps = (state) => {
+  const { groupSelected } = state.ChatGroups;
+  const { user } = state.Auth;
+
+  return { user, groupSelected };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChatInput);

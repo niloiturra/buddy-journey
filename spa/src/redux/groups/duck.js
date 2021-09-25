@@ -1,7 +1,4 @@
-import {
-  createActions,
-  createReducer,
-} from 'reduxsauce';
+import { createActions, createReducer } from 'reduxsauce';
 import { INITIAL_STATE } from './model';
 
 const setSearchMode = (state) => ({ ...state, searchMode: true });
@@ -10,7 +7,18 @@ const setCreateMode = (state) => ({ ...state, createMode: true });
 
 const createGroup = (state) => ({ ...state, loading: true });
 
-const createGroupSuccess = (state) => ({ ...state, loading: false });
+const menuGroup = (state) => ({
+  ...state,
+  searchMode: false,
+  createMode: false,
+});
+
+const createGroupSuccess = (state) => ({
+  ...state,
+  loading: false,
+  createMode: false,
+  searchMode: false,
+});
 
 const searchGroup = (state) => ({ ...state, loading: true });
 
@@ -37,6 +45,7 @@ export const { Types, Creators } = createActions({
   setSearchMode: [],
   setCreateMode: [],
   createGroup: ['group'],
+  menuGroup: [],
   createGroupSuccess: ['group'],
   searchGroup: ['term'],
   searchGroupSuccess: ['searchedGroups'],
@@ -49,6 +58,7 @@ export const HANDLERS = {
   [Types.SET_SEARCH_MODE]: setSearchMode,
   [Types.SET_CREATE_MODE]: setCreateMode,
   [Types.CREATE_GROUP]: createGroup,
+  [Types.MENU_GROUP]: menuGroup,
   [Types.CREATE_GROUP_SUCCESS]: createGroupSuccess,
   [Types.SEARCH_GROUP]: searchGroup,
   [Types.SEARCH_GROUP_SUCCESS]: searchGroupSuccess,

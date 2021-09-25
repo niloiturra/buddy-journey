@@ -22,7 +22,7 @@
 }
 
 .dropdown-menu-end[style] {
-  right: 0 !important;
+  right: 0;
   left: auto !important;
   
 }
@@ -37,9 +37,9 @@
 
 
 .dropdown-menu[x-placement^=right],.dropdown-menu[x-placement^=top],.dropdown-menu[x-placement^=left]{
-  top: auto !important;
+  top: auto;
   animation: none !important;
-  transform: none !important;
+  transform: none;
 }
 
 @keyframes DropDownSlide {

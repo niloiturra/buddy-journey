@@ -5,4 +5,5 @@ export const chatGroupsApi = {
   joinToGroup: () => `${baseUrl}/chat/join/group`,
   messagesFromGroup: (groupName) =>
     `${baseUrl}/chat/messages?groupId=${groupName}`,
+  sendMessage: () => `${baseUrl}/chat/messages`,
 };

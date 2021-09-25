@@ -20,7 +20,7 @@
 
 .container-list {
   height: 100vh;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .p-8 {
@@ -35,4 +35,10 @@
   height: 6rem;
   background-size: cover;
   display: block;
+}
+
+.arrow-back {
+  font-size: 25px;
+  color: #496fd9;
+  cursor: pointer;
 }

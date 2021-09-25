@@ -17,8 +17,7 @@ import { connect } from 'react-redux';
 import { Link, withRouter, Redirect } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import logodark from '../../assets/images/logo-dark.png';
-import logolight from '../../assets/images/logo-light.png';
+import logo from '../../assets/images/tourism/backpack.svg';
 import { bindActionCreators } from 'redux';
 import { Creators } from '../../redux/auth/duck';
 import AlertMultipleErrors from '../../components/AlertMultipleErrors';
@@ -50,18 +49,7 @@ const Login = (props) => {
             <Col md={8} lg={6} xl={5}>
               <div className="text-center mb-4">
                 <Link to="/" className="auth-logo mb-5 d-block">
-                  <img
-                    src={logodark}
-                    alt=""
-                    height="30"
-                    className="logo logo-dark"
-                  />
-                  <img
-                    src={logolight}
-                    alt=""
-                    height="30"
-                    className="logo logo-light"
-                  />
+                  <img src={logo} alt="Logo" className="logo logo-dark" />
                 </Link>
 
                 <h4>Entrar</h4>

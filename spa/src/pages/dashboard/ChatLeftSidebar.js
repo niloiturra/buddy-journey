@@ -5,7 +5,7 @@ import Profile from './Tabs/Profile/index.js';
 import Chats from './Tabs/Chats/index.js';
 import Initial from './Tabs/Initial/index.js';
 
-function ChatLeftSidebar({ activeTab, handleClick }) {
+const ChatLeftSidebar = ({ activeTab, handleClick }) => {
   return (
     <>
       <div className="chat-leftsidebar me-lg-1">
@@ -25,7 +25,7 @@ function ChatLeftSidebar({ activeTab, handleClick }) {
       </div>
     </>
   );
-}
+};
 
 const mapStateToProps = (state) => {
   const { activeTab } = state.Layout;

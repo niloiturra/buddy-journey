@@ -18,4 +18,9 @@ const toBase64 = (file) =>
     reader.onerror = (error) => reject(error);
   });
 
-export { parseToShortDate, parseToLocaleDateString, toBase64 };
+const getTimeForChat = (date) => {
+  const dateTime = new Date(date);
+  return `${dateTime.getHours()}:${dateTime.getMinutes()}`;
+};
+
+export { parseToShortDate, parseToLocaleDateString, toBase64, getTimeForChat };

@@ -39,9 +39,11 @@ export function* createGroup({ group }) {
     );
 
     if (response) {
+      toastr.success('Grupo', `Você criou o grupo ${group.name}`);
       yield put(Creators.createGroupSuccess());
     }
   } catch (error) {
+    toastr.error('Grupo', `Ocorreu um erro ao criar o grupo: ${group.name}`);
     yield put(Creators.onFailure({ groups: getErrorMessagesArray(error) }));
   }
 }

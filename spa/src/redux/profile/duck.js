@@ -5,8 +5,6 @@ import {
 } from 'reduxsauce';
 import { INITIAL_STATE } from './model';
 
-const defaultHandler = () => ({ ...INITIAL_STATE });
-
 const setEditing = (state) => ({ ...state, editing: !state.editing });
 
 const fetchProfile = (state) => ({ ...state, loading: true });
@@ -56,7 +54,6 @@ export const HANDLERS = {
   [Types.UPDATE_PROFILE_IMAGE]: updateProfileImage,
   [Types.UPDATE_PROFILE_IMAGE_SUCCESS]: updateProfileImageSuccess,
   [Types.ON_FAILURE]: onFailure,
-  [ReduxSauceTypes.DEFAULT]: defaultHandler,
 };
 
 export default createReducer(INITIAL_STATE, HANDLERS);

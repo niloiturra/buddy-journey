@@ -11,16 +11,15 @@ export const getChatGroupsState = (state) => state.ChatGroups;
 const getRequest = new APIClient().get;
 const postRequest = new APIClient().create;
 
-export function* onConnect() {
+export function* onConnect({ connection }) {
   try {
-    const connection = new HubConnectionBuilder()
+    const conn = new HubConnectionBuilder()
       .withUrl('http://localhost:5000/hubs/chat')
-      .withAutomaticReconnect()
       .build();
 
-    yield connection.start();
-    yield put(Creators.onConnectSuccess(connection));
-    yield connectToAllGroups(connection);
+    yield conn.start();
+    yield put(Creators.onConnectSuccess(conn));
+    yield connectToAllGroups(conn);
   } catch (error) {
     yield put(Creators.onFailure({ chatGroups: getErrorMessagesArray(error) }));
   }
@@ -68,9 +67,18 @@ export function* messagesFromGroup({ group }) {
   }
 }
 
+export function* dispatchMessage({ messageValues }) {
+  try {
+    yield call(postRequest, chatGroupsApi.sendMessage(), messageValues);
+  } catch (error) {
+    yield put(Creators.onFailure({ chatGroups: getErrorMessagesArray(error) }));
+  }
+}
+
 function* chatGroupsSagas() {
   yield takeLatest(Types.ON_CONNECT, onConnect);
   yield takeLatest(Types.MESSAGES_FROM_GROUP, messagesFromGroup);
+  yield takeLatest(Types.DISPATCH_MESSAGE, dispatchMessage);
 }
 
 export default chatGroupsSagas;

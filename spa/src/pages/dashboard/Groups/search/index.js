@@ -15,8 +15,14 @@ import {
 import ListGroups from './list-groups';
 import '../style.css';
 
-function GroupsSearch({ searchedGroups, searchGroup }) {
+const GroupsSearch = ({ searchGroup, menuGroup }) => {
   const [searchTerm, setSearchTerm] = useState('');
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      searchGroup(searchTerm);
+    }
+  };
 
   return (
     <>
@@ -25,6 +31,10 @@ function GroupsSearch({ searchedGroups, searchGroup }) {
           <Row className="mt-4">
             <Col xs="12">
               <h4 className="text-center">Buscar um Grupo</h4>
+              <i
+                class="ri-arrow-go-back-fill arrow-back"
+                onClick={() => menuGroup()}
+              ></i>
             </Col>
           </Row>
           <Row className="mt-4">
@@ -33,6 +43,7 @@ function GroupsSearch({ searchedGroups, searchGroup }) {
                 <Input
                   onChange={(e) => setSearchTerm(e.target.value)}
                   placeholder="Informe um destino para a busca..."
+                  onKeyDown={(e) => handleKeyDown(e)}
                 />
                 <InputGroupAddon addonType="append">
                   <Button
@@ -53,10 +64,10 @@ function GroupsSearch({ searchedGroups, searchGroup }) {
       </Container>
     </>
   );
-}
+};
 
-const { searchGroup } = Creators;
+const { searchGroup, menuGroup } = Creators;
 const mapDispatchToProps = (dispatch) =>
-  bindActionCreators({ searchGroup }, dispatch);
+  bindActionCreators({ searchGroup, menuGroup }, dispatch);
 
 export default connect(null, mapDispatchToProps)(GroupsSearch);

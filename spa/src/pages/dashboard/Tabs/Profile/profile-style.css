@@ -1,7 +1,3 @@
-::-webkit-calendar-picker-indicator {
-  filter: invert(1);
-}
-
 .circular--portrait {
   cursor: pointer;
   width: 50%;
