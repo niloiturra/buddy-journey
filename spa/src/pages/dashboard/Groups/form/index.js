@@ -105,7 +105,7 @@ function GroupsForm({ createGroup, menuGroup }) {
                 <Col xs="12">
                   <h3 className="text-center">Criar um grupo</h3>
                   <i
-                    class="ri-arrow-go-back-fill arrow-back"
+                    className="ri-arrow-go-back-fill arrow-back"
                     onClick={() => menuGroup()}
                   ></i>
                 </Col>

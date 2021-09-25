@@ -11,7 +11,7 @@ const LobbyConnection = ({
   onDisconnect,
 }) => {
   useEffect(() => {
-    onConnect(connection);
+    onConnect();
   }, [onConnect]);
 
   useEffect(() => {

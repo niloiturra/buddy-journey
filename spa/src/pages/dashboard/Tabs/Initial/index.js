@@ -12,7 +12,7 @@ const Initial = (props) => {
       <div className="align-self-center">
         <img
           src={logo}
-          class="filter-color"
+          className="filter-color"
           width="100"
           alt="buddy journey logo"
         />

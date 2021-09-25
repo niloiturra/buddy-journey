@@ -11,7 +11,7 @@ export const getChatGroupsState = (state) => state.ChatGroups;
 const getRequest = new APIClient().get;
 const postRequest = new APIClient().create;
 
-export function* onConnect({ connection }) {
+export function* onConnect() {
   try {
     const conn = new HubConnectionBuilder()
       .withUrl('http://localhost:5000/hubs/chat')

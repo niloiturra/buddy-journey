@@ -40,7 +40,7 @@ function ListGroups({ searchedGroups, associateUser }) {
                       {!group.userIncluded ? (
                         <Button
                           className="mt-4"
-                          onClick={associateUser(group.id)}
+                          onClick={() => associateUser(group.id)}
                         >
                           Ingressar
                         </Button>

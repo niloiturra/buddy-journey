@@ -20,8 +20,14 @@ const GroupsSearch = ({ searchGroup, menuGroup }) => {
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
-      searchGroup(searchTerm);
+      handleOnSearch(e);
     }
+  };
+
+  const handleOnSearch = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    searchGroup(searchTerm);
   };
 
   return (
@@ -32,7 +38,7 @@ const GroupsSearch = ({ searchGroup, menuGroup }) => {
             <Col xs="12">
               <h4 className="text-center">Buscar um Grupo</h4>
               <i
-                class="ri-arrow-go-back-fill arrow-back"
+                className="ri-arrow-go-back-fill arrow-back"
                 onClick={() => menuGroup()}
               ></i>
             </Col>
@@ -49,7 +55,7 @@ const GroupsSearch = ({ searchGroup, menuGroup }) => {
                   <Button
                     color="primary"
                     className=" waves-effect waves-light"
-                    onClick={() => searchGroup(searchTerm)}
+                    onClick={(e) => handleOnSearch(e)}
                   >
                     <i className="ri-search-2-line"></i>
                   </Button>

@@ -6,8 +6,6 @@ import { groupsApi } from './api';
 import { profileApi } from '../profile/api';
 import { toastr } from 'react-redux-toastr';
 
-export const getGroupsState = (state) => state.Groups;
-
 const getRequest = new APIClient().get;
 const postRequest = new APIClient().create;
 
@@ -41,6 +39,7 @@ export function* createGroup({ group }) {
     if (response) {
       toastr.success('Grupo', `Você criou o grupo ${group.name}`);
       yield put(Creators.createGroupSuccess());
+      window.location.reload();
     }
   } catch (error) {
     toastr.error('Grupo', `Ocorreu um erro ao criar o grupo: ${group.name}`);
@@ -78,9 +77,11 @@ export function* associateUser({ groupId }) {
 
     if (response) {
       yield put(Creators.associateUserSuccess());
-      yield searchGroup('');
+      toastr.success('Grupo', `Você ingressou no grupo com sucesso!`);
+      window.location.reload();
     }
   } catch (error) {
+    toastr.error('Grupo', `Ocorreu um erro ao entrar no grupo`);
     yield put(Creators.onFailure({ groups: getErrorMessagesArray(error) }));
   }
 }

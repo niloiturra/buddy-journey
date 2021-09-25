@@ -11,6 +11,11 @@ const onDisconnect = (state) => {
 };
 
 const receiveMessage = (state, { message, user }) => {
+  const groupId = state.groupSelected.id;
+  if (groupId !== message.groupName) {
+    return { ...state };
+  }
+
   const newMessage = {
     createdAt: message.createdAt,
     groupId: message.groupName,
@@ -47,7 +52,7 @@ const onFailure = (state, { errors }) => ({
 });
 
 export const { Types, Creators } = createActions({
-  onConnect: ['connection'],
+  onConnect: [],
   receiveMessage: ['message', 'user'],
   messagesFromGroup: ['group'],
   messagesFromGroupSuccess: ['groupMessages', 'group'],
