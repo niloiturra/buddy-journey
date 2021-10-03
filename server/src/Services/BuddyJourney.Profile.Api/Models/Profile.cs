@@ -1,6 +1,7 @@
 ﻿using System;
 using BuddyJourney.Core.Data;
 using BuddyJourney.Core.Utils;
+using BuddyJourney.Profile.Api.Models.Dto;
 using FluentValidation;
 using FluentValidation.Results;
 using MongoDB.Bson;
@@ -19,7 +20,7 @@ namespace BuddyJourney.Profile.Api.Models
         public string Location { get; private set; }
         public string Biography { get; private set; }
         public string BestTrip { get; private set; }
-        public object[] Notifications { get; private set; }
+
         [BsonIgnore]
         public ValidationResult ValidationResult { get; set; }
 
@@ -33,34 +34,18 @@ namespace BuddyJourney.Profile.Api.Models
             };
         }
 
-        public void SetName(string name)
+        public void UpdateProperties(ProfileDto profileDto)
         {
-            Name = name;
+            Name = profileDto.Name;
+            BirthDay = profileDto.BirthDay;
+            Location = profileDto.Location;
+            Biography = profileDto.Biography;
+            BestTrip = profileDto.BestTrip;
         }
 
-        public void SetPicture(string picture)
+        public void SetPicture(string uriImage)
         {
-            Picture = picture;
-        }
-
-        public void SetBirthDay(DateTime birthDay)
-        {
-            BirthDay = birthDay;
-        }
-
-        public void SetLocation(string location)
-        {
-            Location = location;
-        }
-
-        public void SetBiography(string biography)
-        {
-            Biography = biography;
-        }
-
-        public void SetBestTrip(string bestTrip)
-        {
-            BestTrip = bestTrip;
+            Picture = uriImage;
         }
 
         public bool IsValid()

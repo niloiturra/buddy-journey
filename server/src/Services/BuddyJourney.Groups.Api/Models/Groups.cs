@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BuddyJourney.Core.Data;
 using BuddyJourney.Core.Utils;
 using BuddyJourney.Groups.Api.Models.Dto;
 using FluentValidation;
 using FluentValidation.Results;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace BuddyJourney.Groups.Api.Models
@@ -49,6 +51,37 @@ namespace BuddyJourney.Groups.Api.Models
 
             Members ??= new List<UserProfileEmbed>();
             Members.Add(user);
+        }
+
+        public void RemoveMember(ObjectId userId)
+        {
+            if (Members == null || !Members.Any())
+            {
+                return;
+            }
+
+            var user = Members.Find(x => x.UserId == userId);
+
+            if (user == null)
+            {
+                return;
+            }
+
+            Members.Remove(user);
+        }
+
+        public void UpdateProperties(GroupsDto groupsDto)
+        {
+            Name = groupsDto.Name;
+            Description = groupsDto.Description;
+            Destination = groupsDto.Destination;
+            TravelDate = groupsDto.TravelDate;
+            NumberMaxOfMembers = groupsDto.NumberMaxOfMembers;
+        }
+
+        public void SetPicture(string uriImage)
+        {
+            Picture = uriImage;
         }
 
         public bool IsValid()

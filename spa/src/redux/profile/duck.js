@@ -1,8 +1,4 @@
-import {
-  createActions,
-  createReducer,
-  Types as ReduxSauceTypes,
-} from 'reduxsauce';
+import { createActions, createReducer } from 'reduxsauce';
 import { INITIAL_STATE } from './model';
 
 const setEditing = (state) => ({ ...state, editing: !state.editing });

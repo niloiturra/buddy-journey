@@ -11,11 +11,11 @@ const setActiveTab = (state, { tabId }) => {
   };
 };
 
-const openUserSidebar = (state) => ({ ...state, userSidebar: true });
+const openGroupSideBar = (state) => ({ ...state, groupSideBar: true });
 
-const closeUserSidebar = (state) => ({
+const closeGroupSideBar = (state) => ({
   ...state,
-  userSidebar: false,
+  groupSideBar: false,
 });
 
 const setConversationNameInOpenChat = (state, { conversationName }) => ({
@@ -25,15 +25,15 @@ const setConversationNameInOpenChat = (state, { conversationName }) => ({
 
 export const { Types, Creators } = createActions({
   setActiveTab: ['tabId'],
-  openUserSidebar: [],
-  closeUserSidebar: [],
+  openGroupSideBar: [],
+  closeGroupSideBar: [],
   setConversationNameInOpenChat: ['conversationName'],
 });
 
 export const HANDLERS = {
   [Types.SET_ACTIVE_TAB]: setActiveTab,
-  [Types.OPEN_USER_SIDEBAR]: openUserSidebar,
-  [Types.CLOSE_USER_SIDEBAR]: closeUserSidebar,
+  [Types.OPEN_GROUP_SIDE_BAR]: openGroupSideBar,
+  [Types.CLOSE_GROUP_SIDE_BAR]: closeGroupSideBar,
   [Types.SET_CONVERSATION_NAME_IN_OPEN_CHAT]: setConversationNameInOpenChat,
 };
 

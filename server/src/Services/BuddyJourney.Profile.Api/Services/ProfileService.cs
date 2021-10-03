@@ -20,15 +20,11 @@ namespace BuddyJourney.Profile.Api.Services
             return await _profileRepository.FindOneAsync(x => x.User.Id == userId);
         }
 
-        public async Task<Models.Profile> UpdateProfile(ProfileDto profileViewModel, ObjectId userId)
+        public async Task<Models.Profile> UpdateProfile(ProfileDto profileDto, ObjectId userId)
         {
             var profile = await _profileRepository.FindOneAsync(x => x.User.Id == userId);
             
-            profile.SetName(profileViewModel.Name);
-            profile.SetBiography(profileViewModel.Biography);
-            profile.SetLocation(profileViewModel.Location);
-            profile.SetBestTrip(profileViewModel.BestTrip);
-            profile.SetBirthDay(profileViewModel.BirthDay);
+            profile.UpdateProperties(profileDto);
 
             if (!profile.IsValid()) return profile;
             

@@ -6,6 +6,7 @@ using BuddyJourney.Groups.Api.Interfaces;
 using BuddyJourney.Groups.Api.Models.Dto;
 using BuddyJourney.WebApi.Core.Controller;
 using BuddyJourney.WebApi.Core.Interfaces;
+using BuddyJourney.WebApi.Core.Model.Dto;
 using BuddyJourney.WebApi.Core.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -54,7 +55,7 @@ namespace BuddyJourney.Groups.Api.Controllers
             AddProcessingError("Não foi possível encontrar um grupo com esse Id");
             return CustomResponse();
         }
-        
+
         [HttpGet("user")]
         public ActionResult GetByUser()
         {
@@ -65,7 +66,7 @@ namespace BuddyJourney.Groups.Api.Controllers
             AddProcessingError("Não foi possível encontrar nenhum grupo com esse usuário");
             return CustomResponse();
         }
-        
+
         [HttpGet("user/names")]
         public ActionResult GetNamesByUserForConnection()
         {
@@ -125,9 +126,82 @@ namespace BuddyJourney.Groups.Api.Controllers
                 Picture = user.Picture,
                 UserId = ObjectId.Parse(_user.GetUserId())
             };
-            
+
             var result = await _groupsService.AssociateUser(groupId, userProfile);
             return result == null ? NoContent() : CustomResponse(result);
+        }
+
+        [HttpPut("disassociate/user")]
+        public async Task<IActionResult> RemoveUser([FromQuery] string groupId, [FromQuery] string userId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return CustomResponse(ModelState);
+            }
+
+            var administratorId = _user.GetUserId();
+            var result = await _groupsService.DisassociateUser(groupId, userId, administratorId);
+
+            if (result) return NoContent();
+            return BadRequest();
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateGroup([FromBody] GroupsDto groupDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return CustomResponse(ModelState);
+            }
+
+            var updateGroup = await _groupsService.UpdateGroup(groupDto, ObjectId.Parse(_user.GetUserId()));
+
+            if (updateGroup == null) return NoContent();
+
+            updateGroup.ValidationResult.Errors.ToList().ForEach(e => AddProcessingError(e.ErrorMessage));
+            return CustomResponse();
+        }
+
+        [HttpPut("image")]
+        public async Task<IActionResult> UpdateGroupImage([FromBody] UploadImageDto imageToUpload,
+            [FromQuery] string groupId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return CustomResponse(ModelState);
+            }
+
+            if (!string.IsNullOrEmpty(imageToUpload.UriImage))
+            {
+                await _blobStorageService.DeleteImage(imageToUpload.UriImage);
+            }
+
+            var uriImage =
+                await _blobStorageService.UploadBase64Image(imageToUpload.ImageName, imageToUpload.ImageBase64);
+
+            var updateGroupImage = await _groupsService.UpdateGroupImage(uriImage, ObjectId.Parse(groupId));
+
+            if (updateGroupImage == null) return CustomResponse();
+
+            if (updateGroupImage.ValidationResult == null) return Ok(updateGroupImage.Picture);
+            
+            updateGroupImage.ValidationResult.Errors.ToList().ForEach(e => AddProcessingError(e.ErrorMessage));
+            return CustomResponse();
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete([FromQuery] string groupId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return CustomResponse(ModelState);
+            }
+
+            var administratorId = _user.GetUserId();
+            var result = await _groupsService.Delete(groupId, administratorId);
+            
+            if (result) return NoContent();
+            return BadRequest();
         }
     }
 }

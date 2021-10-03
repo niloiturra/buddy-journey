@@ -10,6 +10,7 @@ export const getChatGroupsState = (state) => state.ChatGroups;
 
 const getRequest = new APIClient().get;
 const postRequest = new APIClient().create;
+const putRequest = new APIClient().put;
 
 export function* onConnect() {
   try {
@@ -75,10 +76,45 @@ export function* dispatchMessage({ messageValues }) {
   }
 }
 
+export function* updateGroup({ group }) {
+  try {
+    yield call(putRequest, groupsApi.update(), group);
+
+    yield put(Creators.updateGroupSuccess(group));
+    window.location.reload();
+  } catch (error) {
+    yield put(Creators.onFailure({ chatGroups: getErrorMessagesArray(error) }));
+  }
+}
+
+export function* updateGroupImage({ name, base64, uriImage, groupId }) {
+  try {
+    const imageModel = {
+      imageName: name,
+      imageBase64: base64,
+      uriImage,
+    };
+
+    const response = yield call(
+      putRequest,
+      groupsApi.updateGroupImage(groupId),
+      imageModel
+    );
+
+    if (response) {
+      yield put(Creators.updateGroupImageSuccess(response));
+    }
+  } catch (error) {
+    yield put(Creators.onFailure({ chatGroups: getErrorMessagesArray(error) }));
+  }
+}
+
 function* chatGroupsSagas() {
   yield takeLatest(Types.ON_CONNECT, onConnect);
   yield takeLatest(Types.MESSAGES_FROM_GROUP, messagesFromGroup);
   yield takeLatest(Types.DISPATCH_MESSAGE, dispatchMessage);
+  yield takeLatest(Types.UPDATE_GROUP, updateGroup);
+  yield takeLatest(Types.UPDATE_GROUP_IMAGE, updateGroupImage);
 }
 
 export default chatGroupsSagas;

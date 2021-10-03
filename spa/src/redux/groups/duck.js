@@ -30,7 +30,13 @@ const searchGroupSuccess = (state, { searchedGroups }) => ({
 
 const associateUser = (state) => ({ ...state, loading: true });
 
+const disassociateUser = (state) => ({ ...state, loading: true });
+
 const associateUserSuccess = (state) => ({ ...state, loading: false });
+
+const disassociateUserSuccess = (state) => ({ ...state, loading: false });
+
+const deleteGroup = (state) => ({ ...state, loading: true });
 
 const onFailure = (state, { errors }) => ({
   ...state,
@@ -50,7 +56,10 @@ export const { Types, Creators } = createActions({
   searchGroup: ['term'],
   searchGroupSuccess: ['searchedGroups'],
   associateUser: ['groupId'],
+  disassociateUser: ['groupId', 'userId'],
   associateUserSuccess: [],
+  disassociateUserSuccess: [],
+  deleteGroup: ['groupId'],
   onFailure: ['errors'],
 });
 
@@ -63,7 +72,10 @@ export const HANDLERS = {
   [Types.SEARCH_GROUP]: searchGroup,
   [Types.SEARCH_GROUP_SUCCESS]: searchGroupSuccess,
   [Types.ASSOCIATE_USER]: associateUser,
+  [Types.DISASSOCIATE_USER]: disassociateUser,
   [Types.ASSOCIATE_USER_SUCCESS]: associateUserSuccess,
+  [Types.DISASSOCIATE_USER_SUCCESS]: disassociateUserSuccess,
+  [Types.DELETE_GROUP]: deleteGroup,
   [Types.ON_FAILURE]: onFailure,
 };
 

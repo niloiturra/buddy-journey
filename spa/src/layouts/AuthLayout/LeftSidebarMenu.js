@@ -67,7 +67,7 @@ function LeftSidebarMenu({ setActiveTab, activeTab }) {
               </NavLink>
             </NavItem>
             <UncontrolledTooltip target="Groups" placement="top">
-              Groups
+              Grupos
             </UncontrolledTooltip>
 
             <NavItem id="Chats">
@@ -85,6 +85,23 @@ function LeftSidebarMenu({ setActiveTab, activeTab }) {
             </NavItem>
             <UncontrolledTooltip target="Chats" placement="top">
               Chats
+            </UncontrolledTooltip>
+
+            <NavItem id="faq">
+              <NavLink
+                id="pills-chat-tab"
+                className={classnames({
+                  active: activeTab === sideBarMenus.FAQ,
+                })}
+                onClick={() => {
+                  setActiveTab(sideBarMenus.FAQ);
+                }}
+              >
+                <i data-tut="faq" className="ri-questionnaire-line"></i>
+              </NavLink>
+            </NavItem>
+            <UncontrolledTooltip target="faq" placement="top">
+              FAQ
             </UncontrolledTooltip>
           </Nav>
         </div>

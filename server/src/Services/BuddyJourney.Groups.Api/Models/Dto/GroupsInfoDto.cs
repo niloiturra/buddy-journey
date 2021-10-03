@@ -14,6 +14,7 @@ namespace BuddyJourney.Groups.Api.Models.Dto
         public string CreatedBy { get; set; }
         public DateTime TravelDate { get; set; }
         public bool UserIncluded { get; set; }
+        public int NumberMaxOfMembers { get; set; }
         public UserProfileEmbedDto Administrator { get; set; }
         public List<UserProfileEmbedDto> Members { get; set; } = new List<UserProfileEmbedDto>();
     }

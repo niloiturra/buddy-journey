@@ -8,11 +8,12 @@ import ChatInput from './ChatInput';
 import RenderMessage from './RenderMessage';
 import { getTimeForChat } from '../../../helpers/utils';
 import airplane_tourism from '../../../assets/images/users/airplane_tourism.svg';
+import GroupSideBar from '../../../components/GroupSideBar';
 
 const ChatGroup = ({
   messagesFromGroup,
   group,
-  userSidebar,
+  groupSideBar,
   groupMessages,
 }) => {
   useEffect(() => {
@@ -33,7 +34,7 @@ const ChatGroup = ({
     <>
       <div className="user-chat w-100">
         <div className="d-lg-flex">
-          <div className={userSidebar ? 'w-70' : 'w-100'}>
+          <div className={groupSideBar ? 'w-70' : 'w-100'}>
             <GroupHeader />
 
             <SimpleBar
@@ -79,6 +80,8 @@ const ChatGroup = ({
 
             <ChatInput scrolltoBottom={scrolltoBottom} />
           </div>
+
+          <GroupSideBar></GroupSideBar>
         </div>
       </div>
     </>
@@ -87,9 +90,9 @@ const ChatGroup = ({
 
 const mapStateToProps = (state) => {
   const { groupMessages } = state.ChatGroups;
-  const { userSidebar } = state.Layout;
+  const { groupSideBar } = state.Layout;
 
-  return { groupMessages, userSidebar };
+  return { groupMessages, groupSideBar };
 };
 
 const { messagesFromGroup } = Creators;

@@ -1,10 +1,12 @@
 import React from 'react';
-import { Row, Col } from 'reactstrap';
+import { Row, Col, Button } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Creators as LayoutCreators } from '../../../redux/layout/duck';
 import airplane_tourism from '../../../assets/images/users/airplane_tourism.svg';
 
-const GroupHeader = ({ groupSelected }) => {
+const GroupHeader = ({ groupSelected, openGroupSideBar }) => {
   return (
     <>
       <div className="p-3 p-lg-4 border-bottom">
@@ -38,6 +40,23 @@ const GroupHeader = ({ groupSelected }) => {
               </div>
             </div>
           </Col>
+          <Col sm={6} xs={4}>
+            <ul className="list-inline user-chat-nav text-end mb-0">
+              <li className="list-inline-item d-none d-lg-inline-block">
+                <Button
+                  type="button"
+                  color="none"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    openGroupSideBar();
+                  }}
+                  className="nav-btn user-profile-show"
+                >
+                  <i className="ri-more-2-fill"></i>
+                </Button>
+              </li>
+            </ul>
+          </Col>
         </Row>
       </div>
     </>
@@ -49,4 +68,8 @@ const mapStateToProps = (state) => {
   return { groupSelected };
 };
 
-export default connect(mapStateToProps, null)(GroupHeader);
+const { openGroupSideBar } = LayoutCreators;
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators({ openGroupSideBar }, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(GroupHeader);

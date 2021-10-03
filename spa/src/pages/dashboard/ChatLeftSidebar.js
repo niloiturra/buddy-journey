@@ -4,6 +4,7 @@ import { TabContent, TabPane } from 'reactstrap';
 import Profile from './Tabs/Profile/index.js';
 import Chats from './Tabs/Chats/index.js';
 import Initial from './Tabs/Initial/index.js';
+import FAQ from './Tabs/FAQ/index.js';
 
 const ChatLeftSidebar = ({ activeTab, handleClick }) => {
   return (
@@ -20,6 +21,10 @@ const ChatLeftSidebar = ({ activeTab, handleClick }) => {
 
           <TabPane tabId="chats" id="pills-chat">
             <Chats handleClick={handleClick} />
+          </TabPane>
+
+          <TabPane tabId="faq" id="pills-faq">
+            <FAQ />
           </TabPane>
         </TabContent>
       </div>

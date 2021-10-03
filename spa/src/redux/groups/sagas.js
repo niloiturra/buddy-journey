@@ -8,6 +8,8 @@ import { toastr } from 'react-redux-toastr';
 
 const getRequest = new APIClient().get;
 const postRequest = new APIClient().create;
+const putRequest = new APIClient().put;
+const deleteRequest = new APIClient().delete;
 
 export function* createGroup({ group }) {
   try {
@@ -86,10 +88,38 @@ export function* associateUser({ groupId }) {
   }
 }
 
+export function* disassociateUser({ groupId, userId }) {
+  try {
+    yield call(putRequest, groupsApi.disassociateUser(groupId, userId));
+
+    yield put(Creators.disassociateUserSuccess());
+    toastr.success('Grupo', `Usuário desassociado com sucesso!`);
+
+    window.location.reload();
+  } catch (error) {
+    toastr.error('Grupo', `Ocorreu um erro ao desassociar o usuário do grupo`);
+    yield put(Creators.onFailure({ groups: getErrorMessagesArray(error) }));
+  }
+}
+
+export function* deleteGroup({ groupId }) {
+  try {
+    yield call(deleteRequest, groupsApi.deleteGroup(groupId));
+
+    toastr.success('Grupo', `Desfeito com sucesso!`);
+    window.location.reload();
+  } catch (error) {
+    toastr.error('Grupo', `Ocorreu um erro ao desfazer o grupo`);
+    yield put(Creators.onFailure({ groups: getErrorMessagesArray(error) }));
+  }
+}
+
 function* groupsSaga() {
   yield takeLatest(Types.CREATE_GROUP, createGroup);
   yield takeLatest(Types.SEARCH_GROUP, searchGroup);
   yield takeLatest(Types.ASSOCIATE_USER, associateUser);
+  yield takeLatest(Types.DISASSOCIATE_USER, disassociateUser);
+  yield takeLatest(Types.DELETE_GROUP, deleteGroup);
 }
 
 export default groupsSaga;

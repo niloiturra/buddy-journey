@@ -7,6 +7,8 @@ namespace BuddyJourney.Groups.Api.Models.Dto
 {
     public class GroupsDto
     {
+        public string Id { get; set; }
+
         [Required(ErrorMessage = "O campo nome é obrigatório")]
         [StringLength(200, ErrorMessage = "O campo senha precisa ter no máximo {1} caracteres")]
         public string Name { get; set; }
@@ -26,7 +28,6 @@ namespace BuddyJourney.Groups.Api.Models.Dto
         [Required(ErrorMessage = "O campo nome é obrigatório")]
         public int NumberMaxOfMembers { get; set; }
         
-        [Required(ErrorMessage = "O perfil do usuário administrador é obrigatório")]
         public UserProfileEmbedDto Administrator { get; set; }
 
         public UploadImageDto Picture { get; set; }

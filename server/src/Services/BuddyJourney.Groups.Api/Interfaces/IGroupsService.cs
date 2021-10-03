@@ -15,6 +15,10 @@ namespace BuddyJourney.Groups.Api.Interfaces
         IEnumerable<string> GetNamesByUserForConnection(ObjectId userId);
         IEnumerable<GroupsInfoDto> GetByUser(ObjectId userId);
         Task<Models.Groups> RegisterGroup(GroupsDto groupDto, string uriImage);
+        Task<Models.Groups> UpdateGroup(GroupsDto groupDto, ObjectId userId);
+        Task<Models.Groups> UpdateGroupImage(string image, ObjectId groupId);
         Task<Models.Groups> AssociateUser(string groupId, UserProfileEmbed user);
+        Task<bool> DisassociateUser(string groupId, string userId, string administratorId);
+        Task<bool> Delete(string groupId, string administratorId);
     }
 }

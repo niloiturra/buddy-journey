@@ -5,6 +5,7 @@ const sideBarMenus = {
   CHATS: 'chats',
   CONTACTS: 'contacts',
   LOGOUT: 'logout',
+  FAQ: 'faq',
 };
 
 export default sideBarMenus;
